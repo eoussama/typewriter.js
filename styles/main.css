@@ -4,16 +4,61 @@
 	font-family: Arial, sans-serif;
 }
 
+body { overflow: hidden; }
+
+/*---------[Header]---------*/
 header {
-	padding: 50px 10vw;
+	height: 100vh;
+	padding: 200px 10vw;
+	
+	border-bottom: 8px solid #969696;
 	
 	background-color: #d3d3d3;
+	background: radial-gradient(#fdfdfd, #b4b4b4);
 	
-	font-size: 20px;
 	text-align: center;
+	
+	transition-property: height, padding;
+	transition-duration: 0.5s;
+	transition-delay: 0.5s;
 }
 
-main { padding: 5vw; }
+header h1 {
+	font-size: 50px;
+	text-shadow: 0px 3px 0.8px rgba(0, 0, 0, 0.5);
+}
+
+header img {
+	width: 300px;
+	margin-top: 0px;
+	
+	filter: drop-shadow();
+	
+	animation-name: imgFade;
+	animation-duration: 1s;
+	
+	transition-property: width, margin-top;
+	transition-duration: 0.5s;
+	transition-delay: 0.5s;
+}
+
+@keyframes imgFade {
+	from {
+		margin-top: -50px;
+		opacity: 0;
+	}
+	
+	to {
+		margin-top: 0px;
+		opacity: 1;
+	}
+}
+
+/*---------[Main]----------*/
+main {
+	display: none;
+	padding: 5vw;
+}
 
 main section {
 	padding: 10px;
