@@ -35,4 +35,4 @@ The main function consists of 5 paramets, all have default values except for the
 > Checkout the test.html file for usage examples.
 
 ## Credits
-> Icon made by [**Freepik**](www.flaticon.com) from [www.flaticon.com](www.flaticon.com)
+> Icon made by [**Freepik**](http://www.flaticon.com) from [www.flaticon.com](http://www.flaticon.com)
