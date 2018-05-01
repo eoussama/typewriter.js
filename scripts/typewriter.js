@@ -1,5 +1,5 @@
 const CURSOR_STYLE = `
-	.cursor::after {
+	#ELEMENT_ID.cursor::after {
 		content: 'CURSOT_TYPE';
 		font-weight: bold;
 
@@ -16,29 +16,34 @@ const CURSOR_STYLE = `
 	}
 `;
 
-function typewriter(element, text = element.textContent, time = 30, forward = true, cursor) {
+function typewriter(element, text = element.textContent, time = 30, forward = true, cursor = 'undefined', callback = function(){}) {
 	let
 		__index = 0,
 		__timer = null;
 	
 	element.textContent = '';
-	cursor.activated = typeof(cursor.activated) == 'undefined' ? false : cursor.activated;
-	cursor.type = typeof(cursor.type) == 'undefined' ? 1 : cursor.type > 2 || cursor.type < 1 ? 1 : cursor.type;
 	
-	if(cursor.activated === true) {
-		let style = document.createElement('style');
+	if(cursor !== 'undefined') {
+		cursor.activated = typeof(cursor.activated) == 'undefined' ? false : cursor.activated;
+		cursor.type = typeof(cursor.type) == 'undefined' ? 1 : cursor.type > 2 || cursor.type < 1 ? 1 : cursor.type;
 		
-		style.innerHTML = CURSOR_STYLE;
-		style.innerHTML = cursor.type == 1 ? style.innerHTML.replace('CURSOT_TYPE', '_') : style.innerHTML.replace('CURSOT_TYPE', '|');
-		
-		document.getElementsByTagName('head')[0].appendChild(style);
-		element.classList.add('cursor');
+		if(cursor.activated === true) {
+			let style = document.createElement('style');
+
+			style.innerHTML = CURSOR_STYLE;
+			style.innerHTML = style.innerHTML.replace('ELEMENT_ID', element.id);
+			style.innerHTML = cursor.type == 1 ? style.innerHTML.replace('CURSOT_TYPE', '_') : style.innerHTML.replace('CURSOT_TYPE', '|');
+
+			document.getElementsByTagName('head')[0].appendChild(style);
+			element.classList.add('cursor');
+		}
 	}
+	
 	
 	if(forward === true) {
 		__timer = setInterval(() => {
-			element.textContent += text[__index++];
-			if(__index >= text.length) clearInterval(__timer);
+			if(__index >= text.length) clearInterval(__timer), callback();
+			else element.textContent += text[__index++];
 		}, time);
 	}
 	
@@ -46,8 +51,14 @@ function typewriter(element, text = element.textContent, time = 30, forward = tr
 		__index = text.length - 1;
 		
 		__timer = setInterval(() => {
-			element.textContent += text[__index--];
-			if(__index < 0) clearInterval(__timer);
+			if(__index < 0) clearInterval(__timer), callback();
+			else element.textContent += text[__index--];
 		}, time);
 	}
+	
+	return {element: element, text: text, time: time, forward: forward, cursor: cursor, callback: callback, timer: __timer};
+}
+
+function stoptypewriter(tw) {
+	clearInterval(tw.timer);
 }
