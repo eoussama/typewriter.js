@@ -71,7 +71,7 @@ In order to stop the animation at any point, we can utilize the `stoptypewriter`
 
 stoptypewriter(tw);
 ```
-> Checkout the test.html file for usage examples.
+> Checkout the main.html file for usage examples.
 
 ## Credits
 > Icon made by [**Freepik**](http://www.flaticon.com) from [www.flaticon.com](http://www.flaticon.com)
