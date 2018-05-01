@@ -9,6 +9,7 @@
         <meta name="description" content="A Javascript library for applying old typewriter text animations.">
         <meta name="keywords" content="animation, typewriter, js, library">
 
+       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -18,147 +19,199 @@
     <body>
 		<header>
       		<img src="images/logo.svg" alt="TypeWriteJS Logo">
-       		<h1></h1>
+       		<h1 id="title"></h1>
 		</header>
       	
        	<main>
        		
-       		<table border>
-       			<caption>
-       				<code>typewriter(element, text = element.textContent, time = 30, forward = true, cursor = 'undefined', callback = function(){})</code>
-       			</caption>
-       			<tr>
-       				<th>Parameter</th>
-       				<th>Description</th>
-       				<th>Default value</th>
-       			</tr>
+       		<article>
+       			<h2>Description</h2>
        			
-       			<tr>
-       				<td>element</td>
-       				<td>The element you want to perform the animation on</td>
-       				<td>none</td>
-       			</tr>
-       			
-       			<tr>
-       				<td>text</td>
-       				<td>The text you want to be output as a result of the animation</td>
-       				<td><code>element.textContent</code></td>
-       			</tr>
-       			
-       			<tr>
-       				<td>time</td>
-       				<td>The time it would take to print a single character</td>
-       				<td>30 milliseconds</td>
-       			</tr>
-       			
-       			<tr>
-       				<td>forward</td>
-       				<td>Whether the text is output normally or backwards</td>
-       				<td><code>true</code></td>
-       			</tr>
-       			
-       			<tr>
-       				<td>cursor</td>
-       				<td>An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “|”)</td>
-       				<td><code>{activated: false, type: 1}</code></td>
-       			</tr>
-       			
-       			<tr>
-       				<td>callback</td>
-       				<td>A function that will execut when the animation is finished</td>
-       				<td>function</td>
-       			</tr>
-       		</table>
-       		<section>
-       			<div class="header">
-       				<div class="col">
-       					<h3>Default animation</h3>
-       					<code>typewriter(defaultAnim);</code>
-       				</div>
-       				<div class="col">
-       					<button id="defaultBtn">Play animation</button>
-       				</div>
-       				
-       			</div>
-				
-       			<p id="defaultAnim">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
-       		</section>
+       			<p id="description">
+       				I started this as a personal project, tried to implement something similar on <a href="http://eoussama.github.io" target="_blank">my portfolio</a>, and though of myself, this could be way bigger, and here it is officially released. Nothing too shabby to be honest, just another handy tool for you. This is all centered on one function, <b>typewriter</b>, with multiple parameters to control all sorts of aspects of the animation, more on this in the documentation below...
+       			</p>
+       		</article>
        		
-       		<section>
-       			<div class="header">
-					<div class="col">
-						<h3>Custom text</h3>
-       				<code id="customCode">typewriter(customText, 'Hello, world!');</code>
+       		<article>
+       			<h2>Documentation</h2>
+       			
+       			<h3>typewriter syntax</h3>
+       			<br>
+       			
+       			<p>
+       				As we've hinted previously, currently, there is only one main function that does all of the work, let's break it down;
+       			</p>
+       			
+       			<p>
+       				This function returns an object that holds all sort of information related to the animation; {element, text, time, forward, cursor, callback, timer}
+       			</p>
+       			
+       			<br>
+       			<table border>
+					<caption>
+						<code>typewriter(element, text = element.textContent, time = 30, forward = true, cursor = 'undefined', callback = function(){})</code>
+					</caption>
+					<tr>
+						<th>Parameter</th>
+						<th>Description</th>
+						<th>Default value</th>
+					</tr>
+
+					<tr>
+						<td>element</td>
+						<td>The element you want to perform the animation on</td>
+						<td>none</td>
+					</tr>
+
+					<tr>
+						<td>text</td>
+						<td>The text you want to be output as a result of the animation</td>
+						<td><code>element.textContent</code></td>
+					</tr>
+
+					<tr>
+						<td>time</td>
+						<td>The time it would take to print a single character</td>
+						<td>30 milliseconds</td>
+					</tr>
+
+					<tr>
+						<td>forward</td>
+						<td>Whether the text is output normally or backwards</td>
+						<td><code>true</code></td>
+					</tr>
+
+					<tr>
+						<td>cursor</td>
+						<td>An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “|”)</td>
+						<td><code>{activated: false, type: 1}</code></td>
+					</tr>
+
+					<tr>
+						<td>callback</td>
+						<td>A function that will execut when the animation is finished</td>
+						<td>function</td>
+					</tr>
+				</table>
+      			
+      			<br>
+      			<p>In addition to this, there is a helper function to keep at your disposal...</p>
+      			<br>
+      			<h3>stoptypewriter syntax</h3>
+      			<br>
+      			<p>As the name suggests, this function stops a certain animation from executing.
+      			This function acceps one parameter, and it's the object return by the typewriter function; <code>function stoptypewriter(tw) {}</code></p>
+       		</article>
+       		
+       		<article>
+       			<h2>Samples</h2>
+       			
+       			<section>
+					<div class="header">
+						<div class="col">
+							<h3>Default animation</h3>
+							<code>typewriter(defaultAnim);</code>
+						</div>
+						<div class="col">
+							<button id="defaultBtn">Play animation</button>
+						</div>
+
 					</div>
-					<div class="col">
-						<button id="customBtn">Play animation</button>
-       				<input type="text" id="customInput" placeholder="Enter some text..." value="Hello, world! such a nice day.">
+
+					<p id="defaultAnim">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Custom text</h3>
+						<code id="customCode">typewriter(customText, 'Hello, world!');</code>
+						</div>
+						<div class="col">
+							<button id="customBtn">Play animation</button>
+						<input type="text" id="customInput" placeholder="Enter some text..." value="Hello, world! such a nice day.">
+						</div>
 					</div>
-       			</div>
-				
-       			<p id="customText"></p>
-       		</section>
-       		
-       		<section>
-       			<div class="header">
-       				<div class="col">
-       					<h3>Time control</h3>
-       					<code id="timeCode">typewriter(timeContr, timeContr.textContext, 500);</code>
-       				</div>
-       				<div class="col">
-       					<button id="timeBtn">Play animation</button>
-       					<input type="number" id="timeInput" value="500" min="0">
-       				</div>
-       			</div>
-				
-       			<p id="timeContr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
-       		</section>
-       		
-       		<section>
-       			<div class="header">
-					<div class="col">
-						<h3>Backwards typing</h3>
-       					<code>typewriter(timeContr, timeContr.textContext, 30, false);</code>
+
+					<p id="customText"></p>
+				</section>
+
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Time control</h3>
+							<code id="timeCode">typewriter(timeContr, timeContr.textContext, 500);</code>
+						</div>
+						<div class="col">
+							<button id="timeBtn">Play animation</button>
+							<input type="number" id="timeInput" value="500" min="0">
+						</div>
 					</div>
-       			</div>
-				
-       			<p id="backwardsTyping">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
-       		</section>
+
+					<p id="timeContr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Backwards typing</h3>
+							<code>typewriter(timeContr, timeContr.textContext, 30, false);</code>
+						</div>
+					</div>
+
+					<p id="backwardsTyping">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Cursor 1</h3>
+							<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: true, type: 1});</code>
+						</div>
+					</div>
+
+					<p id="cursor1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Cursor 2</h3>
+							<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: true, type: 2});</code>
+						</div>
+					</div>
+
+					<p id="cursor2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Callback</h3>
+							<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: false, type: 2}, () => alert('Animation finished!'));</code>
+						</div>
+					</div>
+
+					<p id="callbckAnim">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+       		</article>
        		
-       		<section>
-       			<div class="header">
-       				<div class="col">
-						<h3>Cursor 1</h3>
-						<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: true, type: 1});</code>
-       				</div>
-       			</div>
-				
-       			<p id="cursor1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
-       		</section>
-       		
-       		<section>
-       			<div class="header">
-       				<div class="col">
-						<h3>Cursor 2</h3>
-						<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: true, type: 2});</code>
-       				</div>
-       			</div>
-				
-       			<p id="cursor2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
-       		</section>
-       		
-       		<section>
-       			<div class="header">
-       				<div class="col">
-						<h3>Callback</h3>
-						<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: false, type: 2}, () => alert('Animation finished!'));</code>
-       				</div>
-       			</div>
-				
-       			<p id="callbckAnim">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
-       		</section>
+       		<article>
+       			<h2>Credits</h2>
+       			
+				<p>Icon made by <a href="http://www.flaticon.com" target="_blank"><b>Freepik</b></a> from <a href="http://www.flaticon.com" target="_blank">www.flaticon.com</a>.</p>
+       		</article>
        		
        	</main>
+       	
+       	<footer>
+       		<div class="col">
+       			<a href="http://www.github.com/Eoussama" target="_blank">Created by Eoussama</a>
+       		</div>
+       		<div class="col">
+       			<a href="http://www.github.com/Eoussama/typewriterjs" target="_blank">Github Repository</a>
+       		</div>
+       	</footer>
        	
        	<script type="text/javascript" src="scripts/typewriter.js"></script>
         <script type="text/javascript" src="scripts/main.js"></script>

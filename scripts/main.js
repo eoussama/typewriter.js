@@ -1,7 +1,7 @@
 window.addEventListener('load', () => {
 	const
 		header = document.getElementsByTagName('header')[0],
-		title = document.querySelector('header h1'),
+		title = document.getElementById('title'),
 		logo = document.querySelector('header img'),
 		main = document.getElementsByTagName('main')[0];
 	
@@ -34,10 +34,12 @@ window.addEventListener('load', () => {
 			timeCode = document.getElementById('timeCode');
 
 		defaultBtn.addEventListener('click', () => {
+			stoptypewriter(def);
 			typewriter(defaultAnim);
 		});
 
 		customBtn.addEventListener('click', () => {
+			stoptypewriter(cus);
 			typewriter(customText, customInput.value);
 		});
 
@@ -46,6 +48,7 @@ window.addEventListener('load', () => {
 		});
 
 		timeBtn.addEventListener('click', () => {
+			stoptypewriter(tc);
 			typewriter(timeContr, timeContr.textContent, timeInput.value);
 		});
 
@@ -53,13 +56,13 @@ window.addEventListener('load', () => {
 			timeCode.textContent = `typewriter(customText, timeContr.textContent, ${timeInput.value});`;
 		});
 
-		typewriter(defaultAnim);
-		typewriter(customText, customInput.value);
-		var tw = typewriter(timeContr, timeContr.textContent, 500);
+		var def = typewriter(defaultAnim);
+		var cus = typewriter(customText, customInput.value);
+		var tc = typewriter(timeContr, timeContr.textContent, 500);
 		typewriter(backwardsTyping, backwardsTyping.textContent, 30, false);
 		typewriter(cursor1, cursor1.textContent, 30, true, {activated: true, type: 1});
 		typewriter(cursor2, cursor2.textContent, 30, true, {activated: true, type: 2});
-		typewriter(callbckAnim, callbckAnim.textContent, 30, true, {activated: false}, () => { alert('Animation finished!'); stoptypewriter(tw); });
+		typewriter(callbckAnim, callbckAnim.textContent, 30, true, {activated: false}, () => { alert('Animation finished!'); });
 		
 	}); }, 1000);
 });
