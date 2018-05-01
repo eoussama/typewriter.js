@@ -23,13 +23,14 @@ function typewriter(element, text, time, forward, cursor) {}
 
 ### parameters
 The main function consists of 5 paramets, all have default values except for the _first one_.
+
 | Parameter     | Description                                                 | Default value                 |
-|---------------|:------------------------------------------------------------|:------------------------------|
+| ------------- |:----------------------------------------------------------- |:----------------------------- |
 | `element`     | The element you want to perform the animation on            | none                          |
 | `text`        | The text you want to be output as a result of the animation | `element.textContext`         |
 | `time`        | The time it would take to print a single character          | 30 milliseconds               |
 | `forward`     | Whether the text is output normally or backwards            | `true`                        |
-| `cursor`      | An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “\|”)         | `{activated: false, type: 1}` |
+| `cursor`      | An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “\|”)                     | `{activated: false, type: 1}` |
 
 > Checkout the test.html file for usage examples.
 
