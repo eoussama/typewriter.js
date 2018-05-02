@@ -115,7 +115,7 @@ code {
 
 table {
 	margin: auto;
-	max-width: 830px;
+	max-width: 1102px;
 	
 	border-collapse: collapse;
 	border: 1px solid rgba(0, 0, 0, 0.5);
@@ -124,9 +124,7 @@ table {
 
 table tr td, table tr th { padding: 5px; }
 
-table caption {
-	margin-bottom: 5px;	
-}
+table caption { margin-bottom: 5px;	}
 
 button {
 	padding: 10px;
@@ -173,3 +171,5 @@ footer div.col {
 }
 
 footer div.col a { color: white; }
+
+p#loopTyping { height: 20px; }

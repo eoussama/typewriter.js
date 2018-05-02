@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
 		logo = document.querySelector('header img'),
 		main = document.getElementsByTagName('main')[0];
 	
-	setTimeout(() => { typewriter(title, 'TypeWriterJS', 120, true, {activated: true, type: 1}, () => {
+	setTimeout(() => { typewriter({element: title, text:'TypeWriterJS', time: 120, audio: true, forwatd: true, cursor: {activated: true, type: 1}, callback: () => {
 		
 		header.style.height = '10vh';
 		header.style.padding = '150px 10vh';
@@ -31,38 +31,41 @@ window.addEventListener('load', () => {
 
 			timeBtn = document.getElementById('timeBtn'),
 			timeInput = document.getElementById('timeInput'),
-			timeCode = document.getElementById('timeCode');
+			timeCode = document.getElementById('timeCode'),
+			  
+			loopTyping = document.getElementById('loopTyping');
 
 		defaultBtn.addEventListener('click', () => {
 			stoptypewriter(def);
-			typewriter(defaultAnim);
+			typewriter({element: defaultAnim});
 		});
 
 		customBtn.addEventListener('click', () => {
 			stoptypewriter(cus);
-			typewriter(customText, customInput.value);
+			typewriter({element: customText, text: customInput.value});
 		});
 
-		customInput.addEventListener('keypress', () => {
-			customCode.textContent = `typewriter(customText, ${customInput.value});`;
+		customInput.addEventListener('keydown', () => {
+			customCode.textContent = `typewriter({element: customText, text: ${customInput.value}});`;
 		});
 
 		timeBtn.addEventListener('click', () => {
 			stoptypewriter(tc);
-			typewriter(timeContr, timeContr.textContent, timeInput.value);
+			typewriter({element: timeContr, time: timeInput.value});
 		});
 
 		timeInput.addEventListener('change', () => {
-			timeCode.textContent = `typewriter(customText, timeContr.textContent, ${timeInput.value});`;
+			timeCode.textContent = `typewriter({element: customText, time: ${timeInput.value}});`;
 		});
 
-		var def = typewriter(defaultAnim);
-		var cus = typewriter(customText, customInput.value);
-		var tc = typewriter(timeContr, timeContr.textContent, 500);
-		typewriter(backwardsTyping, backwardsTyping.textContent, 30, false);
-		typewriter(cursor1, cursor1.textContent, 30, true, {activated: true, type: 1});
-		typewriter(cursor2, cursor2.textContent, 30, true, {activated: true, type: 2});
-		typewriter(callbckAnim, callbckAnim.textContent, 30, true, {activated: false}, () => { alert('Animation finished!'); });
+		var def = typewriter({element: defaultAnim});
+		var cus = typewriter({element: customText, text: customInput.value});
+		var tc = typewriter({element: timeContr, time: 500});
+		typewriter({element: backwardsTyping, forward: false});
+		typewriter({element: cursor1, cursor: {activated: true, type: 1}});
+		typewriter({element: cursor2, cursor: {activated: true, type: 2}});
+		typewriter({element: loopTyping, loop: true});
+		typewriter({element: callbckAnim, callback: () => { alert('Animation finished!'); }});
 		
-	}); }, 1000);
+	}}); }, 1000);
 });

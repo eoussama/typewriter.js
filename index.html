@@ -49,7 +49,17 @@
        			<br>
        			<table border>
 					<caption>
-						<code>typewriter(element, text = element.textContent, time = 30, forward = true, cursor = 'undefined', callback = function(){})</code>
+						<code>typewriter({
+								element: dom_element_id,
+								text: dom_element_id.textContent,
+								time: 30,
+								forward: true,
+								cursor: {
+									activated: false,
+									type: 1
+								},
+								callback: () => {}
+							});</code>
 					</caption>
 					<tr>
 						<th>Parameter</th>
@@ -60,7 +70,7 @@
 					<tr>
 						<td>element</td>
 						<td>The element you want to perform the animation on</td>
-						<td>none</td>
+						<td>undefined</td>
 					</tr>
 
 					<tr>
@@ -70,6 +80,12 @@
 					</tr>
 
 					<tr>
+						<td>audio</td>
+						<td>Whether to make use of some sound effects to compliment the typing animation</td>
+						<td><code>false</code></td>
+					</tr>
+					
+					<tr>
 						<td>time</td>
 						<td>The time it would take to print a single character</td>
 						<td>30 milliseconds</td>
@@ -77,7 +93,7 @@
 
 					<tr>
 						<td>forward</td>
-						<td>Whether the text is output normally or backwards</td>
+						<td>Text deletion animation, <code>false</code> deactivates it</td>
 						<td><code>true</code></td>
 					</tr>
 
@@ -85,6 +101,12 @@
 						<td>cursor</td>
 						<td>An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “|”)</td>
 						<td><code>{activated: false, type: 1}</code></td>
+					</tr>
+					
+					<tr>
+						<td>loop</td>
+						<td>Looping the animation</td>
+						<td><code>false</code></td>
 					</tr>
 
 					<tr>
@@ -110,7 +132,7 @@
 					<div class="header">
 						<div class="col">
 							<h3>Default animation</h3>
-							<code>typewriter(defaultAnim);</code>
+							<code>typewriter({element: defaultAnim});</code>
 						</div>
 						<div class="col">
 							<button id="defaultBtn">Play animation</button>
@@ -125,7 +147,7 @@
 					<div class="header">
 						<div class="col">
 							<h3>Custom text</h3>
-						<code id="customCode">typewriter(customText, 'Hello, world!');</code>
+						<code id="customCode">typewriter({element: customText, text:'Hello, world! such a nice day.'});</code>
 						</div>
 						<div class="col">
 							<button id="customBtn">Play animation</button>
@@ -140,7 +162,7 @@
 					<div class="header">
 						<div class="col">
 							<h3>Time control</h3>
-							<code id="timeCode">typewriter(timeContr, timeContr.textContext, 500);</code>
+							<code id="timeCode">typewriter({element: timeContr, time: 500});</code>
 						</div>
 						<div class="col">
 							<button id="timeBtn">Play animation</button>
@@ -155,7 +177,7 @@
 					<div class="header">
 						<div class="col">
 							<h3>Backwards typing</h3>
-							<code>typewriter(timeContr, timeContr.textContext, 30, false);</code>
+							<code>typewriter({element: backwardsTyping, forward: false});</code>
 						</div>
 					</div>
 
@@ -166,7 +188,7 @@
 					<div class="header">
 						<div class="col">
 							<h3>Cursor 1</h3>
-							<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: true, type: 1});</code>
+							<code>typewriter({element: timeContr, cursor: {activated: true, type: 1}});</code>
 						</div>
 					</div>
 
@@ -177,18 +199,29 @@
 					<div class="header">
 						<div class="col">
 							<h3>Cursor 2</h3>
-							<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: true, type: 2});</code>
+							<code>typewriter({element, timeContr, cursor: {activated: true, type: 2}});</code>
 						</div>
 					</div>
 
 					<p id="cursor2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam eius quae vel molestiae alias quod molestias quaerat nihil nam ea perspiciatis non sit a repellat, tempore praesentium inventore, minus ducimus!</p>
+				</section>
+				
+				<section>
+					<div class="header">
+						<div class="col">
+							<h3>Animation loop</h3>
+							<code>typewriter({element: timeContr, loop: true});</code>
+						</div>
+					</div>
+
+					<p id="loopTyping">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 				</section>
 
 				<section>
 					<div class="header">
 						<div class="col">
 							<h3>Callback</h3>
-							<code>typewriter(timeContr, timeContr.textContext, 30, true, {activated: false, type: 2}, () => alert('Animation finished!'));</code>
+							<code>typewriter({element: timeContr, callback: () => alert('Animation finished!')});</code>
 						</div>
 					</div>
 
