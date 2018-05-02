@@ -7,12 +7,18 @@
 
 ## Navigation
 * [Description](#description)
+* [Installation](#installation)
 * [Documentation](#documentation)
 * [Credits](#credits)
 
 ## Description
 I started this as a personal project, tried to implement something similar on my portfolio, and though of myself, this could be way bigger, and here it is officially released. Nothing too shabby to be honest, just another handy tool for you.
 This is all centered on one function, `typewriter`, with multiple parameters to control all sorts of aspects of the animation, more on this in the documentation below...
+
+## Installation
+1. `typewriter.js` or `typewriter.min.js` in your scripts files.
+2. put the `sounds` folder in the same parent folder as your scripts' folder.
+3. Include the script in your project.
 
 ## Documentation
 ### `typewriter` syntax
