@@ -16,7 +16,7 @@ const
 			to { opacity: 1; }
 		}
 	`,
-	  __audio = [new Audio('../sounds/type_1.mp3'), new Audio('../sounds/type_1.mp3'), new Audio('../sounds/type_2.mp3'), new Audio('../sounds/type_1.mp3'), new Audio('../sounds/type_3.mp3'), new Audio('../sounds/type_1.mp3')];
+	  __audio = [new Audio('sounds/type_1.mp3'), new Audio('sounds/type_1.mp3'), new Audio('sounds/type_2.mp3'), new Audio('sounds/type_1.mp3'), new Audio('sounds/type_3.mp3'), new Audio('sounds/type_1.mp3')];
 	  
 for(__a of __audio) __a.volume = 0.4;
 
