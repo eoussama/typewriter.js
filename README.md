@@ -12,57 +12,70 @@
 * [Credits](#credits)
 
 ## Description
-I started this as a personal project, tried to implement something similar on my portfolio, and though of myself, this could be way bigger, and here it is officially released. Nothing too shabby to be honest, just another handy tool for you.
-This is all centered on one function, `typewriter`, with multiple parameters to control all sorts of aspects of the animation, more on this in the documentation below...
+I started this as a personal project, tried to implement something similar on my portfolio, and thought of myself, this could be way bigger, and here it is officially released. Nothing too shabby to be honest, just another handy tool for you.
+This is all centered on one constructor, `typewriter`, with multiple properties to control all sorts of aspects of the animation, more on this in the documentation below...
 
 ## Installation
-1. `typewriter.js` or `typewriter.min.js` in your scripts files.
-2. put the `sounds` folder in the same parent folder as your scripts' folder.
-3. Include the script in your project.
+
+#### Steps
+4. Download the latest version [here](https://github.com/EOussama/typewriterjs/releases)</a>.
+5. Unzip the package somewhere.
+6. Copy the **typewriter.js** or the **typewriter.min.js** to your scripts file.
+7. Copy the **sounds** folder to your project.
+8. Make sure both your **typewriter** js file's parent folder and **sounds** folder are part of the same parent directory.
+
+#### Project structure
+- project/
+	- scripts/
+		- **typewriter.js**
+		- whatever.js
+	- styles/
+	- **sounds**/
+	- images/
+	- someFolder/
+	- index.html
 
 ## Documentation
-### `typewriter` syntax
+### The constructor
 As we've hinted previously, currently, there is only one main function that does all of the work, let's break it down;
 ```js
-function typewriter({
-    element: dom_element_id,
-    text: dom_element_id.textContent,
-    time: 30,
-    forward: true,
-    cursor: {
-        activated: false,
-        type: 1
-    },
-    callback: () => {}
-});
+TypeWriter ( {
+	target = 'undefined',
+	text = target.textContent.trim(),
+	time = 30,
+	audio = false,
+	cursor = {
+		activated: false,
+		type: 1
+	},
+	loop = false
+} )
 ```
-This function returns an object that holds all sort of information related to the animation;
-`{element, text, time, forward, audio, loop cursor, callback, timer}`
+This constructor is used to instantiate typewriter objects, that are responsible for producing the animations.
 
-### `typewriter` parameters
-The main function consists of 5 paramets, all have default values except for the _first one_.
+### `typewriter` properties
 
-| Parameter     | Description                                                 | Default value                 |
-| ------------- |:----------------------------------------------------------- |:----------------------------- |
-| `element`     | The element you want to perform the animation on            | none                          |
-| `text`        | The text you want to be output as a result of the animation | `element.textContent`         |
-| `time`        | The time it would take to print a single character          | 30 milliseconds               |
-| `forward`     | Text deletion animation (`false` diactivates it)           | `true`                        |
-| `audio`     | Whether to make use of some sound effects to compliment the typing animation            | `false`                        |
-| `loop`     | Looping animation            | `false`                        |
-| `cursor`      | An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “\|”)                     | `{activated: false, type: 1}` |
-| `callback`    | A function that will execut when the animation is finished  | function                      |
+|Property|Description|Default value|
+|--- |--- |--- |
+|target|The element you want to perform the animation on, must be a valid DOM element.|undefined|
+|text|The text you want to be output as a result of the animation|The target's text (`textContent`)|
+|time|The time it would take to output a single character|30 milliseconds|
+|audio|Whether or not to make use of some sound effects to compliment the typing animation|`false`|
+|cursor|An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “\|”)|`{activated: false, type: 1}`|
+|loop|Whether or not to loop the animation|`false`|
 
-In addition to this, there is a helper function to keep at your disposal...
+After instanciating a typewriter object, we can use all sort of method tpo control and customize the animation, here's a list of available methods.
 
-### `stoptypewriter` syntax
-As the name suggests, this function stops a certain animation from executing.
-
-### `stoptypewriter` parameters
-This function acceps one parameter, and it's the object return by the `typewriter` function;
-```js
-function stoptypewriter(tw) {}
-```
+* type
+* delete
+* stop
+* resume
+* setText
+* setCursor
+* setTime
+* setLoop
+* setAudio
+* tw_SetVolume
 
 ### Example
 ```html
@@ -78,29 +91,33 @@ function stoptypewriter(tw) {}
 ```js
 // main.js
 
-var tw = typewriter({
+var tw = new TypeWriter({
     element: document.getElementById('target'),
     text: 'Lorem Ipsum!',
     time: 1000,
-    forward: true,
     audio: true,
     cursor: {
         activated: true,
-        type: 
-    },
-    callback: () => { alert('Animation finished')
+        type: 1
+    }
+});
+
+tw.type(function() {
+    alert('Animation finished');
 });
 ```
 That would output '_Lorem Ipsum!_' in the paragraph element as if it's being written with a scrapped typewriter, each character will take _1000 milliseconds_ to be output, the animation will have a cursor of type 1 “\_”, and a typing sound effect to compliment it, and will trigger a function to execute when it's finished, alerting '_Animation finished_' for the user.
 
-In order to stop the animation at any point, we can utilize the `stoptypewriter` function;
+In order to stop the animation at any point, we can utilize the `stop` function;
 
 ```js
 // main.js
 
-stoptypewriter(tw);
+setTimeout(() => { tw.stop(); }, 1000)
 ```
-> Checkout the main.html file for usage examples.
+That will stop the animation after a second had passed.
+
+> Checkout the `main.html` file for usage examples, or visit [this documentation page](https://eoussama.github.io/typewriterjs/).
 
 ## Credits
 > Icon made by [**Freepik**](http://www.flaticon.com) from [www.flaticon.com](http://www.flaticon.com)
