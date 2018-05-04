@@ -90,6 +90,7 @@ function TypeWriter({target = 'undefined', text = target.textContent.trim(), tim
 			} else if (chars == __count) {
 				clearInterval(this.timer);
 				this.timer = null;
+				setTimeout(this.callback, 1);
 			} else {
 				this.target.textContent = this.text.substring(0, this.index--);
 				__count++;
