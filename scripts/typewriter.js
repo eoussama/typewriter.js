@@ -33,7 +33,7 @@ function TypeWriter({target = 'undefined', text = target.textContent.trim(), tim
 	this.index = 0;
 	this.finished = true;
 	
-	this.type = (callback = () => {}, resume = 'undefined') => {
+	this.type = function ({callback = function() {}, resume = 'undefined'}) {
 		let __rand = 0;
 		this.stop();
 		this.finished = false;
