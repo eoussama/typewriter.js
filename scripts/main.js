@@ -13,23 +13,23 @@ window.addEventListener('load', () => {
 	
 	setTimeout(() => {
 		titleTW.setCursor({activated: true});
-		titleTW.type(() => {
-			header.style.height = '10vh';
-			header.style.padding = '150px 10vh';
-			logo.style.width = '150px';
-			logo.style.marginTop = '-50px';
-			document.body.style.overflow = 'auto';
-			main.style.display = 'block';
+		titleTW.type({
+			callback: () => {
+				header.style.height = '10vh';
+				header.style.padding = '150px 10vh';
+				logo.style.width = '150px';
+				logo.style.marginTop = '-50px';
+				document.body.style.overflow = 'auto';
+				main.style.display = 'block';
 
-			var tw_1 = new TypeWriter({
-					target: document.getElementById('sample'),
-					text: 'Hello, there!',
-					time: 200,
-					loop: true
-				});
+				var tw_1 = new TypeWriter({
+						target: document.getElementById('sample'),
+						text: 'Hello, there!',
+						time: 200
+					});
 
-			tw_1.type();
-			
+				tw_1.type({loop: true});
+			}
 		});
 	}, 1000);
 });

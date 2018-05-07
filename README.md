@@ -1,6 +1,7 @@
 <p align="center">
     <a href="http://eoussama.github.io/typewriterjs"><img src="images/logo.svg" alt="Logo" width="200px"><a>
     <h1 align="center">TypeWriterJS</h1>
+	<h5 align="center">Version 3.2.2</h5>
     <p align="center">A Javascript library for applying old typewriter text animations</p>
 </p>
 <hr>
@@ -47,8 +48,7 @@ TypeWriter ( {
 	cursor = {
 		activated: false,
 		type: 1
-	},
-	loop = false
+	}
 } )
 ```
 This constructor is used to instantiate typewriter objects, that are responsible for producing the animations.
@@ -62,20 +62,19 @@ This constructor is used to instantiate typewriter objects, that are responsible
 |time|The time it would take to output a single character|30 milliseconds|
 |audio|Whether or not to make use of some sound effects to compliment the typing animation|`false`|
 |cursor|An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text, and the second is for the type of the cursor to display (“_” and “\|”)|`{activated: false, type: 1}`|
-|loop|Whether or not to loop the animation|`false`|
 
 After instanciating a typewriter object, we can use all sort of method tpo control and customize the animation, here's a list of available methods.
 
 * type
 * delete
 * stop
+* pause
 * resume
 * setText
 * setCursor
 * setTime
-* setLoop
 * setAudio
-* tw_SetVolume
+* Volume (__setter__)
 
 ### Example
 ```html
@@ -102,8 +101,10 @@ var tw = new TypeWriter({
     }
 });
 
-tw.type(function() {
-    alert('Animation finished');
+tw.type({
+	callback: function() {
+    	alert('Animation finished');
+	}
 });
 ```
 That would output '_Lorem Ipsum!_' in the paragraph element as if it's being written with a scrapped typewriter, each character will take _1000 milliseconds_ to be output, the animation will have a cursor of type 1 “\_”, and a typing sound effect to compliment it, and will trigger a function to execute when it's finished, alerting '_Animation finished_' for the user.

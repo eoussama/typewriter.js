@@ -76,8 +76,7 @@
 	<span class="prop">cursor</span> = {
 		<span class="prop">activated</span>: <span class="value">false</span>,
 		<span class="prop">type</span>: 1
-	},
-	<span class="prop">loop</span> = <span class="value">false</span>
+	}
 } )</div>
        			<p>
        				In case you don't want to go through all of the parameters, you can skip them all, as they all have a default backup value to operate, but, the same cannot be said about the target property, you must pass in a valid <abbr title="Document Object Module">DOM</abbr> element, or else, it wouldn't work, the following table explains all of the properties mentioned above in a better manner;
@@ -120,12 +119,6 @@
 						<td><code>{activated: false, type: 1}</code></td>
 					</tr>
 					
-					<tr>
-						<td>loop</td>
-						<td>Whether or not to loop the animation</td>
-						<td><code>false</code></td>
-					</tr>
-					
 				</table>
       			
       			<h3>Instantiating an object</h3>
@@ -134,10 +127,9 @@
 				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b> ( {
 	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'sample'</span>),
 	<span class="prop">text</span>: <span class="value">'Hello, there!'</span>,
-	<span class="prop">time</span>: 200,
-	<span class="prop">loop</span>: <span class="value">true</span>
+	<span class="prop">time</span>: 200
 } );
-tw.<span class="prop">type</span>();</div>
+tw.<span class="prop">type</span>({<span class="prop">loop</span>: <span class="value">true</span>});</div>
 				<p>
 					The code that we've just written, of course after a thousand prayers that it would work at the first shot, outputs the following...
 				</p>
@@ -145,11 +137,11 @@ tw.<span class="prop">type</span>();</div>
 				<div class="code" id="sample"></div>
 
 				<p>
-					Well, all we did, was create a typewriter object, pointed it to the element with the id of <i>sample</i>, assigned the text to output (<i>Hello, there!</i>), making it so that each character is output every 200 milliseconds, and enabling looping.
+					Well, all we did, was create a typewriter object, pointed it to the element with the id of <i>sample</i>, assigned the text to output (<i>Hello, there!</i>), making it so that each character is output every 200 milliseconds.
 				</p>
 
 				<p>
-					That alone only created a mere object, then we used the <code>type</code> method to make the animation happen, and surprise, surprise, that isn't the only method available, let's introduce you to your new beloved friends.
+					That alone only created a mere object, then we used the <code>type</code> method, and passed in the <code>loop</code> argument setting it to <code>true</code> in order for the animation to loop, and surprise, surprise, that isn't the only method available, let's introduce you to your new beloved friends.
 				</p>
 
 				<h3>Methods</h3>
@@ -158,17 +150,20 @@ tw.<span class="prop">type</span>();</div>
 				</p>
 
 				<fieldset>
-					<legend><h4>tw_SetVolume</h4></legend>
+					<legend><h4>Volume</h4></legend>
 
 					<h5>Description</h5>
 					<p>
-						This one globally set's the typing sound (if activated of course), it accepts only one argument, and must be between <i>0.0</i> and <i>1.0</i>, anything lower or bigger will be auto-wrapped.
+						This fellow is a special case, it's not a method per say, this is a getter/setter(using modern js to sound cool) for controlling the typing sound globally (if activated of course), it accepts only one argument, and must be between <i>0.0</i> and <i>1.0</i>, anything lower or bigger will be auto-wrapped.
+						It's necessary that you use this on the <code>TypeWriter</code> class directly, as it's a static property.
 					</p>
 
 					<h5>Syntax</h5>
+					
+					<h6>Setter</h6>
 					<table border>
 						<caption>
-							<code>tw_SetVolume(vol)</code>	
+							<code>Volume(vol)</code>	
 						</caption>
 
 						<tr>
@@ -188,10 +183,18 @@ tw.<span class="prop">type</span>();</div>
 					</table>
 
 					<h5>Usage</h5>
-					<div class="code"><span class="prop">tw_SetVolume</span>(0.4);</div>
+					<div class="code"><b><span class="prop">TypeWriter</span></b>.<span class="prop">Volume</span>(0.4);</div>
 
 					<p>
 						Basically, that reduces the volume of the typing sound effects and sets it to 0.4.
+					</p>
+					
+					<h6>Getter</h6>
+					<h5>Usage</h5>
+					<div class="code"><b><span class="prop">TypeWriter</span></b>.<span class="prop">Volume</span>;</div>
+
+					<p>
+						This would return the current global volume for the typing effect.
 					</p>
 
 				</fieldset>
@@ -201,13 +204,13 @@ tw.<span class="prop">type</span>();</div>
 
 					<h5>Description</h5>
 					<p>
-						This is the primitive method that does it all (mostly), a single call, and all is put to motion, it accepts two arguments, although in 99% of the time, you'd find yourself not having to pass any, or at least only the first one.
+						This is the primitive method that does it all (mostly), a single call, and all is put to motion, it accepts an object of five arguments, although, in 99% of the time, you'd find yourself not having to pass any, or at least only the first one.
 					</p>
 
 					<h5>Syntax</h5>
 					<table border>
 						<caption>
-							<code>type(callback = () => {}, resume = 'undefined')</code>	
+							<code>type({callback = () => {}, start = 0, chars = this.text.trim().length, delay = 0, loop = false})</code>	
 						</caption>
 
 						<tr>
@@ -225,10 +228,31 @@ tw.<span class="prop">type</span>();</div>
 						</tr>
 
 						<tr>
-							<td><code>resume</code></td>
+							<td><code>start</code></td>
+							<td>integer</td>
+							<td>0</td>
+							<td>The exact position (character) you want the animation to start from</td>
+						</tr>
+						
+						<tr>
+							<td><code>chars</code></td>
+							<td>integer</td>
+							<td>The amount of characters there are on the targeted element's text</td>
+							<td>The number of characters you want to output, and thus where the animation stops at</td>
+						</tr>
+						
+						<tr>
+							<td><code>delay</code></td>
+							<td>integer</td>
+							<td>0</td>
+							<td>The time (<i>in milliseconds</i>) before the animation starts</td>
+						</tr>
+						
+						<tr>
+							<td><code>loop</code></td>
 							<td>boolean</td>
 							<td>false</td>
-							<td>Whether or not to continue the animation from the last paused frame, or start it from the beginning, it's preferable to ignore this one at all, as there is a much better wrapper function for this</td>
+							<td>Whether the animation should loop or not</td>
 						</tr>
 
 					</table>
@@ -237,8 +261,10 @@ tw.<span class="prop">type</span>();</div>
 					<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
 	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
 });
-tw.<span class="prop">type</span>(<span class="prop">function</span>() {
-	<span class="prop">alert</span>(<span class="value">'Animation finished'</span>);
+tw.<span class="prop">type</span>({
+	<span class="prop">callback</span>: <span class="prop">function</span>() {
+		<span class="prop">alert</span>(<span class="value">'Animation finished'</span>);
+	}
 });</div>
 					<p>
 						The code above, instantiate a new typewriter object and calls the type function on it in order to start the animation, that will alert the user with the message of (Animation finished) when the animation is finished.
@@ -254,13 +280,13 @@ tw.<span class="prop">type</span>(<span class="prop">function</span>() {
 					</p>
 
 					<p>
-						This function accepts two arguments, however, you can still call it without any, that will cause the whole text to be deleted.
+						This function accepts an object with three arguments, however, you can still call it without any, that will cause the whole text to be deleted.
 					</p>
 
 					<h5>Syntax</h5>
 					<table border>
 						<caption>
-							<code>delete(chars = this.text.length, callback = () => {})</code>
+							<code>delete({callback = () => {}, chars = this.text.trim().length, delay = 0})</code>
 						</caption>
 
 						<tr>
@@ -271,17 +297,24 @@ tw.<span class="prop">type</span>(<span class="prop">function</span>() {
 						</tr>
 
 						<tr>
-							<td><code>chars</code></td>
-							<td>integer</td>
-							<td>The number of characters of the output text</td>
-							<td>The number of characters you want to delete</td>
-						</tr>
-
-						<tr>
 							<td><code>callback</code></td>
 							<td>function</td>
 							<td>none</td>
 							<td>Any function you want to execute upon finishing the animation</td>
+						</tr>
+						
+						<tr>
+							<td><code>chars</code></td>
+							<td>integer</td>
+							<td>The targeted element's text's length</td>
+							<td>The number of characters you want to delete, and thus where the animation stops at</td>
+						</tr>
+						
+						<tr>
+							<td><code>delay</code></td>
+							<td>integer</td>
+							<td>0</td>
+							<td>The time (<i>in milliseconds</i>) before the animation starts</td>
 						</tr>
 
 					</table>
@@ -290,11 +323,68 @@ tw.<span class="prop">type</span>(<span class="prop">function</span>() {
 					<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
 	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
 });
-tw.<span class="prop">delete</span>(10, <span class="prop">function</span>() {
-	<span class="prop">alert</span>(<span class="value">'Animation finished'</span>);
+tw.<span class="prop">delete</span>({
+	<span class="prop">chars</span>: 10,
+	<span class="prop">callback</span>: <span class="prop">function</span>() {
+		<span class="prop">alert</span>(<span class="value">'Animation finished'</span>);
+	}
 });</div>
 					<p>
 						The code above performs a deletion animation on the element's text, where only the last 10 characters are deleted, then, the passed callback will execute.
+					</p>
+
+				</fieldset>
+				
+				<fieldset>
+					<legend><h4>stop</h4></legend>
+
+					<h5>Description</h5>
+					<p>
+						Freezes or strops the animation completely at anytime, to be used in care.
+					</p>
+
+					<h5>Syntax</h5>
+					<table border>
+						<caption>
+							<code>stop()</code>
+						</caption>
+					</table>
+
+					<h5>Usage</h5>
+					<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+});
+tw.<span class="prop">type</span>();
+<span class="prop">setTimeout</span>(() => { tw.<span class="prop">stop</span>(); }, 500);</div>
+					<p>
+						The animation will start then stop after half a second.
+					</p>
+
+				</fieldset>
+				
+				<fieldset>
+					<legend><h4>pause</h4></legend>
+
+					<h5>Description</h5>
+					<p>
+						This one freezes the animation too, but the difference between it and the previous method <code>stop</code>, is that this one can is just temporary, while the other is absolute, animations that are frozen with the stop method, cannot be resumed, and started from where they left out, and thus must reboot from the beginning, but this method, provides us with the ability to resume the animation, using the method we will get to see next...
+					</p>
+
+					<h5>Syntax</h5>
+					<table border>
+						<caption>
+							<code>pause()</code>
+						</caption>
+					</table>
+
+					<h5>Usage</h5>
+					<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+});
+tw.<span class="prop">type</span>();
+<span class="prop">setTimeout</span>(() => { tw.<span class="prop">pause</span>(); }, 500);</div>
+					<p>
+						Exactly like the previous example, the animation will start then freeze after half a second, and westill have the chance to start it again, how cool is that?
 					</p>
 
 				</fieldset>
@@ -304,11 +394,7 @@ tw.<span class="prop">delete</span>(10, <span class="prop">function</span>() {
 
 					<h5>Description</h5>
 					<p>
-						As the previous function stops or a better rephrase, freezes the animation, this one resumes it from the very frame it stopped at.
-					</p>
-
-					<p>
-						This function is the superior wrapper for <code>type(() => { }, true)</code> that we've talked about, it doesn't take any arguments thought, the more that makes it simpler.
+						We teased this one on the previous section after an animation is frozen using the <code>pause</code> method, this method can start it out from where it left out, resuming the animation with ease.
 					</p>
 
 					<h5>Syntax</h5>
@@ -323,10 +409,10 @@ tw.<span class="prop">delete</span>(10, <span class="prop">function</span>() {
 	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
 });
 tw.<span class="prop">type</span>();
-<span class="prop">setTimeout</span>(() => { tw.<span class="prop">stop</span>(); }, 500);
+<span class="prop">setTimeout</span>(() => { tw.<span class="prop">pause</span>(); }, 500);
 <span class="prop">setTimeout</span>(() => { tw.<span class="prop">resume</span>(); }, 1000);</div>
 					<p>
-						Exactly like the previous example, the animation will start then stop after half a second, and then be resumed after another half a second, splendid so far.
+						We start an animation, pause it after half a second had passed, then resume it after another half a second.
 					</p>
 
 				</fieldset>
@@ -459,53 +545,6 @@ tw.<span class="prop">setCursor</span>({
 tw.<span class="prop">setAudio</span>(<span class="value">true</span>);</div>
 					<p>
 						That instanciates a typewriter object and enables the typing sound effect.
-					</p>
-				</fieldset>
-      		
-      			<fieldset>
-					<legend><h4>setLoop</h4></legend>
-
-					<h5>Description</h5>
-					<p>
-						Toggles the looping functionality, sometimes you'd want the animation to start over and over again for some twisted reason, this is the function to assist you in that, it accepts a single argument, however it can still be called without any, that will have the looping functionality toggled.
-					</p>
-
-					<h5>Syntax</h5>
-					<table border>
-						<caption>
-							<code>setLoop(loop = !this.loop)</code>
-						</caption>
-
-						<tr>
-							<th>Argument</th>
-							<th>Type</th>
-							<th>Default value</th>
-							<th>Description</th>
-						</tr>
-
-						<tr>
-							<td><code>loop</code></td>
-							<td>boolean</td>
-							<td>The opposite of whatever value is currently set</td>
-							<td>Whether or not to loop the animation</td>
-						</tr>
-					</table>
-
-					<h5>Usage</h5>
-					<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
-	<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>),
-	<span class="prop">loop</span>: <span class="value">true</span>
-}), __count = 0;
-tw.<span class="prop">type</span>(() => {
-	<span class="key">if</span>(++__count === 2)
-		tw.<span class="prop">setLoop</span>(<span class="value">false</span>);
-});</div>
-					<p>
-						That will instantiate a typewriter object, and set it to loop, then we created a variable <code>__count</code> that will keep track of the number of loops that have passed, after that, we call the <code>type</code> function to start the animation.
-					</p>
-					
-					<p>
-						 After each loop, the callback we passed in the <code>type</code> function's parameters will execute, and check if there already been 2 loops so far, if so, we disable the looping functionality of the animation, resulting in a 3 loop animation at the end.
 					</p>
 				</fieldset>
       		
