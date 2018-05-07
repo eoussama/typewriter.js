@@ -11,6 +11,7 @@ window.addEventListener('load', () => {
 			audio: true
 		});
 	
+	TypeWriter.volume = 0.3;
 	setTimeout(() => {
 		titleTW.setCursor({activated: true});
 		titleTW.type({
