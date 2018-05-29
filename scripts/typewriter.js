@@ -1,13 +1,13 @@
 /*
-															Title: 			TypeWriterJS
-															Version: 		3.2.2
-															Author: 		Eoussama
-															Description: 	JS library for typewriter animations
-															License:		Apache v2.0
+			Title: 			TypeWriterJS
+			Version: 		3.3.2
+			Author: 		Eoussama
+			Description: 	JS library for typewriter animations
+			License:		Apache v2.0
 
 */
 
-const 
+const
 	CURSOR_STYLE = `
 		#ELEMENT_ID.cursor::after {
 			content: 'CURSOT_TYPE';
@@ -26,6 +26,9 @@ const
 		}
 	`,
 	  AUDIO = [new Audio('sounds/type_1.mp3'), new Audio('sounds/type_1.mp3'), new Audio('sounds/type_2.mp3'), new Audio('sounds/type_1.mp3'), new Audio('sounds/type_3.mp3'), new Audio('sounds/type_1.mp3')];
+
+var
+	isTabFocused = true;
 
 class TypeWriter {
 	
@@ -102,7 +105,7 @@ class TypeWriter {
 					this.callbacks[0]();
 				} else {
 					this.target.textContent += this.text[this.index++];
-					if(this.audio !== false) {
+					if(this.audio !== false && isTabFocused === true) {
 						__rand = Math.floor(Math.random() * AUDIO.length);
 						AUDIO[__rand].play();
 					}
@@ -131,7 +134,7 @@ class TypeWriter {
 					this.callbacks[1]();
 				} else {
 					this.target.textContent = this.text.substring(0, this.index--);
-					if(this.audio !== false)
+					if(this.audio !== false && isTabFocused === true)
 						AUDIO[0].play();
 				}
 			}, this.time);
@@ -183,7 +186,7 @@ class TypeWriter {
 						this.callbacks[0]();
 					} else {
 						this.target.textContent += this.text[this.index++];
-						if(this.audio !== false) {
+						if(this.audio !== false  && isTabFocused === true) {
 							__rand = Math.floor(Math.random() * AUDIO.length);
 							AUDIO[__rand].play();
 						}
@@ -231,3 +234,6 @@ class TypeWriter {
 		}
 	}
 }
+
+window.addEventListener('focus', () => isTabFocused = true );
+window.addEventListener('blur', () => isTabFocused = false );
