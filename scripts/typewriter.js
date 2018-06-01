@@ -1,6 +1,6 @@
 /*
 			Title: 			TypeWriterJS
-			Version: 		3.3.2
+			Version: 		3.3.3
 			Author: 		Eoussama
 			Description: 	JS library for typewriter animations
 			License:		Apache v2.0
@@ -89,6 +89,8 @@ class TypeWriter {
 			this.index = this.start;
 
 			this.timer = setInterval(() => {
+				if(isTabFocused === false) return;
+
 				if(this.index >= this.text.length || this.index >= this.start + this.chars) {
 					if(this.loop === false) {
 						clearInterval(this.timer);
@@ -128,6 +130,8 @@ class TypeWriter {
 			start = this.index = this.target.textContent.trim().length - 1;
 
 			this.timer = setInterval(() => {
+				if(isTabFocused === false) return;
+
 				if(this.index < 0 || this.index <= start - this.chars) {
 					clearInterval(this.timer);
 					this.stop();
@@ -164,7 +168,8 @@ class TypeWriter {
 			
 			this.paused = false;
 			setTimeout(() => {
-
+				if(isTabFocused === false) return;
+				
 				if(this.index >= this.text.trim()) {
 					this.target.textContent = this.text.substring(0, this.start);
 					this.index = this.start;
