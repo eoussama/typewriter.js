@@ -1,6 +1,6 @@
 /*
 			Title: 			TypeWriterJS
-			Version: 		3.3.3
+			Version: 		3.3.4
 			Author: 		Eoussama
 			Description: 	JS library for typewriter animations
 			License:		Apache v2.0
@@ -28,7 +28,7 @@ const
 	  AUDIO = [new Audio('sounds/type_1.mp3'), new Audio('sounds/type_1.mp3'), new Audio('sounds/type_2.mp3'), new Audio('sounds/type_1.mp3'), new Audio('sounds/type_3.mp3'), new Audio('sounds/type_1.mp3')];
 
 var
-	isTabFocused = true;
+	isTabFocused = false;
 
 class TypeWriter {
 	
@@ -89,27 +89,27 @@ class TypeWriter {
 			this.index = this.start;
 
 			this.timer = setInterval(() => {
-				if(isTabFocused === false) return;
-
-				if(this.index >= this.text.length || this.index >= this.start + this.chars) {
-					if(this.loop === false) {
-						clearInterval(this.timer);
-						this.stop();
+				if(isTabFocused !== false) {
+					if(this.index >= this.text.length || this.index >= this.start + this.chars) {
+						if(this.loop === false) {
+							clearInterval(this.timer);
+							this.stop();
+						} else {
+							this.pause();
+							setTimeout(() => {
+								this.resume();
+								this.target.textContent = this.text.substring(0, this.start);
+								this.index = this.start;
+							}, this.delay);
+						}
+						
+						this.callbacks[0]();
 					} else {
-						this.pause();
-						setTimeout(() => {
-							this.resume();
-							this.target.textContent = this.text.substring(0, this.start);
-							this.index = this.start;
-						}, this.delay);
-					}
-					
-					this.callbacks[0]();
-				} else {
-					this.target.textContent += this.text[this.index++];
-					if(this.audio !== false && isTabFocused === true) {
-						__rand = Math.floor(Math.random() * AUDIO.length);
-						AUDIO[__rand].play();
+						this.target.textContent += this.text[this.index++];
+						if(this.audio !== false && isTabFocused === true) {
+							__rand = Math.floor(Math.random() * AUDIO.length);
+							AUDIO[__rand].play();
+						}
 					}
 				}
 			}, this.time);
@@ -130,16 +130,16 @@ class TypeWriter {
 			start = this.index = this.target.textContent.trim().length - 1;
 
 			this.timer = setInterval(() => {
-				if(isTabFocused === false) return;
-
-				if(this.index < 0 || this.index <= start - this.chars) {
-					clearInterval(this.timer);
-					this.stop();
-					this.callbacks[1]();
-				} else {
-					this.target.textContent = this.text.substring(0, this.index--);
-					if(this.audio !== false && isTabFocused === true)
-						AUDIO[0].play();
+				if(isTabFocused !== false) {
+					if(this.index < 0 || this.index <= start - this.chars) {
+						clearInterval(this.timer);
+						this.stop();
+						this.callbacks[1]();
+					} else {
+						this.target.textContent = this.text.substring(0, this.index--);
+						if(this.audio !== false && isTabFocused === true)
+							AUDIO[0].play();
+					}
 				}
 			}, this.time);
 		}, delay);
@@ -168,32 +168,32 @@ class TypeWriter {
 			
 			this.paused = false;
 			setTimeout(() => {
-				if(isTabFocused === false) return;
-				
 				if(this.index >= this.text.trim()) {
 					this.target.textContent = this.text.substring(0, this.start);
 					this.index = this.start;
 				}
 
 				this.timer = setInterval(() => {
-					if(this.index >= this.text.length || this.index >= this.start + this.chars) {
-						if(this.loop === false) {
-							this.stop();
-						} else {
-							this.pause();
-							setTimeout(() => {
-								this.resume();
-								this.target.textContent = this.text.substring(0, this.start);
-								this.index = this.start;
-							}, this.delay);
-						}
+					if(isTabFocused !== false) {
+						if(this.index >= this.text.length || this.index >= this.start + this.chars) {
+							if(this.loop === false) {
+								this.stop();
+							} else {
+								this.pause();
+								setTimeout(() => {
+									this.resume();
+									this.target.textContent = this.text.substring(0, this.start);
+									this.index = this.start;
+								}, this.delay);
+							}
 
-						this.callbacks[0]();
-					} else {
-						this.target.textContent += this.text[this.index++];
-						if(this.audio !== false  && isTabFocused === true) {
-							__rand = Math.floor(Math.random() * AUDIO.length);
-							AUDIO[__rand].play();
+							this.callbacks[0]();
+						} else {
+							this.target.textContent += this.text[this.index++];
+							if(this.audio !== false  && isTabFocused === true) {
+								__rand = Math.floor(Math.random() * AUDIO.length);
+								AUDIO[__rand].play();
+							}
 						}
 					}
 				}, this.time);
@@ -240,5 +240,6 @@ class TypeWriter {
 	}
 }
 
-window.addEventListener('focus', () => isTabFocused = true );
+window.addEventListener('load', () => isTabFocused = document.hasFocus() );
+window.addEventListener('focus', () => { isTabFocused = true; window.focus(); });
 window.addEventListener('blur', () => isTabFocused = false );
