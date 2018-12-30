@@ -56,8 +56,11 @@
         try {
 
             const
-                target = document.getElementById('target'),
-                tw = new Typewriter(target, target.textContent, 100);
+                targetElement = document.getElementById('target'),
+                tw = new Typewriter({
+                    target: targetElement,
+                    speed: 50
+                });
 
             tw.clear();
             tw.type();

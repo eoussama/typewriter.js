@@ -20,23 +20,25 @@ class Typewriter {
     /**
      * Constructor with parameters.
      * 
-     * @param target The HTML element to target with the typewriter.
-     * @param script The script to type in the target.
-     * @param speed The typing speed of the typewriter in milliseconds.
+     * @param params The configurative parameters of the typewrtier.
      */
-    constructor(target: HTMLElement, script: string = target.textContent, speed: number = 1500) {
+    constructor(params: Object = {}) {
 
         try {
             
-            if (target == null || !(target instanceof HTMLElement)) {
-                throw new TypeError("The target must be a valid HTML element");
+            if (params.target == null) {
+                throw new TypeError("A valid target is required.");
             }
 
-            this.target = target;
-            this.script = script;
-            this.speed = speed;
-            this.cursor = { index: this.target.textContent.length };
+            if (!(params.target instanceof HTMLElement)) {
+                throw new TypeError("The target must be a valid HTML element.");
+            }
+
+            this.target = params.target;
+            this.script = params.script || this.target.textContent;
+            this.speed = params.speed || 1500;
             this.timer = null;
+            this.cursor = { index: this.target.textContent.length };
         }
         catch(e) {
 
