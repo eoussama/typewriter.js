@@ -1,0 +1,13 @@
+[ignore]
+node_modules/
+bower_components/
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

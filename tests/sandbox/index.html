@@ -34,16 +34,27 @@
         <h1>TypeWriterJS testing</h1>
         <hr>
 
-        <p id="target">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates officia, numquam veritatis dolor totam
-            magnam consequatur velit non recusandae repudiandae. Nihil sed ducimus voluptatum ad pariatur odit
-            doloribus ullam velit.
-        </p>
-        <p id="code"></p>
+        <p id="target">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur debitis recusandae maiores.
+            Illo, voluptates veniam rem asperiores natus reiciendis corporis nam excepturi tempora error provident,
+            amet, id ab eaque quasi.</p>
     </main>
 
     <script src="../../dist/typewriter.min.js"></script>
     <script>
+
+        try {
+
+            const
+                target = document.getElementById('target'),
+                tw = new Typewriter(target, target.textContent, 30);
+
+            tw.clear();
+            tw.type();
+        }
+        catch (e) {
+
+            console.error(e.name, e.message);
+        }
 
     </script>
 </body>
