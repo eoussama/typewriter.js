@@ -1,5 +1,19 @@
 "use strict";
 
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -60,7 +74,6 @@ var Typewriter =
                 }
 
                 this.target = params.target;
-                this.script = params.script || this.target.textContent;
                 this.speed = params.speed || 1500;
                 this.timer = null;
                 this.cursor = {
@@ -71,40 +84,79 @@ var Typewriter =
             }
         }
         /**
-         * Types the content of the typewriter.
+         * Moves the cursor to a specific column.
+         * 
+         * @param index The column where the cursor should move to.
          */
 
 
         _createClass(Typewriter, [{
+            key: "moveCursor",
+            value: function moveCursor() {
+                var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.cursor.index;
+
+                if (index < 0) {
+                    index = 0;
+                } else if (index > this.target.textContent.length) {
+                    index = this.target.textContent.length;
+                }
+
+                this.cursor.index = index;
+            }
+            /**
+             * Types the content of the typewriter.
+             * 
+             * @param params The parameters that go with the typing.
+             */
+
+        }, {
             key: "type",
             value: function type() {
                 var _this = this;
 
-                if (this.script.length > 0) {
-                    this.timer = setTimeout(function() {
-                        typeChar(_this);
+                var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                var script = params.script || '';
+                var start = params.start || 0,
+                    index = params.index || 0,
+                    length = params.length || script.length; // Checking if start is outbound.
 
-                        if (_this.cursor.index !== _this.script.length) {
-                            _this.type();
+                if (start < 0) {
+                    start = 0;
+                } else if (start > this.target.textContent.length) {
+                    start = this.target.textContent.length;
+                } // Checking if length is outbound.
+
+
+                if (length < 0) {
+                    length = 0;
+                } else if (length > script.length) {
+                    length = script.length;
+                }
+
+                if (script.length > 0) {
+                    this.timer = setTimeout(function() {
+                        // Moving the cursor to the correct column.
+                        _this.moveCursor(index); // Inserting a character.
+
+
+                        var targetContent = _this.target.textContent;
+                        _this.target.textContent = targetContent.slice(0, start + index) + script[index] + targetContent.slice(start + index);
+
+                        if (_this.cursor.index < length - 1) {
+                            _this.type(_defineProperty({
+                                script: script,
+                                start: start,
+                                index: index + 1,
+                                length: length
+                            }, "length", length));
                         }
                     }, this.speed);
-                }
-                /**
-                 * Types a single character in the typewriter.
-                 * 
-                 * @param typewriter The typewriter object.
-                 */
-
-
-                function typeChar(typewriter) {
-                    // Typing a character.
-                    typewriter.target.textContent += typewriter.script[typewriter.cursor.index]; // Moving the cursor forward.
-
-                    typewriter.cursor.index++;
                 }
             }
             /**
              * Delete the content of the typewriter.
+             * 
+             * @param params The parameters that go with the deleting.
              */
 
         }, {
@@ -112,27 +164,41 @@ var Typewriter =
             value: function _delete() {
                 var _this2 = this;
 
-                if (this.script.length > 0) {
+                var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                var start = params.start || this.target.textContent.length,
+                    index = params.index || start,
+                    length = params.length || start; // Checking if start is outbound.
+
+                if (start < 0) {
+                    start = 0;
+                } else if (start > this.target.textContent.length) {
+                    start = this.target.textContent.length;
+                } // Checking if length is outbound.
+
+
+                if (length < 0) {
+                    length = 0;
+                } else if (length > this.target.textContent.length) {
+                    length = this.target.textContent.length;
+                }
+
+                if (this.target.textContent.length > 0) {
                     this.timer = setTimeout(function() {
-                        deleteChar(_this2);
+                        // Moving the cursor to the correct column.
+                        _this2.moveCursor(index - 1); // Deleting a character.
+
+
+                        var targetContent = _this2.target.textContent;
+                        _this2.target.textContent = targetContent;
 
                         if (_this2.cursor.index > 0) {
-                            _this2.delete();
+                            _this2.delete({
+                                start: start,
+                                length: length,
+                                index: index - 1
+                            });
                         }
                     }, this.speed);
-                }
-                /**
-                 * Types a single character in the typewriter.
-                 * 
-                 * @param typewriter The typewriter object.
-                 */
-
-
-                function deleteChar(typewriter) {
-                    // Typing a character.
-                    typewriter.target.textContent = typewriter.script.substring(0, typewriter.cursor.index - 1); // Moving the cursor forward.
-
-                    typewriter.cursor.index--;
                 }
             }
             /**

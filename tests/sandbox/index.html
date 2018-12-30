@@ -45,9 +45,7 @@
         <h1>TypeWriterJS testing</h1>
         <hr>
 
-        <p id="target">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur debitis recusandae maiores.
-            Illo, voluptates veniam rem asperiores natus reiciendis corporis nam excepturi tempora error provident,
-            amet, id ab eaque quasi.</p>
+        <p id="target">Oussama</p>
     </main>
 
     <script src="../../dist/typewriter.min.js"></script>
@@ -59,11 +57,12 @@
                 targetElement = document.getElementById('target'),
                 tw = new Typewriter({
                     target: targetElement,
-                    speed: 50
+                    speed: 600
                 });
 
-            tw.clear();
-            tw.type();
+            tw.delete({
+                
+            });
         }
         catch (e) {
 

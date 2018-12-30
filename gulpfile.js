@@ -7,7 +7,6 @@ const
     uglify = require('gulp-uglify');
 
 
-
 /**
  * Transpiles es6 code into javascript
  * and builds for production.

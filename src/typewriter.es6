@@ -25,7 +25,7 @@ class Typewriter {
     constructor(params: Object = {}) {
 
         try {
-            
+
             if (params.target == null) {
                 throw new TypeError("A valid target is required.");
             }
@@ -35,12 +35,11 @@ class Typewriter {
             }
 
             this.target = params.target;
-            this.script = params.script || this.target.textContent;
             this.speed = params.speed || 1500;
             this.timer = null;
             this.cursor = { index: this.target.textContent.length };
         }
-        catch(e) {
+        catch (e) {
 
             throw e;
         }
@@ -48,71 +47,124 @@ class Typewriter {
 
 
     /**
-     * Types the content of the typewriter.
+     * Moves the cursor to a specific column.
+     * 
+     * @param index The column where the cursor should move to.
      */
-    type(): void {
+    moveCursor(index: number = this.cursor.index): void {
 
-        if (this.script.length > 0) {
+        if (index < 0) {
 
-            this.timer = setTimeout(() => {
-    
-                typeChar(this);
-    
-                if (this.cursor.index !== this.script.length) {
-    
-                    this.type();
-                }
-            }, this.speed);
+            index = 0;
+        } else if (index > this.target.textContent.length) {
+
+            index = this.target.textContent.length;
         }
 
+        this.cursor.index = index;
+    }
 
-        /**
-         * Types a single character in the typewriter.
-         * 
-         * @param typewriter The typewriter object.
-         */
-        function typeChar(typewriter: Typewriter): void {
 
-            // Typing a character.
-            typewriter.target.textContent += typewriter.script[typewriter.cursor.index];
-            
-            // Moving the cursor forward.
-            typewriter.cursor.index++;
+    /**
+     * Types the content of the typewriter.
+     * 
+     * @param params The parameters that go with the typing.
+     */
+    type(params: Object = {}): void {
+
+        const script: string = params.script || '';
+
+        let
+            start: number = params.start || 0,
+            index: number = params.index || 0,
+            length: number = params.length || script.length;
+
+        // Checking if start is outbound.
+        if (start < 0) {
+
+            start = 0;
+        } else if (start > this.target.textContent.length) {
+
+            start = this.target.textContent.length;
+        }
+
+        // Checking if length is outbound.
+        if (length < 0) {
+
+            length = 0;
+        } else if (length > script.length) {
+
+            length = script.length;
+        }
+
+        if (script.length > 0) {
+
+            this.timer = setTimeout(() => {
+
+                // Moving the cursor to the correct column.
+                this.moveCursor(index);
+
+                // Inserting a character.
+                const targetContent: string = this.target.textContent;
+
+                this.target.textContent = targetContent.slice(0, start + index) + script[index] + targetContent.slice(start + index);
+
+                if (this.cursor.index < length - 1) {
+
+                    this.type({ script: script, start: start, index: index + 1, length, length });
+                }
+            }, this.speed);
         }
     }
 
 
     /**
      * Delete the content of the typewriter.
+     * 
+     * @param params The parameters that go with the deleting.
      */
-    delete(): void {
+    delete(params: Object = {}): void {
 
-        if (this.script.length > 0) {
+        let
+            start: number = params.start || this.target.textContent.length,
+            index: number = params.index || start,
+            length: number = params.length || start;
 
-            this.timer = setTimeout(() => {
-    
-                deleteChar(this);
+        // Checking if start is outbound.
+        if (start < 0) {
 
-                if (this.cursor.index > 0) {
-    
-                    this.delete();
-                }
-            }, this.speed);
+            start = 0;
+        } else if (start > this.target.textContent.length) {
+
+            start = this.target.textContent.length;
         }
 
+        // Checking if length is outbound.
+        if (length < 0) {
 
-        /**
-         * Types a single character in the typewriter.
-         * 
-         * @param typewriter The typewriter object.
-         */
-        function deleteChar(typewriter: Typewriter): void {
+            length = 0;
+        } else if (length > this.target.textContent.length) {
 
-            // Typing a character.
-            typewriter.target.textContent = typewriter.script.substring(0, typewriter.cursor.index - 1);
+            length = this.target.textContent.length;
+        }
+        
+        if (this.target.textContent.length > 0) {
             
-            // Moving the cursor forward.
-            typewriter.cursor.index--;
+            this.timer = setTimeout(() => {
+
+                // Moving the cursor to the correct column.
+                this.moveCursor(index - 1);
+
+                // Deleting a character.
+                const targetContent: string = this.target.textContent;
+
+                this.target.textContent = targetContent;
+
+                if (this.cursor.index > 0 ) {
+
+                    this.delete({ start: start, length: length, index: index - 1 });
+                }
+            }, this.speed);
         }
     }
 
