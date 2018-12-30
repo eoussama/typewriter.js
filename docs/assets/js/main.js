@@ -11,4 +11,7 @@
  */
 	
 
-console.log('Hello, world!');
+window.addEventListener('load', () => {
+
+	console.log('Hello, world!');
+});
