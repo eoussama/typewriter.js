@@ -1,0 +1,26 @@
+{
+  "name": "typewriterjs",
+  "description": "A typewriter for the web.",
+  "main": "./src/typewriter.js",
+  "authors": [
+    "EOussama"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "animation",
+    "typewriter",
+    "js",
+    "library"
+  ],
+  "homepage": "https://github.com/EOussama/typewriterjs",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src",
+    ".gitignore",
+    ".gitattributes",
+    "test",
+    "tests"
+  ]
+}

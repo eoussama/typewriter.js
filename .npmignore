@@ -1,0 +1,18 @@
+# Ignoring vscode settings.
+.vscode/
+
+# Ignoring the dependencies' folder.
+node_modules/
+
+# Ignoring the source files.
+src/
+
+# Ignoring the tests.
+tests/
+
+# Ignoring the gulp file.
+gulpfile.js
+
+# Ignoring git specific files.
+.gitignore
+.gitattributes

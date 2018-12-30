@@ -1,3 +1,5 @@
-test.html
-scripts/test.js
-styles/test.css
+# Ignoring node modules.
+node_modules/
+
+# Ignoring bower components
+bower_components/
