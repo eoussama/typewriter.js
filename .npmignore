@@ -13,6 +13,12 @@ tests/
 # Ignoring the gulp file.
 gulpfile.js
 
+# Ignoring flow specific files
+.flowconfig
+
+# Ignoring babel specific files
+.babelrc
+
 # Ignoring git specific files.
 .gitignore
 .gitattributes

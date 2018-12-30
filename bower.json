@@ -20,6 +20,8 @@
     "src",
     ".gitignore",
     ".gitattributes",
+    ".babelrc",
+    ".flowconfig",
     "test",
     "tests"
   ]
