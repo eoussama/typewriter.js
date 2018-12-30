@@ -1,0 +1,691 @@
+<!-- 
+    
+    @name:       typewriterjs
+    @version:    4.0.0
+    @author:     EOussama
+    @license     MIT
+    @source:     https://github.com/EOussama/typewriterjs
+
+    A typewriter for the web.
+
+ -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="application-name" content="typewriterjs">
+	<meta name="author" content="EOussama">
+	<meta name="description" content="A Javascript library for applying old typewriter text animations.">
+	<meta name="keywords" content="animation, typewriter, js, library">
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="styles/main.css">
+	<link rel="icon" type="image/png" href="images/favicon.png">
+
+	<title>TypeWriterJS</title>
+</head>
+
+<body>
+	<header>
+		<img src="images/logo.svg" alt="TypeWriteJS Logo">
+		<h1 id="title"></h1>
+	</header>
+
+	<main>
+
+		<article>
+			<h1>Description</h1>
+
+			<p>
+				Upon making a <a href="http://eoussama.github.io" target="_blank">portfolio</a> of my own, I had this idea that
+				sounded very cool in my head at the time, where I could make an intro that outputs a certain headline in an old <i>typewriter</i>
+				fashion, and that's what this javascript file is for, simply, just that, you specify the output element, play with
+				the parameters you have, and let the magic happen. Nothing too shabby to be honest, just another handy tool for
+				you, and there are a lot nowadays, too excited to start up? check out the installation guide below...
+			</p>
+		</article>
+
+		<article>
+			<h1>Installation</h1>
+
+			<h3>Steps</h3>
+			<p>To start using this, and I know you are, <small>hopefully</small>, take in account thefollowing steps</p>
+
+			<ol>
+				<li>Download the latest version <a href="https://github.com/EOussama/typewriterjs/releases" target="_blank">here</a>.</li>
+				<li>Unzip the package somewhere.</li>
+				<li>Copy the <b>typewriter.js</b> or the <b>typewriter.min.js</b> to your scripts file.</li>
+				<li>Copy the <b>sounds</b> folder to your project.</li>
+				<li>Make sure both your <b>typewriter</b> js file's parent folder and <b>sounds</b> folder are part of the same
+					parent directory.</li>
+			</ol>
+
+			<h3>Project structure</h3>
+			<div class="code">- project/
+				|________
+				|- scripts/
+				|________________
+				|- <b>typewriter.js</b>
+				|- whatever.js
+				|- styles/
+				|- <b>sounds</b>/
+				|- images/
+				|- someFolder/
+				|- index.html</div>
+		</article>
+
+		<article>
+			<h1>Documentation</h1>
+
+			<p>
+				Before resulting in any animation, you first need to have a (<i>you-guessed-it</i>) typewriter, just like in the
+				real world, where can you get one? you simply have to create typewriter object by instantiating the TypeWriter
+				constructor. That's when you get to pass in the animation parameters, and only then, you can make the typewriter
+				make its own thing, that is, animation the text, as a starting point, let's break down our main constructor.
+			</p>
+
+			<h3>The constructor</h3>
+			<div class="code"><b><span class="prop">TypeWriter</span></b> ( {
+				<span class="prop">target</span> = <span class="value">'undefined'</span>,
+				<span class="prop">text</span> = target.<span class="prop">textContent</span>.<span class="prop">trim</span>(),
+				<span class="prop">time</span> = 30,
+				<span class="prop">audio</span> = <span class="value">false</span>,
+				<span class="prop">cursor</span> = {
+				<span class="prop">activated</span>: <span class="value">false</span>,
+				<span class="prop">type</span>: 1
+				}
+				} )</div>
+			<p>
+				In case you don't want to go through all of the parameters, you can skip them all, as they all have a default
+				backup value to operate, but, the same cannot be said about the target property, you must pass in a valid <abbr
+				 title="Document Object Module">DOM</abbr> element, or else, it wouldn't work, the following table explains all of
+				the properties mentioned above in a better manner;
+			</p>
+
+			<table border>
+				<tr>
+					<th>Property</th>
+					<th>Description</th>
+					<th>Default value</th>
+				</tr>
+
+				<tr>
+					<td>target</td>
+					<td>The element you want to perform the animation on, must be a valid <abbr title="Document Object Module">DOM</abbr>
+						element.</td>
+					<td>undefined</td>
+				</tr>
+
+				<tr>
+					<td>text</td>
+					<td>The text you want to be output as a result of the animation</td>
+					<td>The target's text (<code>textContent</code>)</td>
+				</tr>
+
+				<tr>
+					<td>time</td>
+					<td>The time it would take to output a single character</td>
+					<td>30 milliseconds</td>
+				</tr>
+
+				<tr>
+					<td>audio</td>
+					<td>Whether or not to make use of some sound effects to compliment the typing animation</td>
+					<td><code>false</code></td>
+				</tr>
+
+				<tr>
+					<td>cursor</td>
+					<td>An object with 2 properties, the first indicates whether to use a cursor effect at the end of the output text,
+						and the second is for the type of the cursor to display (“_” and “|”)</td>
+					<td><code>{activated: false, type: 1}</code></td>
+				</tr>
+
+			</table>
+
+			<h3>Instantiating an object</h3>
+			<p>Now that we've explained what each of the properties do, here comes the instantiation part, simply provide a
+				variable to hold the returned value upon calling the constructor;</p>
+
+			<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>
+				( {
+				<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'sample'</span>),
+				<span class="prop">text</span>: <span class="value">'Hello, there!'</span>,
+				<span class="prop">time</span>: 200
+				} );
+				tw.<span class="prop">type</span>({<span class="prop">loop</span>: <span class="value">true</span>});</div>
+			<p>
+				The code that we've just written, of course after a thousand prayers that it would work at the first shot, outputs
+				the following...
+			</p>
+
+			<div class="code" id="sample"></div>
+
+			<p>
+				Well, all we did, was create a typewriter object, pointed it to the element with the id of <i>sample</i>, assigned
+				the text to output (<i>Hello, there!</i>), making it so that each character is output every 200 milliseconds.
+			</p>
+
+			<p>
+				That alone only created a mere object, then we used the <code>type</code> method, and passed in the <code>loop</code>
+				argument setting it to <code>true</code> in order for the animation to loop, and surprise, surprise, that isn't the
+				only method available, let's introduce you to your new beloved friends.
+			</p>
+
+			<h3>Methods</h3>
+			<p>
+				There are quite the variety of methods you can use to both animate, and change the typewriter's option on run time:
+			</p>
+
+			<fieldset>
+				<legend>
+					<h4>volume</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					This fellow is a special case, it's not a method per say, this is a getter/setter(using modern js to sound cool)
+					for controlling the typing sound globally (if activated of course), it accepts only one argument, and must be
+					between <i>0.0</i> and <i>1.0</i>, anything lower or bigger will be auto-wrapped.
+					It's necessary that you use this on the <code>TypeWriter</code> class directly, as it's a static property.
+				</p>
+
+				<h5>Syntax</h5>
+
+				<h6>Setter</h6>
+				<table border>
+					<caption>
+						<code>volume(vol)</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>vol</code></td>
+						<td>float</td>
+						<td>none</td>
+						<td>The value of the volume you want to set</td>
+					</tr>
+
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><b><span class="prop">TypeWriter</span></b>.<span class="prop">volume</span> = 0.4;</div>
+
+				<p>
+					Basically, that reduces the volume of the typing sound effects and sets it to 0.4.
+				</p>
+
+				<h6>Getter</h6>
+				<h5>Usage</h5>
+				<div class="code"><b><span class="prop">TypeWriter</span></b>.<span class="prop">volume</span>;</div>
+
+				<p>
+					This would return the current global volume for the typing effect.
+				</p>
+
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>type</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					This is the primitive method that does it all (mostly), a single call, and all is put to motion, it accepts an
+					object of five arguments, although, in 99% of the time, you'd find yourself not having to pass any, or at least
+					only the first one.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>type({callback = () => {}, start = 0, chars = this.text.trim().length, delay = 0, loop = false})</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>callback</code></td>
+						<td>function</td>
+						<td>none</td>
+						<td>Any function you want to execute upon finishing the animation</td>
+					</tr>
+
+					<tr>
+						<td><code>start</code></td>
+						<td>integer</td>
+						<td>0</td>
+						<td>The exact position (character) you want the animation to start from</td>
+					</tr>
+
+					<tr>
+						<td><code>chars</code></td>
+						<td>integer</td>
+						<td>The amount of characters there are on the targeted element's text</td>
+						<td>The number of characters you want to output, and thus where the animation stops at</td>
+					</tr>
+
+					<tr>
+						<td><code>delay</code></td>
+						<td>integer</td>
+						<td>0</td>
+						<td>The time (<i>in milliseconds</i>) before the animation starts</td>
+					</tr>
+
+					<tr>
+						<td><code>loop</code></td>
+						<td>boolean</td>
+						<td>false</td>
+						<td>Whether the animation should loop or not</td>
+					</tr>
+
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">type</span>({
+					<span class="prop">callback</span>: <span class="prop">function</span>() {
+					<span class="prop">alert</span>(<span class="value">'Animation finished'</span>);
+					}
+					});</div>
+				<p>
+					The code above, instantiate a new typewriter object and calls the type function on it in order to start the
+					animation, that will alert the user with the message of (Animation finished) when the animation is finished.
+				</p>
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>delete</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					This function performs a script deletion animation, basically, if the type function is light, this one would be
+					the dark, it simply does the same thing, just in reverse.
+				</p>
+
+				<p>
+					This function accepts an object with three arguments, however, you can still call it without any, that will cause
+					the whole text to be deleted.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>delete({callback = () => {}, chars = this.text.trim().length, delay = 0})</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>callback</code></td>
+						<td>function</td>
+						<td>none</td>
+						<td>Any function you want to execute upon finishing the animation</td>
+					</tr>
+
+					<tr>
+						<td><code>chars</code></td>
+						<td>integer</td>
+						<td>The targeted element's text's length</td>
+						<td>The number of characters you want to delete, and thus where the animation stops at</td>
+					</tr>
+
+					<tr>
+						<td><code>delay</code></td>
+						<td>integer</td>
+						<td>0</td>
+						<td>The time (<i>in milliseconds</i>) before the animation starts</td>
+					</tr>
+
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">delete</span>({
+					<span class="prop">chars</span>: 10,
+					<span class="prop">callback</span>: <span class="prop">function</span>() {
+					<span class="prop">alert</span>(<span class="value">'Animation finished'</span>);
+					}
+					});</div>
+				<p>
+					The code above performs a deletion animation on the element's text, where only the last 10 characters are deleted,
+					then, the passed callback will execute.
+				</p>
+
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>stop</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					Freezes or strops the animation completely at anytime, to be used in care.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>stop()</code>
+					</caption>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">type</span>();
+					<span class="prop">setTimeout</span>(() => { tw.<span class="prop">stop</span>(); }, 500);</div>
+				<p>
+					The animation will start then stop after half a second.
+				</p>
+
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>pause</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					This one freezes the animation too, but the difference between it and the previous method <code>stop</code>, is
+					that this one can is just temporary, while the other is absolute, animations that are frozen with the stop method,
+					cannot be resumed, and started from where they left out, and thus must reboot from the beginning, but this method,
+					provides us with the ability to resume the animation, using the method we will get to see next...
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>pause()</code>
+					</caption>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">type</span>();
+					<span class="prop">setTimeout</span>(() => { tw.<span class="prop">pause</span>(); }, 500);</div>
+				<p>
+					Exactly like the previous example, the animation will start then freeze after half a second, and westill have the
+					chance to start it again, how cool is that?
+				</p>
+
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>resume</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					We teased this one on the previous section after an animation is frozen using the <code>pause</code> method, this
+					method can start it out from where it left out, resuming the animation with ease.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>resume()</code>
+					</caption>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">type</span>();
+					<span class="prop">setTimeout</span>(() => { tw.<span class="prop">pause</span>(); }, 500);
+					<span class="prop">setTimeout</span>(() => { tw.<span class="prop">resume</span>(); }, 1000);</div>
+				<p>
+					We start an animation, pause it after half a second had passed, then resume it after another half a second.
+				</p>
+
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>setText</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					You can think of this like a setter (as they are called in <abbr title="Object-Oriented Programming">OOP</abbr>),
+					where you can set the animation text, and it works just as good in real time, while the animation is running.
+				</p>
+
+				<p>
+					Only a single argument is passed in this one, that is the text you want to set, simple enough.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>setText(text = this.target.textContent)</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>text</code></td>
+						<td>string</td>
+						<td>The target's text</td>
+						<td>The text you want to be output with the animation</td>
+					</tr>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">setText</span>(<span class="value">'Lorem ipsum dolor sit amet.'</span>);</div>
+				<p>
+					We've instanciated a typewriter object, but without specifying the output text, that by default will have the text
+					be the target's text content, then, we used the <code>setText</code> function in order to change that to <i>Lorem
+						ipsum dolor sit amet.</i>
+				</p>
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>setCursor</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					Used to change the typewriter object's cursor, calling this with no parameters will toggle the cursor while
+					calling it with the parameters, that makes for two, gives more control over the animation's cursor. the argument
+					has to be an object with two properties for this to work properly.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>setCursor({activated = !this.cursor.activated, type = 1})</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>activated</code></td>
+						<td>boolean</td>
+						<td>The opposite of whatever value is currently set</td>
+						<td>Whether or not to use a cursor effect</td>
+					</tr>
+
+					<tr>
+						<td><code>type</code></td>
+						<td>integer</td>
+						<td>1</td>
+						<td>The type of the cursor to use, there are only two available “<b>_</b>” and “<b>|</b>”, that's 1 and 2
+							respectively, anything other than those will have the type be set to 1 nevertheless</td>
+					</tr>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">setCursor</span>({
+					<span class="prop">activated</span>: <span class="value">true</span>,
+					<span class="prop">type</span>: 2
+					});</div>
+				<p>
+					That will toggle the cursor on, and set the type to 2, “<b>|</b>”.
+				</p>
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>setAudio</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					Used to toggle the typing sound effect on and off, works in real time too, it accepts a single argument, that is a
+					boolean of true or false to indicate turning the effect on and off respectively, however, passing no arguments
+					will have the audio be toggled to whatever the opposite value that's currently set.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>setAudio(audio = !this.audio)</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>audio</code></td>
+						<td>boolean</td>
+						<td>The opposite of whatever value is currently set</td>
+						<td>Whether or not to use a typing sound effect to compliment the animation</td>
+					</tr>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">setAudio</span>(<span class="value">true</span>);</div>
+				<p>
+					That instanciates a typewriter object and enables the typing sound effect.
+				</p>
+			</fieldset>
+
+			<fieldset>
+				<legend>
+					<h4>setTime</h4>
+				</legend>
+
+				<h5>Description</h5>
+				<p>
+					Used to change the output per character time, by default, it's 30 milliseconds, but this allows to slow/speed it
+					down anytime, works in real time as well.
+				</p>
+
+				<h5>Syntax</h5>
+				<table border>
+					<caption>
+						<code>setTime(time = 30)</code>
+					</caption>
+
+					<tr>
+						<th>Argument</th>
+						<th>Type</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+
+					<tr>
+						<td><code>time</code></td>
+						<td>integer</td>
+						<td>30</td>
+						<td>The time to wait before outputing another character</td>
+					</tr>
+				</table>
+
+				<h5>Usage</h5>
+				<div class="code"><span class="key">var</span> tw = <span class="key">new</span> <b><span class="prop">TypeWriter</span></b>({
+					<span class="prop">target</span>: document.<span class="prop">getElementById</span>(<span class="value">'someId'</span>)
+					});
+					tw.<span class="prop">setTime</span>(200);</div>
+				<p>
+					That changes the animation output time to 200 milliseconds, which is reasonable enough. Resulting in outputting a
+					character every 200 milliseconds, pretty slow if you asked me.
+				</p>
+			</fieldset>
+		</article>
+
+		<article>
+			<h1>Credits</h1>
+
+			<p>Icon made by <a href="http://www.flaticon.com" target="_blank"><b>Freepik</b></a> from <a href="http://www.flaticon.com"
+				 target="_blank">www.flaticon.com</a>.</p>
+		</article>
+
+	</main>
+
+	<footer>
+		<div class="col">
+			<a href="http://www.github.com/Eoussama" target="_blank">Made by Eoussama</a>
+		</div>
+		<div class="col">
+			<a href="http://www.github.com/Eoussama/typewriterjs" target="_blank">Github Repository</a>
+		</div>
+		<div class="col">
+			<a href="https://github.com/EOussama/typewriterjs/releases" target="_blank">Releases page</a>
+		</div>
+	</footer>
+
+	<script type="text/javascript" src="scripts/typewriter.js"></script>
+	<script type="text/javascript" src="scripts/main.js"></script>
+</body>
+
+</html>
