@@ -57,10 +57,9 @@
 
             const
                 target = document.getElementById('target'),
-                tw = new Typewriter(target, target.textContent, 30);
+                tw = new Typewriter(target, target.textContent, 100);
 
-            tw.clear();
-            tw.type();
+            tw.delete();
         }
         catch (e) {
 

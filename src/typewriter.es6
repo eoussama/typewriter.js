@@ -35,7 +35,7 @@ class Typewriter {
             this.target = target;
             this.script = script;
             this.speed = speed;
-            this.cursor = { index: 0 };
+            this.cursor = { index: this.target.textContent.length };
             this.timer = null;
         }
         catch(e) {
@@ -75,7 +75,42 @@ class Typewriter {
             typewriter.target.textContent += typewriter.script[typewriter.cursor.index];
             
             // Moving the cursor forward.
-            typewriter.cursor.index++
+            typewriter.cursor.index++;
+        }
+    }
+
+
+    /**
+     * Delete the content of the typewriter.
+     */
+    delete(): void {
+
+        if (this.script.length > 0) {
+
+            this.timer = setTimeout(() => {
+    
+                deleteChar(this);
+
+                if (this.cursor.index > 0) {
+    
+                    this.delete();
+                }
+            }, this.speed);
+        }
+
+
+        /**
+         * Types a single character in the typewriter.
+         * 
+         * @param typewriter The typewriter object.
+         */
+        function deleteChar(typewriter: Typewriter): void {
+
+            // Typing a character.
+            typewriter.target.textContent = typewriter.script.substring(0, typewriter.cursor.index - 1);
+            
+            // Moving the cursor forward.
+            typewriter.cursor.index--;
         }
     }
 
@@ -98,7 +133,7 @@ class Typewriter {
     clear(): void {
 
         this.stop();
-        
+
         this.target.textContent = "";
         this.cursor.index = 0;
     }

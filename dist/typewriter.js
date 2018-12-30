@@ -62,7 +62,7 @@ var Typewriter =
                 this.script = script;
                 this.speed = speed;
                 this.cursor = {
-                    index: 0
+                    index: this.target.textContent.length
                 };
                 this.timer = null;
             } catch (e) {
@@ -100,6 +100,38 @@ var Typewriter =
                     typewriter.target.textContent += typewriter.script[typewriter.cursor.index]; // Moving the cursor forward.
 
                     typewriter.cursor.index++;
+                }
+            }
+            /**
+             * Delete the content of the typewriter.
+             */
+
+        }, {
+            key: "delete",
+            value: function _delete() {
+                var _this2 = this;
+
+                if (this.script.length > 0) {
+                    this.timer = setTimeout(function() {
+                        deleteChar(_this2);
+
+                        if (_this2.cursor.index > 0) {
+                            _this2.delete();
+                        }
+                    }, this.speed);
+                }
+                /**
+                 * Types a single character in the typewriter.
+                 * 
+                 * @param typewriter The typewriter object.
+                 */
+
+
+                function deleteChar(typewriter) {
+                    // Typing a character.
+                    typewriter.target.textContent = typewriter.script.substring(0, typewriter.cursor.index - 1); // Moving the cursor forward.
+
+                    typewriter.cursor.index--;
                 }
             }
             /**
