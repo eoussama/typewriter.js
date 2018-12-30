@@ -1,7 +1,7 @@
 <p align="center">
     <a href="http://eoussama.github.io/typewriterjs"><img src="docs/assets/img/logo.svg" alt="Logo" width="200px"><a>
     <h1 align="center">TypeWriterJS</h1>
-	<h5 align="center">Version 3.2.2</h5>
+	<h5 align="center">Version 4.0.0</h5>
     <p align="center">A Javascript library for applying old typewriter text animations</p>
 </p>
 <hr>
