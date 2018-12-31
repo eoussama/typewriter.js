@@ -51,7 +51,7 @@ class Typewriter {
      * 
      * @param index The column where the cursor should move to.
      */
-    moveCursor(index: number = this.cursor.index): void {
+    moveCursor(index: number = this.cursor.index + 1): void {
 
         if (index < 0) {
 
@@ -72,20 +72,25 @@ class Typewriter {
      */
     type(params: Object = {}): void {
 
-        const script: string = params.script || '';
+        const 
+            script: string = params.script || '',
+            endCallback = params.endCallback || function() {},
+            charCallback = params.charCallback || function(index: number, char: string) {};
 
         let
             start: number = params.start || 0,
-            index: number = params.index || 0,
+            index: number = params.index || start,
             length: number = params.length || script.length;
 
         // Checking if start is outbound.
         if (start < 0) {
 
             start = 0;
+            index = start;
         } else if (start > this.target.textContent.length) {
 
             start = this.target.textContent.length;
+            index = start;
         }
 
         // Checking if length is outbound.
@@ -96,22 +101,27 @@ class Typewriter {
 
             length = script.length;
         }
-
+        
         if (script.length > 0) {
 
             this.timer = setTimeout(() => {
 
                 // Moving the cursor to the correct column.
-                this.moveCursor(index);
+                this.moveCursor(index);            
 
                 // Inserting a character.
                 const targetContent: string = this.target.textContent;
 
-                this.target.textContent = targetContent.slice(0, start + index) + script[index] + targetContent.slice(start + index);
+                this.target.textContent = targetContent.slice(0, index) + script[index - start] + targetContent.slice(index);
+                
+                charCallback(this.cursor.index, script[index - start]);
+                
+                if (index - start < length - 1) {
 
-                if (this.cursor.index < length - 1) {
+                    this.type({ script: script, start: start, index: index + 1, length, length, endCallback: endCallback, charCallback: charCallback });
+                } else {
 
-                    this.type({ script: script, start: start, index: index + 1, length, length });
+                    endCallback();
                 }
             }, this.speed);
         }
@@ -128,27 +138,32 @@ class Typewriter {
         let
             start: number = params.start || this.target.textContent.length,
             index: number = params.index || start,
-            length: number = params.length || start;
+            length: number = params.length || start,
+            endCallback = params.endCallback || function() {},
+            charCallback = params.charCallback || function(index: number, char: string) {};
 
         // Checking if start is outbound.
         if (start < 0) {
 
             start = 0;
+            index = start;
         } else if (start > this.target.textContent.length) {
 
             start = this.target.textContent.length;
+            index = start;
         }
 
         // Checking if length is outbound.
-        if (length < 0) {
+        if (length <= 0) {
 
             length = 0;
         } else if (length > this.target.textContent.length) {
 
             length = this.target.textContent.length;
+        } else if (length > start) {
+
+            length = start;
         }
-        
-        console.log(start, length, index);
         
         if (this.target.textContent.length > 0) {
             
@@ -162,9 +177,14 @@ class Typewriter {
 
                 this.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
 
+                charCallback(this.cursor.index, targetContent[this.cursor.index]);
+
                 if (start - length < index - 1) {
 
-                    this.delete({ start: start, length: length, index: index - 1 });
+                    this.delete({ start: start, length: length, index: index - 1, endCallback: endCallback, charCallback: charCallback });
+                } else {
+
+                    endCallback();
                 }
             }, this.speed);
         }

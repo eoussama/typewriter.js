@@ -93,7 +93,7 @@ var Typewriter =
         _createClass(Typewriter, [{
             key: "moveCursor",
             value: function moveCursor() {
-                var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.cursor.index;
+                var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.cursor.index + 1;
 
                 if (index < 0) {
                     index = 0;
@@ -115,15 +115,21 @@ var Typewriter =
                 var _this = this;
 
                 var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                var script = params.script || '';
+
+                var script = params.script || '',
+                    endCallback = params.endCallback || function() {},
+                    charCallback = params.charCallback || function(index, char) {};
+
                 var start = params.start || 0,
-                    index = params.index || 0,
+                    index = params.index || start,
                     length = params.length || script.length; // Checking if start is outbound.
 
                 if (start < 0) {
                     start = 0;
+                    index = start;
                 } else if (start > this.target.textContent.length) {
                     start = this.target.textContent.length;
+                    index = start;
                 } // Checking if length is outbound.
 
 
@@ -140,15 +146,20 @@ var Typewriter =
 
 
                         var targetContent = _this.target.textContent;
-                        _this.target.textContent = targetContent.slice(0, start + index) + script[index] + targetContent.slice(start + index);
+                        _this.target.textContent = targetContent.slice(0, index) + script[index - start] + targetContent.slice(index);
+                        charCallback(_this.cursor.index, script[index - start]);
 
-                        if (_this.cursor.index < length - 1) {
-                            _this.type(_defineProperty({
+                        if (index - start < length - 1) {
+                            var _this$type;
+
+                            _this.type((_this$type = {
                                 script: script,
                                 start: start,
                                 index: index + 1,
                                 length: length
-                            }, "length", length));
+                            }, _defineProperty(_this$type, "length", length), _defineProperty(_this$type, "endCallback", endCallback), _defineProperty(_this$type, "charCallback", charCallback), _this$type));
+                        } else {
+                            endCallback();
                         }
                     }, this.speed);
                 }
@@ -165,24 +176,30 @@ var Typewriter =
                 var _this2 = this;
 
                 var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
                 var start = params.start || this.target.textContent.length,
                     index = params.index || start,
-                    length = params.length || start; // Checking if start is outbound.
+                    length = params.length || start,
+                    endCallback = params.endCallback || function() {},
+                    charCallback = params.charCallback || function(index, char) {}; // Checking if start is outbound.
+
 
                 if (start < 0) {
                     start = 0;
+                    index = start;
                 } else if (start > this.target.textContent.length) {
                     start = this.target.textContent.length;
+                    index = start;
                 } // Checking if length is outbound.
 
 
-                if (length < 0) {
+                if (length <= 0) {
                     length = 0;
                 } else if (length > this.target.textContent.length) {
                     length = this.target.textContent.length;
+                } else if (length > start) {
+                    length = start;
                 }
-
-                console.log(start, length, index);
 
                 if (this.target.textContent.length > 0) {
                     this.timer = setTimeout(function() {
@@ -192,13 +209,18 @@ var Typewriter =
 
                         var targetContent = _this2.target.textContent;
                         _this2.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
+                        charCallback(_this2.cursor.index, targetContent[_this2.cursor.index]);
 
                         if (start - length < index - 1) {
                             _this2.delete({
                                 start: start,
                                 length: length,
-                                index: index - 1
+                                index: index - 1,
+                                endCallback: endCallback,
+                                charCallback: charCallback
                             });
+                        } else {
+                            endCallback();
                         }
                     }, this.speed);
                 }

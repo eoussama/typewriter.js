@@ -60,9 +60,17 @@
                     speed: 500
                 });
 
-            tw.delete({
+            tw.type({
+                script: '_Oussama_',
                 start: 5,
-                length: 3
+                charCallback: (i, c) => {
+
+                    console.log(i, c);
+                },
+                endCallback: () => {
+
+                    console.log('typed');
+                }
             });
         }
         catch (e) {
