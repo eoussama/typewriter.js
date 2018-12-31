@@ -148,6 +148,8 @@ class Typewriter {
             length = this.target.textContent.length;
         }
         
+        console.log(start, length, index);
+        
         if (this.target.textContent.length > 0) {
             
             this.timer = setTimeout(() => {
@@ -158,9 +160,9 @@ class Typewriter {
                 // Deleting a character.
                 const targetContent: string = this.target.textContent;
 
-                this.target.textContent = targetContent;
+                this.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
 
-                if (this.cursor.index > 0 ) {
+                if (start - length < index - 1) {
 
                     this.delete({ start: start, length: length, index: index - 1 });
                 }

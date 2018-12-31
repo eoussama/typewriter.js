@@ -26,7 +26,6 @@
     <link rel="icon" type="image/png" href="../../docs/assets/img/favicon.png">
 
     <style>
-
         * {
             font-family: Arial, Helvetica, sans-serif;
         }
@@ -34,7 +33,6 @@
         main {
             padding: 20px 40px;
         }
-
     </style>
 
     <title>TypeWriterJS testing</title>
@@ -45,7 +43,9 @@
         <h1>TypeWriterJS testing</h1>
         <hr>
 
-        <p id="target">Oussama</p>
+        <p id="target">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti nisi, laboriosam enim
+            nulla consequatur saepe, nihil debitis, sint quod voluptates ut quia laborum! Nisi voluptates rem at velit
+            molestiae.</p>
     </main>
 
     <script src="../../dist/typewriter.min.js"></script>
@@ -57,11 +57,12 @@
                 targetElement = document.getElementById('target'),
                 tw = new Typewriter({
                     target: targetElement,
-                    speed: 600
+                    speed: 500
                 });
 
             tw.delete({
-                
+                start: 5,
+                length: 3
             });
         }
         catch (e) {

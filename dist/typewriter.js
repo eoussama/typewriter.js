@@ -182,6 +182,8 @@ var Typewriter =
                     length = this.target.textContent.length;
                 }
 
+                console.log(start, length, index);
+
                 if (this.target.textContent.length > 0) {
                     this.timer = setTimeout(function() {
                         // Moving the cursor to the correct column.
@@ -189,9 +191,9 @@ var Typewriter =
 
 
                         var targetContent = _this2.target.textContent;
-                        _this2.target.textContent = targetContent;
+                        _this2.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
 
-                        if (_this2.cursor.index > 0) {
+                        if (start - length < index - 1) {
                             _this2.delete({
                                 start: start,
                                 length: length,
