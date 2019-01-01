@@ -33,6 +33,24 @@
         main {
             padding: 20px 40px;
         }
+
+        #target span.cursor::after {
+            animation-duration: .5s;
+            animation-iteration-count: infinite;
+            animation-name: cursorAnimation;
+            animation-timing-function: linear;
+            animation-direction: alternate-reverse;
+            content: '|';
+        }
+
+        @keyframes cursorAnimation {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
     </style>
 
     <title>TypeWriterJS testing</title>
@@ -43,7 +61,7 @@
         <h1>TypeWriterJS testing</h1>
         <hr>
 
-        <p id="target">Some content here.</p>
+        <p id="target">Some c<span class="cursor">o</span>ntent here.</p>
     </main>
 
     <script src="../../dist/typewriter.min.js"></script>
@@ -55,18 +73,10 @@
                 targetElement = document.getElementById('target'),
                 tw = new Typewriter({
                     target: targetElement,
-                    speed: 300
+                    speed: 100
                 });
 
-            tw.delete({
-                start: 6,
-                charCallback: (i, c) => {
-
-                    if (c === 'm') {
-                        tw.stop();
-                    }
-                }
-            });
+            //tw.delete();
         }
         catch (e) {
 
