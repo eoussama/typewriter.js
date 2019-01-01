@@ -10,6 +10,8 @@
  * 
  */
 
+// @flow
+
 
 /**
  * The typewriter classes.
