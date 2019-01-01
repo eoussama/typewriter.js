@@ -76,6 +76,7 @@ var Typewriter =
                 this.target = params.target;
                 this.speed = params.speed || 1500;
                 this.timer = null;
+                this.state = 0;
                 this.cursor = {
                     index: this.target.textContent.length
                 };
@@ -139,6 +140,8 @@ var Typewriter =
                     length = script.length;
                 }
 
+                this.state = 1;
+
                 if (script.length > 0) {
                     this.timer = setTimeout(function() {
                         // Moving the cursor to the correct column.
@@ -149,7 +152,7 @@ var Typewriter =
                         _this.target.textContent = targetContent.slice(0, index) + script[index - start] + targetContent.slice(index);
                         charCallback(_this.cursor.index, script[index - start]);
 
-                        if (index - start < length - 1) {
+                        if (index - start < length - 1 && _this.state === 1) {
                             var _this$type;
 
                             _this.type((_this$type = {
@@ -201,6 +204,8 @@ var Typewriter =
                     length = start;
                 }
 
+                this.state = 2;
+
                 if (this.target.textContent.length > 0) {
                     this.timer = setTimeout(function() {
                         // Moving the cursor to the correct column.
@@ -211,7 +216,7 @@ var Typewriter =
                         _this2.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
                         charCallback(_this2.cursor.index, targetContent[_this2.cursor.index]);
 
-                        if (start - length < index - 1) {
+                        if (start - length < index - 1 && _this2.state === 2) {
                             _this2.delete({
                                 start: start,
                                 length: length,
@@ -233,6 +238,9 @@ var Typewriter =
             key: "stop",
             value: function stop() {
                 if (this.timer !== null) {
+                    // Resetting the state.
+                    this.state = 0; // Clearing the timer.
+
                     clearTimeout(this.timer);
                 }
             }

@@ -43,9 +43,7 @@
         <h1>TypeWriterJS testing</h1>
         <hr>
 
-        <p id="target">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti nisi, laboriosam enim
-            nulla consequatur saepe, nihil debitis, sint quod voluptates ut quia laborum! Nisi voluptates rem at velit
-            molestiae.</p>
+        <p id="target">Some content here.</p>
     </main>
 
     <script src="../../dist/typewriter.min.js"></script>
@@ -57,19 +55,16 @@
                 targetElement = document.getElementById('target'),
                 tw = new Typewriter({
                     target: targetElement,
-                    speed: 500
+                    speed: 300
                 });
 
-            tw.type({
-                script: '_Oussama_',
-                start: 5,
+            tw.delete({
+                start: 6,
                 charCallback: (i, c) => {
 
-                    console.log(i, c);
-                },
-                endCallback: () => {
-
-                    console.log('typed');
+                    if (c === 'm') {
+                        tw.stop();
+                    }
                 }
             });
         }

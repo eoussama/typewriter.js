@@ -37,6 +37,7 @@ class Typewriter {
             this.target = params.target;
             this.speed = params.speed || 1500;
             this.timer = null;
+            this.state = 0;
             this.cursor = { index: this.target.textContent.length };
         }
         catch (e) {
@@ -102,6 +103,8 @@ class Typewriter {
             length = script.length;
         }
         
+        this.state = 1;
+
         if (script.length > 0) {
 
             this.timer = setTimeout(() => {
@@ -116,7 +119,7 @@ class Typewriter {
                 
                 charCallback(this.cursor.index, script[index - start]);
                 
-                if (index - start < length - 1) {
+                if (index - start < length - 1 && this.state === 1) {
 
                     this.type({ script: script, start: start, index: index + 1, length, length, endCallback: endCallback, charCallback: charCallback });
                 } else {
@@ -165,6 +168,8 @@ class Typewriter {
             length = start;
         }
         
+        this.state = 2;
+
         if (this.target.textContent.length > 0) {
             
             this.timer = setTimeout(() => {
@@ -179,7 +184,7 @@ class Typewriter {
 
                 charCallback(this.cursor.index, targetContent[this.cursor.index]);
 
-                if (start - length < index - 1) {
+                if (start - length < index - 1 && this.state === 2) {
 
                     this.delete({ start: start, length: length, index: index - 1, endCallback: endCallback, charCallback: charCallback });
                 } else {
@@ -198,6 +203,10 @@ class Typewriter {
 
         if (this.timer !== null) {
 
+            // Resetting the state.
+            this.state = 0;
+
+            // Clearing the timer.
             clearTimeout(this.timer);
         }
     }
