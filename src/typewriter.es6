@@ -10,7 +10,54 @@
  * 
  */
 
+
 // @flow
+
+
+/**
+ * Injects the CSS styling to the document.
+ */
+const injectStyle = () => {
+
+    // The CSS styling of the typewriters' cursor.
+    const cssStyle: string = `
+        span.typewriter-cursor {
+            position: relative;
+        }
+        
+        span.typewriter-cursor::after {
+            animation-duration: .5s;
+            animation-iteration-count: infinite;
+            animation-name: cursorAnimation;
+            animation-timing-function: linear;
+            animation-direction: alternate-reverse;
+            content: '|';
+            position: absolute;
+            left: -1.5px;
+        }
+
+        @keyframes cursorAnimation {
+            40% {
+                opacity: 1;    
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    `;
+
+    // Creating the HTML style element.
+    const styleElement: HTMLElement = document.createElement('style');
+
+    // Adding a unique id to the HTML style element.
+    styleElement.id = "typewriterjs-style";
+
+    // Appending the styling rules.
+    styleElement.textContent = cssStyle;
+
+    // Appending the HTML style element to the document.
+    document.body.appendChild(styleElement);
+}
 
 
 /**
@@ -41,6 +88,15 @@ class Typewriter {
             this.timer = null;
             this.state = 0;
             this.cursor = { index: this.target.textContent.length };
+
+            this.moveCursor();
+
+            // Injecting the style.
+            if (document.getElementById('typewriterjs-style') == null) {
+
+
+                injectStyle();
+            }
         }
         catch (e) {
 
@@ -54,7 +110,7 @@ class Typewriter {
      * 
      * @param index The column where the cursor should move to.
      */
-    moveCursor(index: number = this.cursor.index + 1): void {
+    moveCursorTo(index: number = this.cursor.index + 1): void {
 
         if (index < 0) {
 
@@ -69,16 +125,30 @@ class Typewriter {
 
 
     /**
+     * Moves the cursor to a specific column (visually).
+     * 
+     * @param index The index where to move the cursor to.
+     */
+    moveCursor(index: number): void {
+
+        const targetContent: string = this.target.textContent;
+        
+        this.moveCursorTo(index);
+        this.target.innerHTML = targetContent.slice(0, this.cursor.index) + '<span class="typewriter-cursor"></span>' + targetContent.slice(this.cursor.index);
+    }
+
+
+    /**
      * Types the content of the typewriter.
      * 
      * @param params The parameters that go with the typing.
      */
     type(params: Object = {}): void {
 
-        const 
+        const
             script: string = params.script || '',
-            endCallback = params.endCallback || function() {},
-            charCallback = params.charCallback || function(index: number, char: string) {};
+            endCallback = params.endCallback || function () { },
+            charCallback = params.charCallback || function (index: number, char: string) { };
 
         let
             start: number = params.start || 0,
@@ -104,7 +174,7 @@ class Typewriter {
 
             length = script.length;
         }
-        
+
         this.state = 1;
 
         if (script.length > 0) {
@@ -112,15 +182,15 @@ class Typewriter {
             this.timer = setTimeout(() => {
 
                 // Moving the cursor to the correct column.
-                this.moveCursor(index);            
+                this.moveCursorTo(index);
 
                 // Inserting a character.
                 const targetContent: string = this.target.textContent;
 
-                this.target.textContent = targetContent.slice(0, index) + script[index - start] + targetContent.slice(index);
-                
+                this.target.innerHTML = targetContent.slice(0, index) + script[index - start] + '<span class="typewriter-cursor"></span>' + targetContent.slice(index);
+
                 charCallback(this.cursor.index, script[index - start]);
-                
+
                 if (index - start < length - 1 && this.state === 1) {
 
                     this.type({ script: script, start: start, index: index + 1, length, length, endCallback: endCallback, charCallback: charCallback });
@@ -144,8 +214,8 @@ class Typewriter {
             start: number = params.start || this.target.textContent.length,
             index: number = params.index || start,
             length: number = params.length || start,
-            endCallback = params.endCallback || function() {},
-            charCallback = params.charCallback || function(index: number, char: string) {};
+            endCallback = params.endCallback || function () { },
+            charCallback = params.charCallback || function (index: number, char: string) { };
 
         // Checking if start is outbound.
         if (start < 0) {
@@ -169,20 +239,20 @@ class Typewriter {
 
             length = start;
         }
-        
+
         this.state = 2;
 
         if (this.target.textContent.length > 0) {
-            
+
             this.timer = setTimeout(() => {
 
                 // Moving the cursor to the correct column.
-                this.moveCursor(index - 1);
+                this.moveCursorTo(index - 1);
 
                 // Deleting a character.
                 const targetContent: string = this.target.textContent;
 
-                this.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
+                this.target.innerHTML = targetContent.slice(0, index - 1) + '<span class="typewriter-cursor"></span>' + targetContent.slice(index);
 
                 charCallback(this.cursor.index, targetContent[this.cursor.index]);
 
@@ -192,6 +262,7 @@ class Typewriter {
                 } else {
 
                     endCallback();
+                    return 13;
                 }
             }, this.speed);
         }

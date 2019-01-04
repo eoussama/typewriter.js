@@ -49,8 +49,25 @@ function _createClass(Constructor, protoProps, staticProps) {
  */
 
 /**
+ * Injects the CSS styling to the document.
+ */
+var injectStyle = function injectStyle() {
+    // The CSS styling of the typewriters' cursor.
+    var cssStyle = "\n        span.typewriter-cursor {\n            position: relative;\n        }\n        \n        span.typewriter-cursor::after {\n            animation-duration: .5s;\n            animation-iteration-count: infinite;\n            animation-name: cursorAnimation;\n            animation-timing-function: linear;\n            animation-direction: alternate-reverse;\n            content: '|';\n            position: absolute;\n            left: -1.5px;\n        }\n\n        @keyframes cursorAnimation {\n            40% {\n                opacity: 1;    \n            }\n            100% {\n                opacity: 0;\n            }\n        }\n    "; // Creating the HTML style element.
+
+    var styleElement = document.createElement('style'); // Adding a unique id to the HTML style element.
+
+    styleElement.id = "typewriterjs-style"; // Appending the styling rules.
+
+    styleElement.textContent = cssStyle; // Appending the HTML style element to the document.
+
+    document.body.appendChild(styleElement);
+};
+/**
  * The typewriter classes.
  */
+
+
 var Typewriter =
     /*#__PURE__*/
     function() {
@@ -80,6 +97,11 @@ var Typewriter =
                 this.cursor = {
                     index: this.target.textContent.length
                 };
+                this.moveCursor(); // Injecting the style.
+
+                if (document.getElementById('typewriterjs-style') == null) {
+                    injectStyle();
+                }
             } catch (e) {
                 throw e;
             }
@@ -92,8 +114,8 @@ var Typewriter =
 
 
         _createClass(Typewriter, [{
-            key: "moveCursor",
-            value: function moveCursor() {
+            key: "moveCursorTo",
+            value: function moveCursorTo() {
                 var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.cursor.index + 1;
 
                 if (index < 0) {
@@ -103,6 +125,19 @@ var Typewriter =
                 }
 
                 this.cursor.index = index;
+            }
+            /**
+             * Moves the cursor to a specific column (visually).
+             * 
+             * @param index The index where to move the cursor to.
+             */
+
+        }, {
+            key: "moveCursor",
+            value: function moveCursor(index) {
+                var targetContent = this.target.textContent;
+                this.moveCursorTo(index);
+                this.target.innerHTML = targetContent.slice(0, this.cursor.index) + '<span class="typewriter-cursor"></span>' + targetContent.slice(this.cursor.index);
             }
             /**
              * Types the content of the typewriter.
@@ -145,11 +180,11 @@ var Typewriter =
                 if (script.length > 0) {
                     this.timer = setTimeout(function() {
                         // Moving the cursor to the correct column.
-                        _this.moveCursor(index); // Inserting a character.
+                        _this.moveCursorTo(index); // Inserting a character.
 
 
                         var targetContent = _this.target.textContent;
-                        _this.target.textContent = targetContent.slice(0, index) + script[index - start] + targetContent.slice(index);
+                        _this.target.innerHTML = targetContent.slice(0, index) + script[index - start] + '<span class="typewriter-cursor"></span>' + targetContent.slice(index);
                         charCallback(_this.cursor.index, script[index - start]);
 
                         if (index - start < length - 1 && _this.state === 1) {
@@ -209,11 +244,11 @@ var Typewriter =
                 if (this.target.textContent.length > 0) {
                     this.timer = setTimeout(function() {
                         // Moving the cursor to the correct column.
-                        _this2.moveCursor(index - 1); // Deleting a character.
+                        _this2.moveCursorTo(index - 1); // Deleting a character.
 
 
                         var targetContent = _this2.target.textContent;
-                        _this2.target.textContent = targetContent.slice(0, index - 1) + targetContent.slice(index);
+                        _this2.target.innerHTML = targetContent.slice(0, index - 1) + '<span class="typewriter-cursor"></span>' + targetContent.slice(index);
                         charCallback(_this2.cursor.index, targetContent[_this2.cursor.index]);
 
                         if (start - length < index - 1 && _this2.state === 2) {
@@ -226,6 +261,7 @@ var Typewriter =
                             });
                         } else {
                             endCallback();
+                            return 13;
                         }
                     }, this.speed);
                 }
