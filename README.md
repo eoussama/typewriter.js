@@ -1,9 +1,15 @@
 <p align="center">
     <a href="http://eoussama.github.io/typewriterjs"><img src="docs/assets/img/logo.svg" alt="Logo" width="200px"><a>
     <h1 align="center">TypeWriterJS</h1>
-    <h5 align="center">Version 4.0.0</h5>
     <p align="center">A Javascript library for typewriter animations</p>
+    <p align="center">
+        <img src="https://img.shields.io/github/release/EOussama/typewriterjs.svg">
+        <img src="https://img.shields.io/github/downloads/EOussama/typewriterjs/latest/total.svg">
+        <img src="https://img.shields.io/github/languages/code-size/EOussama/typewriterjs.svg">
+        <img src="https://img.shields.io/github/license/EOussama/typewriterjs.svg">
+    </p>
 </p>
+
 <hr>
 
 ## Navigation
