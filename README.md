@@ -76,7 +76,7 @@ This constructor is used to instantiate typewriter objects that are responsible 
 
 After instantiating a typewriter object, we can use all sort of method to control and customize the animation, here's a list of available methods.
 
-* rtpe
+* type
 * delete
 * stop
 * clear
