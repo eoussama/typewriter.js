@@ -20,7 +20,7 @@ TypewriterJS offers an easy and hackable way of producing and maintaining typewr
 ## Installation
 #### npm
 ```bash
-npm install typewriterjs
+npm install eo-typewriterjs
 ```
 
 #### bower
@@ -30,7 +30,7 @@ bower install eo-typewriterjs
 
 #### yarn
 ```bash
-yarn add typewriterjs
+yarn add eo-typewriterjs
 ```
 
 #### cdn
