@@ -25,7 +25,7 @@ npm install typewriterjs
 
 #### bower
 ```bash
-bower install typewriterjs
+bower install eo-typewriterjs
 ```
 
 #### yarn

@@ -1,5 +1,5 @@
 {
-  "name": "typewriterjs",
+  "name": "eo-typewriterjs",
   "description": "A typewriter for the web.",
   "main": "./src/typewriter.js",
   "authors": [
