@@ -10,7 +10,7 @@
 	"scripts": {
 		"clean": "rm -rf dist",
 		"build": "npx gulp",
-		"docs": "rm -rf \"docs/assets/js/lib\" && mkdir \"docs/assets/js/lib\" && cp \"./dist/typewriter.js\" \"./docs/assets/js/lib/\"",
+		"docs": "rm -rf \"docs/assets/js/lib\" && mkdir \"docs/assets/js/lib\" && cp \"./dist/typewriter.min.js\" \"./docs/assets/js/lib/\"",
 		"prod": "npm run clean && npm run build && npm run docs",
 		"dev": "npx gulp build:watch",
 		"test": "npx jest"
