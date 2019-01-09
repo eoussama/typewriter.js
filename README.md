@@ -41,7 +41,7 @@ yarn add eo-typewriterjs
 
 #### cdn
 ```bash
-// cdn here.
+https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 ```
 
 #### manual
