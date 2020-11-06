@@ -47,6 +47,8 @@ class Typewriter {
 			this.cursor = Object.assign({ index: 0, type: 'stick', blink: true }, { ...config.cursor });
 
 			this.typeResolve;
+			this.deleteResolve;
+
 			this.timer;
 			this.cache = {};
 		}
@@ -81,7 +83,7 @@ class Typewriter {
 			this.typing = true;
 
 			// Recursive typing
-			const recType = (text, tick = 0) => {
+			const recType = (text, tick = config.delay || 0) => {
 
 				// Checking if the text is finished
 				if (text.length > 0 && this.typing) {
@@ -105,6 +107,7 @@ class Typewriter {
 					// Updating the typing state
 					this.typing = false;
 
+					// Clearing timeout
 					clearTimeout(this.timer);
 
 					// Resolving the typing
@@ -129,8 +132,14 @@ class Typewriter {
 			// Clearing the timeout
 			clearTimeout(this.timer);
 
-			// Resolving the typing promise
-			this.typeResolve(this);
+			// Resolving the promises
+			if (this.typeResolve) {
+				this.typeResolve(this);
+			}
+
+			if (this.deleteResolve) {
+				this.deleteResolve(this);
+			}
 
 			// Resolving the typing
 			resolve(this);
@@ -139,15 +148,76 @@ class Typewriter {
 
 	/**
 	 * Resumes typing
-	 * @param delay The delay until resuming typing
+	 * @param config The config object
 	 */
-	resume(delay = 0) {
+	resume(config = {}) {
 
 		// Extracting params
-		const { text, ...config } = this.cache;
+		const { text, chars, ...conf } = this.cache;
 
 		// Resuming typing
-		return this.type(text, config);;
+		return text
+			? this.type(text, Object.assign({ ...conf }, { ...config }))
+			: this.delete(chars, Object.assign({ ...conf }, { ...config }));
+	}
+
+	/**
+	 * Deletes a character or more
+	 * @param chars The characters to delete
+	 * @param config The config object
+	 */
+	delete(chars = 1, config = {}) {
+
+		// Caching the typing state
+		this.cache = {
+			...config,
+			chars
+		};
+
+		return new Promise(resolve => {
+
+			// Attaching the delete resolve function
+			this.deleteResolve = resolve;
+
+			// Updating the typing state
+			this.typing = true;
+
+			// Recursive delete
+			const recDelete = (chars, tick = config.delay || 0) => {
+
+				// Checking if deleting is finished
+				if (chars > 0 && this.typing) {
+					this.timer = setTimeout(() => {
+
+						// Typing a character
+						this.target.textContent = this.target.textContent.slice(0, this.target.textContent.length - 1);
+
+						// Caching the deletion state
+						this.cache = {
+							...config,
+							tick,
+							chars: chars - 1,
+						};
+
+						// Invoking the recursion
+						recDelete(chars - 1, config.tick || this.tick);
+					}, tick);
+				} else {
+
+					// Updating the typing state
+					this.typing = false;
+
+					// Clearing timeout
+					clearTimeout(this.timer);
+
+					// Resolving the typing
+					resolve(this);
+				}
+			}
+
+			// Starting the recursion
+			recDelete(chars);
+		});
 	}
 
 	//#endregion

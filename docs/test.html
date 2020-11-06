@@ -17,18 +17,13 @@
   <script src="./../dist/typewriter.js"></script>
   <script>
     var typewriter = new Typewriter('#target');
-    typewriter.type('Oussama').then(e => {
-      console.log('ended');
-      // e.type(' baba');
-    });
+
+    typewriter.type('Oussama Essamadi', { tick: 100 });
 
     setTimeout(() => {
-      typewriter.stop();
-      console.log('stop');
-      setTimeout(() => {
-        typewriter.resume().then(e => console.log('finished!!!'));
-      }, 1000);
-    }, 1000);
+      typewriter
+        .stop().then(e => e.resume({ delay: 1000 }));
+    }, 500);
   </script>
 </body>
 
