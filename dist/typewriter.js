@@ -38,7 +38,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /**
  * 
- * @name:       typewriterjs
+ * @name:       typewriterjsgit status
  * @version:    5.0.0
  * @author:     EOussama
  * @license     MIT
