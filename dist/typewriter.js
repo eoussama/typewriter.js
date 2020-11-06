@@ -1,5 +1,34 @@
 "use strict";
 
+function _objectWithoutProperties(source, excluded) {
+    if (source == null) return {};
+    var target = _objectWithoutPropertiesLoose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for (i = 0; i < sourceSymbolKeys.length; i++) {
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
+
 function _objectSpread(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
@@ -102,6 +131,7 @@ var Typewriter =
                 }, _objectSpread({}, config.cursor));
                 this.typeResolve;
                 this.timer;
+                this.cache = {};
             } catch (e) {
                 throw e;
             }
@@ -122,6 +152,10 @@ var Typewriter =
 
                 var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
                 var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                // Caching the typing state
+                this.cache = _objectSpread({}, config, {
+                    text: text
+                });
                 return new Promise(function(resolve) {
                     // Attaching the type resolve function
                     _this.typeResolve = resolve; // Updating the typing state
@@ -135,7 +169,12 @@ var Typewriter =
                         if (text.length > 0 && _this.typing) {
                             _this.timer = setTimeout(function() {
                                 // Typing a character
-                                _this.target.textContent += text[0]; // Invoking the recursion
+                                _this.target.textContent += text[0]; // Caching the typing state
+
+                                _this.cache = _objectSpread({}, config, {
+                                    tick: tick,
+                                    text: text.slice(1)
+                                }); // Invoking the recursion
 
                                 recType(text.slice(1), config.tick || _this.tick);
                             }, tick);
@@ -172,6 +211,24 @@ var Typewriter =
 
                     resolve(_this2);
                 });
+            }
+            /**
+             * Resumes typing
+             * @param delay The delay until resuming typing
+             */
+
+        }, {
+            key: "resume",
+            value: function resume() {
+                var delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+                // Extracting params
+                var _this$cache = this.cache,
+                    text = _this$cache.text,
+                    config = _objectWithoutProperties(_this$cache, ["text"]); // Resuming typing
+
+
+                return this.type(text, config);;
             } //#endregion
 
         }]);

@@ -19,12 +19,15 @@
     var typewriter = new Typewriter('#target');
     typewriter.type('Oussama').then(e => {
       console.log('ended');
-      e.type(' baba')
+      // e.type(' baba');
     });
 
     setTimeout(() => {
       typewriter.stop();
       console.log('stop');
+      setTimeout(() => {
+        typewriter.resume().then(e => console.log('finished!!!'));
+      }, 1000);
     }, 1000);
   </script>
 </body>

@@ -48,6 +48,7 @@ class Typewriter {
 
 			this.typeResolve;
 			this.timer;
+			this.cache = {};
 		}
 		catch (e) {
 			throw e;
@@ -64,6 +65,13 @@ class Typewriter {
 	 * @param config The config object
 	 */
 	type(text = '', config = {}) {
+
+		// Caching the typing state
+		this.cache = {
+			...config,
+			text,
+		};
+
 		return new Promise(resolve => {
 
 			// Attaching the type resolve function
@@ -81,6 +89,13 @@ class Typewriter {
 
 						// Typing a character
 						this.target.textContent += text[0];
+
+						// Caching the typing state
+						this.cache = {
+							...config,
+							tick,
+							text: text.slice(1),
+						};
 
 						// Invoking the recursion
 						recType(text.slice(1), config.tick || this.tick);
@@ -120,6 +135,19 @@ class Typewriter {
 			// Resolving the typing
 			resolve(this);
 		})
+	}
+
+	/**
+	 * Resumes typing
+	 * @param delay The delay until resuming typing
+	 */
+	resume(delay = 0) {
+
+		// Extracting params
+		const { text, ...config } = this.cache;
+
+		// Resuming typing
+		return this.type(text, config);;
 	}
 
 	//#endregion
