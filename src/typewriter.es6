@@ -220,5 +220,26 @@ class Typewriter {
 		});
 	}
 
+	/**
+	 * Clears the entire script
+	 */
+	clear(config = {}) {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				this.stop().then(() => {
+
+					// Clearing the text
+					this.target.textContent = '';
+
+					// Resetting the cursor index
+					this.cursor.index = 0;
+
+					// Resolving
+					resolve(this);
+				});
+			}, config.delay || 0);
+		})
+	}
+
 	//#endregion
 }

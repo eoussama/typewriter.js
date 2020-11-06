@@ -291,6 +291,29 @@ var Typewriter =
 
                     recDelete(chars);
                 });
+            }
+            /**
+             * Clears the entire script
+             */
+
+        }, {
+            key: "clear",
+            value: function clear() {
+                var _this4 = this;
+
+                var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        _this4.stop().then(function() {
+                            // Clearing the text
+                            _this4.target.textContent = ''; // Resetting the cursor index
+
+                            _this4.cursor.index = 0; // Resolving
+
+                            resolve(_this4);
+                        });
+                    }, config.delay || 0);
+                });
             } //#endregion
 
         }]);
