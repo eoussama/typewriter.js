@@ -16,8 +16,16 @@
   </div>
   <script src="./../dist/typewriter.js"></script>
   <script>
-    var typewriter = new Typewriter('#target', { tick: 300 });
-    typewriter.type('test');
+    var typewriter = new Typewriter('#target');
+    typewriter.type('Oussama').then(e => {
+      console.log('ended');
+      e.type(' baba')
+    });
+
+    setTimeout(() => {
+      typewriter.stop();
+      console.log('stop');
+    }, 1000);
   </script>
 </body>
 

@@ -43,10 +43,13 @@ class Typewriter {
 			this.target = target;
 			this.text = config.text || target.textContent;
 			this.tick = config.tick || 300;
+			this.typing = false;
 			this.cursor = Object.assign({ index: 0, type: 'stick', blink: true }, { ...config.cursor });
+
+			this.typeResolve;
+			this.timer;
 		}
 		catch (e) {
-
 			throw e;
 		}
 	}
@@ -61,14 +64,20 @@ class Typewriter {
 	 * @param config The config object
 	 */
 	type(text = '', config = {}) {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
+
+			// Attaching the type resolve function
+			this.typeResolve = resolve;
+
+			// Updating the typing state
+			this.typing = true;
 
 			// Recursive typing
 			const recType = (text, tick = 0) => {
 
 				// Checking if the text is finished
-				if (text.length > 0) {
-					setTimeout(() => {
+				if (text.length > 0 && this.typing) {
+					this.timer = setTimeout(() => {
 
 						// Typing a character
 						this.target.textContent += text[0];
@@ -78,6 +87,11 @@ class Typewriter {
 					}, tick);
 				} else {
 
+					// Updating the typing state
+					this.typing = false;
+
+					clearTimeout(this.timer);
+
 					// Resolving the typing
 					resolve(this);
 				}
@@ -86,6 +100,26 @@ class Typewriter {
 			// Starting the recursion
 			recType(text);
 		});
+	}
+
+	/**
+	 * Stops the typewriter
+	 */
+	stop() {
+		return new Promise(resolve => {
+
+			// Updating the typing state
+			this.typing = false;
+
+			// Clearing the timeout
+			clearTimeout(this.timer);
+
+			// Resolving the typing promise
+			this.typeResolve(this);
+
+			// Resolving the typing
+			resolve(this);
+		})
 	}
 
 	//#endregion

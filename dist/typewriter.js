@@ -94,11 +94,14 @@ var Typewriter =
                 this.target = target;
                 this.text = config.text || target.textContent;
                 this.tick = config.tick || 300;
+                this.typing = false;
                 this.cursor = Object.assign({
                     index: 0,
                     type: 'stick',
                     blink: true
                 }, _objectSpread({}, config.cursor));
+                this.typeResolve;
+                this.timer;
             } catch (e) {
                 throw e;
             }
@@ -120,26 +123,54 @@ var Typewriter =
                 var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
                 var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
                 return new Promise(function(resolve) {
-                    // Recursive typing
+                    // Attaching the type resolve function
+                    _this.typeResolve = resolve; // Updating the typing state
+
+                    _this.typing = true; // Recursive typing
+
                     var recType = function recType(text) {
                         var tick = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
                         // Checking if the text is finished
-                        if (text.length > 0) {
-                            setTimeout(function() {
+                        if (text.length > 0 && _this.typing) {
+                            _this.timer = setTimeout(function() {
                                 // Typing a character
                                 _this.target.textContent += text[0]; // Invoking the recursion
 
                                 recType(text.slice(1), config.tick || _this.tick);
                             }, tick);
                         } else {
-                            // Resolving the typing
+                            // Updating the typing state
+                            _this.typing = false;
+                            clearTimeout(_this.timer); // Resolving the typing
+
                             resolve(_this);
                         }
                     }; // Starting the recursion
 
 
                     recType(text);
+                });
+            }
+            /**
+             * Stops the typewriter
+             */
+
+        }, {
+            key: "stop",
+            value: function stop() {
+                var _this2 = this;
+
+                return new Promise(function(resolve) {
+                    // Updating the typing state
+                    _this2.typing = false; // Clearing the timeout
+
+                    clearTimeout(_this2.timer); // Resolving the typing promise
+
+                    _this2.typeResolve(_this2); // Resolving the typing
+
+
+                    resolve(_this2);
                 });
             } //#endregion
 
