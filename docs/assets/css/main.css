@@ -1,7 +1,7 @@
 /**
  * 
  * @name:       typewriterjs
- * @version:    4.0.0
+ * @version:    5.0.0
  * @author:     EOussama
  * @license     MIT
  * @source:     https://github.com/EOussama/typewriterjs
@@ -9,11 +9,14 @@
  * A typewriter for the web.
  * 
  */
- 
 
-:root { --primaryColor: #1b1d22; }
+:root {
+	--primaryColor: #1b1d22;
+}
 
-::selection { background-color: #f5f5f5; }
+::selection {
+	background-color: #f5f5f5;
+}
 
 * {
 	color: var(--primaryColor);
@@ -22,7 +25,9 @@
 	padding: 0px;
 }
 
-body { overflow: hidden; }
+body {
+	overflow: hidden;
+}
 
 a {
 	color: #207fff;
@@ -32,7 +37,7 @@ a {
 }
 
 a:hover {
-	color: #71adff
+	color: #71adff;
 }
 
 ol {
@@ -62,7 +67,7 @@ header h1 {
 header img {
 	animation-name: imgFade;
 	animation-duration: 1s;
-	filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, .3));
+	filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.3));
 	margin-top: 0px;
 	transition-delay: 0.5s;
 	transition-duration: 0.5s;
@@ -75,7 +80,7 @@ header img {
 		margin-top: -50px;
 		opacity: 0;
 	}
-	
+
 	to {
 		margin-top: 0px;
 		opacity: 1;
@@ -99,7 +104,12 @@ article {
 	margin-bottom: 60px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	margin-bottom: 0.6em;
 }
 
@@ -121,11 +131,12 @@ fieldset {
 /* #region Table */
 table {
 	border-collapse: collapse;
-	margin: auto;	
+	margin: auto;
 	margin-bottom: 20px;
 }
 
-table td, table th {
+table td,
+table th {
 	padding: 10px;
 }
 
@@ -139,7 +150,7 @@ footer {
 	align-items: center;
 	background-color: var(--primaryColor);
 	display: flex;
-	height: 100px;	
+	height: 100px;
 	overflow: hidden;
 	width: 100%;
 }

@@ -1,7 +1,7 @@
 /**
  * 
  * @name:       typewriterjs
- * @version:    4.0.0
+ * @version:    5.0.0
  * @author:     EOussama
  * @license     MIT
  * @source:     https://github.com/EOussama/typewriterjs
@@ -132,7 +132,7 @@ class Typewriter {
     moveCursor(index: number): void {
 
         const targetContent: string = this.target.textContent;
-        
+
         this.moveCursorTo(index);
         this.target.innerHTML = targetContent.slice(0, this.cursor.index) + '<span class="typewriter-cursor"></span>' + targetContent.slice(this.cursor.index);
     }

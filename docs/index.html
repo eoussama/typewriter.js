@@ -1,7 +1,7 @@
 <!-- 
     
     @name:       typewriterjs
-    @version:    4.0.0
+    @version:    5.0.0
     @author:     EOussama
     @license     MIT
     @source:     https://github.com/EOussama/typewriterjs
@@ -18,23 +18,34 @@
 
 	<!-- The page's meta data. -->
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="application-name" content="typewriterjs">
-	<meta name="author" content="EOussama">
-	<meta name="description" content="A typewriter for the web">
-	<meta name="keywords" content="animation, typewriter, js, library">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0">
+	<meta name="application-name"
+		content="typewriterjs">
+	<meta name="author"
+		content="EOussama">
+	<meta name="description"
+		content="A typewriter for the web">
+	<meta name="keywords"
+		content="animation, typewriter, js, library">
 
 	<!-- Importing the “Roboto” font. -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto"
+		rel="stylesheet">
 
 	<!-- Highlight.js. -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
 
 	<!-- The main css. -->
-	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	<link rel="stylesheet"
+		type="text/css"
+		href="assets/css/main.css">
 
 	<!-- The favicon. -->
-	<link rel="icon" type="image/png" href="assets/img/favicon.png">
+	<link rel="icon"
+		type="image/png"
+		href="assets/img/favicon.png">
 
 	<!-- The title. -->
 	<title>TypewriterJS</title>
@@ -44,7 +55,8 @@
 
 	<!-- The header. -->
 	<header>
-		<img src="assets/img/logo.svg" alt="TypewriteJS Logo">
+		<img src="assets/img/logo.svg"
+			alt="TypewriteJS Logo">
 		<h1 id="title"></h1>
 	</header>
 
@@ -55,8 +67,10 @@
 			<h1>Description</h1>
 
 			<p>
-				Upon making a <a href="http://eoussama.github.io" target="_blank">portfolio</a> of my own, I had this idea that
-				sounded very cool in my head at the time, where I could make an intro that outputs a certain headline in an old <i>typewriter</i>
+				Upon making a <a href="http://eoussama.github.io"
+					target="_blank">portfolio</a> of my own, I had this idea that
+				sounded very cool in my head at the time, where I could make an intro that outputs a certain headline in an old
+				<i>typewriter</i>
 				fashion, and that's what this javascript package is for, simply, just that, you specify the output element, play
 				with
 				the parameters you have, and let the magic happen. Nothing too shabby to be honest, just another handy tool for
@@ -68,28 +82,28 @@
 			<h1>Installation</h1>
 
 			<h4>With npm:</h4>
-<pre>
+			<pre>
 <code>
 	npm install eo-typewriterjs
 </code>
 </pre>
 
 			<h4>With bower:</h4>
-<pre>
+			<pre>
 <code>
 	bower install eo-typewriterjs
 </code>
 </pre>
 
 			<h4>With yarn:</h4>
-<pre>
+			<pre>
 <code>
 	yarn add eo-typewriterjs
 </code>
 </pre>
 
 			<h4>From a cdn:</h4>
-<pre>
+			<pre>
 <code>
 https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 </code>
@@ -97,13 +111,15 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 
 			<h4>Manual installation:</h4>
 			<p>
-				Download the latest version from <a target="_blank" href="https://github.com/EOussama/typewriterjs/releases">here</a>.
+				Download the latest version from <a target="_blank"
+					href="https://github.com/EOussama/typewriterjs/releases">here</a>.
 			</p>
 			<p>
-				Download a specific version from <a target="_blank" href="https://github.com/EOussama/typewriterjs/releases">here</a>.
+				Download a specific version from <a target="_blank"
+					href="https://github.com/EOussama/typewriterjs/releases">here</a>.
 			</p>
 			<p>
-				The following is only applicable starting from version <u>4.0.0</u>.
+				The following is only applicable starting from version <u>5.0.0</u>.
 				1. Navigate to the <i>dist</i> folder inside of the downloaded package.
 				2. Copy either of <i>typewriter.js</i> or <i>typewriter.min.js</i> to your project.
 			</p>
@@ -127,8 +143,9 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
  </pre>
 			<p>
 				In case you don't want to go through all of the parameters, you can skip them all, as they all have a default
-				backup value to operate on, but, the same cannot be said about the target property, you must pass in a valid <abbr
-				 title="Document Object Module">DOM</abbr> element, or else, it wouldn't work, the following table explains all of
+				backup value to operate on, but, the same cannot be said about the target property, you must pass in a valid
+				<abbr title="Document Object Module">DOM</abbr> element, or else, it wouldn't work, the following table explains
+				all of
 				the properties mentioned above in a better manner;
 			</p>
 
@@ -140,7 +157,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 				</tr>
 				<tr>
 					<td>target</td>
-					<td>The element you want to perform the animation on, must be a valid <abbr title="Document Object Module">DOM</abbr>
+					<td>The element you want to perform the animation on, must be a valid <abbr
+							title="Document Object Module">DOM</abbr>
 						element.</td>
 					<td>undefined</td>
 				</tr>
@@ -167,18 +185,22 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
  </code>
  </pre>
 			<p>
-				The code that we've just written, of course after a thousand prayers that it would work at the first shot, outputs
+				The code that we've just written, of course after a thousand prayers that it would work at the first shot,
+				outputs
 				"Hello, there!" in the target element.
 			</p>
 
-			<img src="assets/img/previews/example-1.gif" alt="Typewriter example.">
+			<img src="assets/img/previews/example-1.gif"
+				alt="Typewriter example.">
 
 			<p>
-				Well, all we did, was create a typewriter object, pointed it to the element with the id of <i>sample</i>, making it
+				Well, all we did, was create a typewriter object, pointed it to the element with the id of <i>sample</i>, making
+				it
 				so that each character is output every 300 milliseconds.
 			</p>
 			<p>
-				That alone only created a mere object, then we used the <code>type</code> method, and passed in the <code>script</code>
+				That alone only created a mere object, then we used the <code>type</code> method, and passed in the
+				<code>script</code>
 				argument setting it to "<code>Hello, there!</code>" and surprise, surprise, that isn't the
 				only method available, let's introduce you to your new beloved friends.
 			</p>
@@ -196,7 +218,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 				<h5>Description</h5>
 				<p>
 					This is the primitive method that does it all (mostly), a single call, and all is put to motion, it accepts an
-					object of five arguments, although, in 99% of the time, you'd find yourself not having to pass any, or at least
+					object of five arguments, although, in 99% of the time, you'd find yourself not having to pass any, or at
+					least
 					only the first one.
 				</p>
 
@@ -248,7 +271,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 						<td><code>charCallback</code></td>
 						<td>function</td>
 						<td>void.</td>
-						<td>The function to excute whenever a character is typed. It passes along two parameters, the first one for the
+						<td>The function to excute whenever a character is typed. It passes along two parameters, the first one for
+							the
 							current index, and the second one is for the printed character.</td>
 					</tr>
 
@@ -294,7 +318,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 					The code above does the following:
 				</p>
 
-				<img src="assets/img/previews/example-2.gif" alt="Type method example.">
+				<img src="assets/img/previews/example-2.gif"
+					alt="Type method example.">
 			</fieldset>
 
 			<fieldset>
@@ -304,11 +329,13 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 
 				<h5>Description</h5>
 				<p>
-					This method performs a script deletion animation, basically, if the type function is light, this one would be the
+					This method performs a script deletion animation, basically, if the type function is light, this one would be
+					the
 					dark, it simply does the same thing, just in reverse.
 				</p>
 				<p>
-					This method accepts an object with four arguments, however, you can still call it without any, that will cause the
+					This method accepts an object with four arguments, however, you can still call it without any, that will cause
+					the
 					whole text to be deleted.
 				</p>
 
@@ -355,7 +382,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 						<td><code>charCallback</code></td>
 						<td>function</td>
 						<td>void</td>
-						<td>The function to excute whenever a character is deleted. It passes along two parameters, the first one for the
+						<td>The function to excute whenever a character is deleted. It passes along two parameters, the first one
+							for the
 							current index, and the second one is for the deleted character.</td>
 					</tr>
 
@@ -397,7 +425,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
  </code>
  </pre>
 
-				<img src="assets/img/previews/example-3.gif" alt="Deletion example.">
+				<img src="assets/img/previews/example-3.gif"
+					alt="Deletion example.">
 
 			</fieldset>
 
@@ -434,7 +463,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
  </pre>
 
 				<p>
-					The code above starts a deletion animation with the speed of 1500 milliseconds (The default value), and stops the
+					The code above starts a deletion animation with the speed of 1500 milliseconds (The default value), and stops
+					the
 					animation as soon as the “s” character is deleted.
 				</p>
 
@@ -473,7 +503,8 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
  </code>
  </pre>
 				<p>
-					The code above starts a deletion animation with the speed of 1500 milliseconds (The default value), and clears the
+					The code above starts a deletion animation with the speed of 1500 milliseconds (The default value), and clears
+					the
 					target's content as soon as the deletion animation finishes.
 				</p>
 
@@ -483,8 +514,9 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 		<article>
 			<h1>Credits</h1>
 
-			<p>Icon made by <a href="http://www.flaticon.com" target="_blank"><b>Freepik</b></a> from <a href="http://www.flaticon.com"
-				 target="_blank">www.flaticon.com</a>.</p>
+			<p>Icon made by <a href="http://www.flaticon.com"
+					target="_blank"><b>Freepik</b></a> from <a href="http://www.flaticon.com"
+					target="_blank">www.flaticon.com</a>.</p>
 		</article>
 
 	</main>
@@ -492,13 +524,16 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 	<!-- The footer. -->
 	<footer>
 		<div class="col">
-			<a href="http://www.github.com/Eoussama" target="_blank">Made by Eoussama</a>
+			<a href="http://www.github.com/Eoussama"
+				target="_blank">Made by Eoussama</a>
 		</div>
 		<div class="col">
-			<a href="http://www.github.com/Eoussama/typewriterjs" target="_blank">Github Repository</a>
+			<a href="http://www.github.com/Eoussama/typewriterjs"
+				target="_blank">Github Repository</a>
 		</div>
 		<div class="col">
-			<a href="https://github.com/EOussama/typewriterjs/releases" target="_blank">Releases page</a>
+			<a href="https://github.com/EOussama/typewriterjs/releases"
+				target="_blank">Releases page</a>
 		</div>
 	</footer>
 
@@ -506,10 +541,12 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 
 	<!-- TypewriterJS. -->
-	<script type="text/javascript" src="assets/js/lib/typewriter.min.js"></script>
+	<script type="text/javascript"
+		src="assets/js/lib/typewriter.min.js"></script>
 
 	<!-- The main script. -->
-	<script type="text/javascript" src="assets/js/main.js"></script>
+	<script type="text/javascript"
+		src="assets/js/main.js"></script>
 </body>
 
 </html>

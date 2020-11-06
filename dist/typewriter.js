@@ -39,7 +39,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 /**
  * 
  * @name:       typewriterjs
- * @version:    4.0.0
+ * @version:    5.0.0
  * @author:     EOussama
  * @license     MIT
  * @source:     https://github.com/EOussama/typewriterjs
@@ -70,7 +70,7 @@ var injectStyle = function injectStyle() {
 
 var Typewriter =
     /*#__PURE__*/
-    function() {
+    function () {
         /**
          * Constructor with parameters.
          * 
@@ -153,8 +153,8 @@ var Typewriter =
                 var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
                 var script = params.script || '',
-                    endCallback = params.endCallback || function() {},
-                    charCallback = params.charCallback || function(index, char) {};
+                    endCallback = params.endCallback || function () { },
+                    charCallback = params.charCallback || function (index, char) { };
 
                 var start = params.start || 0,
                     index = params.index || start,
@@ -178,7 +178,7 @@ var Typewriter =
                 this.state = 1;
 
                 if (script.length > 0) {
-                    this.timer = setTimeout(function() {
+                    this.timer = setTimeout(function () {
                         // Moving the cursor to the correct column.
                         _this.moveCursorTo(index); // Inserting a character.
 
@@ -218,8 +218,8 @@ var Typewriter =
                 var start = params.start || this.target.textContent.length,
                     index = params.index || start,
                     length = params.length || start,
-                    endCallback = params.endCallback || function() {},
-                    charCallback = params.charCallback || function(index, char) {}; // Checking if start is outbound.
+                    endCallback = params.endCallback || function () { },
+                    charCallback = params.charCallback || function (index, char) { }; // Checking if start is outbound.
 
 
                 if (start < 0) {
@@ -242,7 +242,7 @@ var Typewriter =
                 this.state = 2;
 
                 if (this.target.textContent.length > 0) {
-                    this.timer = setTimeout(function() {
+                    this.timer = setTimeout(function () {
                         // Moving the cursor to the correct column.
                         _this2.moveCursorTo(index - 1); // Deleting a character.
 
