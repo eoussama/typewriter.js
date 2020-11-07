@@ -13,85 +13,96 @@
 <hr>
 
 ## Navigation
-* [Description](#description)
-* [Installation](#installation)
-* [Building](#building)
-* [Documentation](#documentation)
-* [Credits](#credits)
 
+- [Description](#description)
+- [Installation](#installation)
+- [Building](#building)
+- [Documentation](#documentation)
+- [Credits](#credits)
 
 ## Description
+
 TypewriterJS offers an easy and hackable way of producing and maintaining typewriter-like animations on text, basic stuff like typing, deleting and moving the cursor around are only at the command of a method call.
 
 ## Installation
+
 #### npm
+
 ```bash
 npm install eo-typewriterjs
 ```
 
 #### bower
+
 ```bash
 bower install eo-typewriterjs
 ```
 
 #### yarn
+
 ```bash
 yarn add eo-typewriterjs
 ```
 
 #### cdn
+
 ```bash
 https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 ```
 
 #### manual
+
 Download the latest version from [here](https://github.com/EOussama/typewriterjs/releases).
 Download a specific version from [here](https://github.com/EOussama/typewriterjs/releases).
 
-> The following is only applicable starting from version 4.0.0.
+> The following is only applicable starting from version 5.0.0.
+
 1. Navigate to the `dist` folder inside of the downloaded package.
 2. Copy either of `typewriter.js` or `typewriter.min.js` to your project.
 
-
 ## Building
+
 1. Clone the GitHub repository `https://github.com/EOussama/typewriterjs.git`.
 2. Run `npm install` to install all the dependencies.
 3. Run `npm run prod` to build the package.
 4. The production scripts will be placed in the `dist` folder.
 
 ## Documentation
+
 ### The constructor
 
 ```js
-TypeWriter (options: Object)
+TypeWriter((options: Object));
 ```
+
 This constructor is used to instantiate typewriter objects that are responsible for producing the animations.
 
 ### `typewriter` options.
 
-|  Option  |                                     Description                                   | Default value |
-|----------|-----------------------------------------------------------------------------------|---------------|
-|  target  |  The element you want to perform the animation on must be a valid HTML element.  |   undefined   |
-|  speed   |  The time between outputting each character in milliseconds.                       |   1500        |
+| Option | Description                                                                    | Default value |
+| ------ | ------------------------------------------------------------------------------ | ------------- |
+| target | The element you want to perform the animation on must be a valid HTML element. | undefined     |
+| speed  | The time between outputting each character in milliseconds.                    | 1500          |
 
 After instantiating a typewriter object, we can use all sort of method to control and customize the animation, here's a list of available methods.
 
-* type
-* delete
-* stop
-* clear
-* moveCursor
+- type
+- delete
+- stop
+- clear
+- moveCursor
 
 ### Example
+
 ```html
 <!-- index.html -->
 
 <!DOCTYPE html>
 
 <html>
-    <body>
-        <p id="target"></p>
-    </body>
+	<body>
+		<p id="target"></p>
+	</body>
 </html>
 ```
 
@@ -117,7 +128,7 @@ In order to stop the animation at any point, we can utilize the `stop` function;
 // main.js
 
 setTimeout(() => {
-    tw.stop();
+	tw.stop();
 }, 1000);
 ```
 
@@ -125,6 +136,6 @@ That will stop the animation after a second had passed.
 
 > Checkout the `tests/sandbox/index.html` file for usage examples, or visit [this documentation page](https://eoussama.github.io/typewriterjs/).
 
-
 ## Credits
+
 > Icon made by [**Freepik**](http://www.flaticon.com) from [www.flaticon.com](http://www.flaticon.com)
