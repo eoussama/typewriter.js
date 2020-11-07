@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="http://eoussama.github.io/typewriterjs"><img src="docs/assets/img/logo.svg" alt="Logo" width="200px"><a>
+    <a href="http://eoussama.github.io/typewriterjs"><img src="assets/logo.svg" alt="Logo" width="200px"><a>
     <h1 align="center">TypeWriterJS</h1>
     <p align="center">A Javascript library for typewriter animations</p>
     <p align="center">
