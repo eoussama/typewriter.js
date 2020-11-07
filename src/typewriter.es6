@@ -22,9 +22,30 @@ const STYLES = `
 		position: relative;
 	}
 
+	.eo-typewriter__cursor--blink {
+		animation-name: eo-typewriter-blink;
+    animation-iteration-count: infinite;
+		animation-duration: 0.7s;
+	}
+	
 	.eo-typewriter__cursor::after {
-		content: '_';
 		position: absolute;
+	}
+	
+	.eo-typewriter__cursor--underscore::after {
+		content: '_';
+	}
+
+	.eo-typewriter__cursor--stick::after {
+		content: '|';
+    display: inline-block;
+    left: -4px;
+    width: 4px;
+	}
+
+	@keyframes eo-typewriter-blink {
+		from { opacity: 1; }
+		to { opacity: 0; }
 	}
 `;
 
@@ -77,7 +98,12 @@ class Typewriter {
 			this.deleteTimer;
 
 			// Initial output
-			this.output();
+			this.render(this.config);
+
+			// Injecting styles
+			if (document.getElementById('eo-typewriter-stylesheet') == null) {
+				injectStyle();
+			}
 		}
 		catch (e) {
 			throw e;
@@ -138,7 +164,7 @@ class Typewriter {
 						// Typing a character
 						this.config.text = this.config.text.slice(0, conf.cursor.index) + text[0] + this.config.text.slice(conf.cursor.index);
 						this.config.cursor.index = ++conf.cursor.index;
-						this.output();
+						this.render(conf);
 
 						// Playing typing sound
 						this.playSound(conf);
@@ -221,7 +247,7 @@ class Typewriter {
 						// Deleting a character
 						this.config.text = this.config.text.slice(0, conf.cursor.index - 1) + this.config.text.slice(conf.cursor.index);
 						this.config.cursor.index = --conf.cursor.index;
-						this.output();
+						this.render(conf);
 
 						// Playing typing sound
 						this.playSound(conf);
@@ -313,7 +339,7 @@ class Typewriter {
 					this.config.cursor.index = 0;
 
 					// Updating the output
-					this.output();
+					this.render(conf);
 
 					// Resolving
 					resolve(this);
@@ -332,7 +358,7 @@ class Typewriter {
 		this.config.cursor.index = Math.max(Math.min(parseInt(index), this.config.target.textContent.length - 1), 0);
 
 		// Updates the output
-		this.output();
+		this.render(this.config);
 	}
 
 	//#endregion
@@ -431,7 +457,15 @@ class Typewriter {
 		// Merging configs
 		const res = {
 			...globalConf,
-			...conf
+			...conf,
+			sound: {
+				...globalConf.sound,
+				...conf.sound
+			},
+			cursor: {
+				...globalConf.cursor,
+				...conf.cursor
+			}
 		};
 
 		// Returning the merged config
@@ -441,24 +475,37 @@ class Typewriter {
 	/**
 	 * Outputs the script
 	 */
-	output() {
+	render(config = {}) {
+
+		// Contextualizing the config object
+		const conf = this.contextConfig(config);
 
 		// Checking the cursor position
 		const cursor = (index) => this.config.cursor.index - 1 === index;
 
 		// Rendering the output
 		this.config.target.innerHTML = Array.from(this.config.text)
-			.map((char, index) => `<span class="eo-typewriter__char ${cursor(index) ? 'eo-typewriter__char--current' : ''}">${char}</span>${cursor(index) ? '<span class="eo-typewriter__cursor"></span>' : ''}`)
+			.map((char, index) => `<span class="eo-typewriter__char ${cursor(index) ? 'eo-typewriter__char--current' : ''}">${char}</span>${cursor(index) ? `<span class="eo-typewriter__cursor ${'eo-typewriter__cursor--' + conf.cursor.type} ${conf.cursor.blink ? 'eo-typewriter__cursor--blink' : ''}"></span>` : ''}`)
 			.join('');
 	}
 
 	//#endregion
 }
 
-// Injecting styles
-(() => {
-	const styleElement = document.createElement('link');
+/**
+ * Injects CSS styling.
+ */
+const injectStyle = () => {
 
-	styleElement.rel = "text/stylesheet";
-	styleElement.href
-})()
+	// Creating the HTML style element.
+	const styleElement: HTMLElement = document.createElement('style');
+
+	// Adding a unique id to the HTML style element.
+	styleElement.id = "eo-typewriter-stylesheet";
+
+	// Appending the styling rules.
+	styleElement.textContent = STYLES;
+
+	// Appending the style element to the document.
+	document.body.appendChild(styleElement);
+}

@@ -25,21 +25,21 @@
   </div>
   <script src="./../dist/typewriter.js"></script>
   <script>
-    var typewriter = new Typewriter('#target', { tick: 300, delay: 500, sound: { enabled: true, volume: 0.3 } });
-
-    // typewriter
-    //   .delete(3).then(e => e
-    //     .type('ALEX', { cursor: { index: 0 } }).then(e => e
-    //       .clear().then(e => e
-    //         .type('world').then(e => e
-    //           .type('Hello, ', { cursor: { index: 0 } }))))
-    //   );
+    var typewriter = new Typewriter('#target', { tick: 300, delay: 500, sound: { enabled: true, volume: 0.3 }, cursor: { type: 'underscore', blink: false } });
 
     typewriter
       .delete(3).then(e => e
-        .delete('5', { delay: 0 }).then(e => e
-          .type('123'))
+        .type('ALEX', { cursor: { index: 0 } }).then(e => e
+          .clear().then(e => e
+            .type('world', { cursor: { blink: true } }).then(e => e
+              .type('Hello, ', { cursor: { index: 0, type: 'custom' } }))))
       );
+
+    // typewriter
+    //   .delete(3).then(e => e
+    //     .delete('5', { delay: 0 }).then(e => e
+    //       .type('123'))
+    //   );
 
     // typewriter.delete(10);
     // typewriter.type('TEST', { delay: 3000 });
