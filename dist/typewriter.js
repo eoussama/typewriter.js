@@ -124,14 +124,16 @@ var Typewriter =
                 this.text = config.text || target.textContent;
                 this.tick = config.tick || 300;
                 this.typing = false;
+                this.deleting = false;
                 this.cursor = Object.assign({
                     index: 0,
                     type: 'stick',
                     blink: true
                 }, _objectSpread({}, config.cursor));
                 this.typeResolve;
+                this.typeTimer;
                 this.deleteResolve;
-                this.timer;
+                this.deleteTimer;
                 this.cache = {};
             } catch (e) {
                 throw e;
@@ -153,23 +155,30 @@ var Typewriter =
 
                 var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
                 var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                // Caching the typing state
+                // Stopping typing
+                this.stopType(); // Caching the typing state
+
                 this.cache = _objectSpread({}, config, {
                     text: text
                 });
                 return new Promise(function(resolve) {
                     // Attaching the type resolve function
-                    _this.typeResolve = resolve; // Updating the typing state
-
-                    _this.typing = true; // Recursive typing
+                    _this.typeResolve = resolve; // Recursive typing
 
                     var recType = function recType(text) {
                         var tick = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : config.delay || 0;
 
                         // Checking if the text is finished
-                        if (text.length > 0 && _this.typing) {
-                            _this.timer = setTimeout(function() {
-                                // Typing a character
+                        if (text.length > 0) {
+                            _this.typeTimer = setTimeout(function() {
+                                // Stopping typing
+                                if (_this.deleting) {
+                                    _this.stopDelete();
+                                } // Updating the typing state
+
+
+                                _this.typing = true; // Typing a character
+
                                 _this.target.textContent += text[0]; // Caching the typing state
 
                                 _this.cache = _objectSpread({}, config, {
@@ -183,7 +192,7 @@ var Typewriter =
                             // Updating the typing state
                             _this.typing = false; // Clearing timeout
 
-                            clearTimeout(_this.timer); // Resolving the typing
+                            clearTimeout(_this.typeTimer); // Resolving the typing
 
                             resolve(_this);
                         }
@@ -202,22 +211,70 @@ var Typewriter =
             value: function stop() {
                 var _this2 = this;
 
+                var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        // Stopping typing
+                        _this2.stopType(); // Stopping deleting
+
+
+                        _this2.stopDelete(); // Resolving
+
+
+                        resolve(_this2);
+                    }, config.delay || 0);
+                });
+            }
+            /**
+             * Stops typing
+             */
+
+        }, {
+            key: "stopType",
+            value: function stopType() {
+                var _this3 = this;
+
                 return new Promise(function(resolve) {
                     // Updating the typing state
-                    _this2.typing = false; // Clearing the timeout
+                    _this3.typing = false; // Clearing the timeouts
 
-                    clearTimeout(_this2.timer); // Resolving the promises
-
-                    if (_this2.typeResolve) {
-                        _this2.typeResolve(_this2);
-                    }
-
-                    if (_this2.deleteResolve) {
-                        _this2.deleteResolve(_this2);
-                    } // Resolving the typing
+                    if (_this3.typeTimer) {
+                        clearTimeout(_this3.typeTimer);
+                    } // Resolving the promises
 
 
-                    resolve(_this2);
+                    if (_this3.deleteResolve) {
+                        _this3.deleteResolve(_this3);
+                    } // Resolving
+
+
+                    resolve(_this3);
+                });
+            }
+            /**
+             * Stops deleting
+             */
+
+        }, {
+            key: "stopDelete",
+            value: function stopDelete() {
+                var _this4 = this;
+
+                return new Promise(function(resolve) {
+                    // Updating the typing state
+                    _this4.deleting = false; // Clearing the timeouts
+
+                    if (_this4.deleteTimer) {
+                        clearTimeout(_this4.deleteTimer);
+                    } // Resolving the promises
+
+
+                    if (_this4.deleteResolve) {
+                        _this4.deleteResolve(_this4);
+                    } // Resolving
+
+
+                    resolve(_this4);
                 });
             }
             /**
@@ -228,16 +285,31 @@ var Typewriter =
         }, {
             key: "resume",
             value: function resume() {
+                var _this5 = this;
+
                 var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                return new Promise(function(resolve) {
+                    console.log(config);
+                    setTimeout(function() {
+                        // Extracting params
+                        var _this5$cache = _this5.cache,
+                            text = _this5$cache.text,
+                            chars = _this5$cache.chars,
+                            conf = _objectWithoutProperties(_this5$cache, ["text", "chars"]);
 
-                // Extracting params
-                var _this$cache = this.cache,
-                    text = _this$cache.text,
-                    chars = _this$cache.chars,
-                    conf = _objectWithoutProperties(_this$cache, ["text", "chars"]); // Resuming typing
+                        console.log({
+                            text: text,
+                            chars: chars,
+                            config: config
+                        }); // Resuming typing
 
-
-                return text ? this.type(text, Object.assign(_objectSpread({}, conf), _objectSpread({}, config))) : this.delete(chars, Object.assign(_objectSpread({}, conf), _objectSpread({}, config)));
+                        resolve(text ? _this5.type(text, Object.assign(_objectSpread({}, conf), _objectSpread({}, config, {
+                            delay: 0
+                        }))) : _this5.delete(chars, Object.assign(_objectSpread({}, conf), _objectSpread({}, config, {
+                            delay: 0
+                        }))));
+                    }, config.delay || 0);
+                });
             }
             /**
              * Deletes a character or more
@@ -248,43 +320,50 @@ var Typewriter =
         }, {
             key: "delete",
             value: function _delete() {
-                var _this3 = this;
+                var _this6 = this;
 
                 var chars = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
                 var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                // Caching the typing state
+                // Stopping typing
+                this.stopDelete(); // Caching the typing state
+
                 this.cache = _objectSpread({}, config, {
                     chars: chars
                 });
                 return new Promise(function(resolve) {
                     // Attaching the delete resolve function
-                    _this3.deleteResolve = resolve; // Updating the typing state
-
-                    _this3.typing = true; // Recursive delete
+                    _this6.deleteResolve = resolve; // Recursive delete
 
                     var recDelete = function recDelete(chars) {
                         var tick = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : config.delay || 0;
 
                         // Checking if deleting is finished
-                        if (chars > 0 && _this3.typing) {
-                            _this3.timer = setTimeout(function() {
-                                // Typing a character
-                                _this3.target.textContent = _this3.target.textContent.slice(0, _this3.target.textContent.length - 1); // Caching the deletion state
+                        if (chars > 0) {
+                            _this6.deleteTimer = setTimeout(function() {
+                                // Stopping typing
+                                if (_this6.typing) {
+                                    _this6.stopType();
+                                } // Updating the typing state
 
-                                _this3.cache = _objectSpread({}, config, {
+
+                                _this6.deleting = true; // Typing a character
+
+                                _this6.target.textContent = _this6.target.textContent.slice(0, _this6.target.textContent.length - 1); // Caching the deletion state
+
+                                _this6.cache = _objectSpread({}, config, {
                                     tick: tick,
                                     chars: chars - 1
                                 }); // Invoking the recursion
 
-                                recDelete(chars - 1, config.tick || _this3.tick);
+                                recDelete(chars - 1, config.tick || _this6.tick);
                             }, tick);
                         } else {
                             // Updating the typing state
-                            _this3.typing = false; // Clearing timeout
+                            _this6.deleting = false; // Clearing timeout
 
-                            clearTimeout(_this3.timer); // Resolving the typing
+                            clearTimeout(_this6.deleteTimer); // Resolving the typing
 
-                            resolve(_this3);
+                            resolve(_this6);
                         }
                     }; // Starting the recursion
 
@@ -299,18 +378,18 @@ var Typewriter =
         }, {
             key: "clear",
             value: function clear() {
-                var _this4 = this;
+                var _this7 = this;
 
                 var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 return new Promise(function(resolve) {
                     setTimeout(function() {
-                        _this4.stop().then(function() {
+                        _this7.stop().then(function() {
                             // Clearing the text
-                            _this4.target.textContent = ''; // Resetting the cursor index
+                            _this7.target.textContent = ''; // Resetting the cursor index
 
-                            _this4.cursor.index = 0; // Resolving
+                            _this7.cursor.index = 0; // Resolving
 
-                            resolve(_this4);
+                            resolve(_this7);
                         });
                     }, config.delay || 0);
                 });

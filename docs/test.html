@@ -17,14 +17,9 @@
   <script src="./../dist/typewriter.js"></script>
   <script>
     var typewriter = new Typewriter('#target');
-
-    typewriter.type('Oussama Essamadi', { tick: 100 });
-
-    setTimeout(() => {
-      typewriter
-        .stop().then(e => e.resume({ delay: 1000 }));
-      typewriter.clear({ delay: 1500 })
-    }, 500);
+    typewriter.type('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', { tick: 100 }).then(e => console.log('typed'));
+    typewriter.delete(100, { delay: 1500 }).then(e => console.log('deleted'));
+    typewriter.stop({ delay: 3000 }).then(e => console.log('stopped'));
   </script>
 </body>
 
