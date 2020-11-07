@@ -34,18 +34,29 @@ class Typewriter {
 			}
 
 			// Getting the matching targets
-			var target = document.querySelector(selector);
+			const target = document.querySelector(selector);
 
 			// Checking retrieved targets
 			if (!target) {
 				throw new TypeError(`No elements match the selector “${selector}”`);
 			}
 
-			this.target = target;
-			this.text = config.text || target.textContent;
-			this.tick = config.tick || 300;
-			this.sound = Object.assign({ enabled: false, volume: 0.5 }, { ...config.sound });
-			this.cursor = Object.assign({ index: 0, type: 'stick', blink: true }, { ...config.cursor });
+			// Extracting the primary value
+			const text = target.textContent || ''
+
+			// Preparing the config object
+			this.config = {
+				...config,
+				target,
+				text,
+				delay: config.delay || 0,
+				tick: config.tick || 300,
+				sound: Object.assign({ enabled: false, volume: 0.5 }, { ...config.sound }),
+				cursor: Object.assign({ index: text.length, type: 'stick', blink: true }, { ...config.cursor }),
+			};
+
+			// Initializing the cache
+			this.cache = {};
 
 			this.typing = false;
 			this.typeResolve;
@@ -55,7 +66,8 @@ class Typewriter {
 			this.deleteResolve;
 			this.deleteTimer;
 
-			this.cache = {};
+			// Initial output
+			this.output();
 		}
 		catch (e) {
 			throw e;
@@ -73,12 +85,12 @@ class Typewriter {
 	 */
 	type(text = '', config = {}) {
 
-		// Stopping typing
-		this.stopType();
+		// Contextualizing the config object
+		const conf = this.contextConfig(config);
 
 		// Caching the typing state
 		this.cache = {
-			...config,
+			...conf,
 			text,
 		};
 
@@ -88,44 +100,53 @@ class Typewriter {
 			this.typeResolve = resolve;
 
 			// Recursive typing
-			const recType = (text, tick = config.delay || 0) => {
+			const recType = (text, tick, init = false) => {
 
 				// Checking if the text is finished
 				if (text.length > 0) {
 					this.typeTimer = setTimeout(() => {
 
 						// Stopping typing
+						if (init && this.typing) {
+							this.stopType();
+
+							// Updating the index
+							conf.cursor.index = this.config.cursor.index;
+						}
+
+						// Stopping deleting
 						if (this.deleting) {
 							this.stopDelete();
+
+							// Updating the index
+							conf.cursor.index = this.config.cursor.index;
 						}
 
 						// Updating the typing state
 						this.typing = true;
 
 						// Typing a character
-						this.text += text[0];
+						this.config.text = this.config.text.slice(0, conf.cursor.index) + text[0] + this.config.text.slice(conf.cursor.index);
+						this.config.cursor.index = ++conf.cursor.index;
 						this.output();
 
 						// Playing typing sound
-						this.playSound(config);
+						this.playSound(conf);
 
 						// Caching the typing state
 						this.cache = {
-							...config,
+							...conf,
 							tick,
 							text: text.slice(1),
 						};
 
 						// Invoking the recursion
-						recType(text.slice(1), config.tick || this.tick);
+						recType(text.slice(1), conf.tick || this.config.tick);
 					}, tick);
 				} else {
 
-					// Updating the typing state
-					this.typing = false;
-
-					// Clearing timeout
-					clearTimeout(this.typeTimer);
+					// Stopping typing
+					this.stopType();
 
 					// Resolving the typing
 					resolve(this);
@@ -133,7 +154,90 @@ class Typewriter {
 			}
 
 			// Starting the recursion
-			recType(text);
+			recType(text, conf.delay || 0, true);
+		});
+	}
+
+	/**
+ * Deletes a character or more
+ * @param chars The characters to delete
+ * @param config The config object
+ */
+	delete(chars = 1, config = {}) {
+
+		// Contextualizing the config object
+		const conf = this.contextConfig(config);
+
+		// Caching the typing state
+		this.cache = {
+			...conf,
+			chars
+		};
+
+		return new Promise(resolve => {
+
+			// Attaching the delete resolve function
+			this.deleteResolve = resolve;
+
+			// Recursive delete
+			const recDelete = (chars, tick, init = false) => {
+
+				// Checking if deleting is finished
+				if (chars > 0 && this.config.text.length > 0 && this.config.cursor.index >= 0) {
+					this.deleteTimer = setTimeout(() => {
+
+						// Refresh cursor
+						conf.cursor.index = this.config.cursor.index;
+
+						// Stopping deleting
+						if (init && this.deleting) {
+							this.stopDelete();
+
+							// Updating the index
+							conf.cursor.index = this.config.cursor.index;
+						}
+
+						// Stopping typing
+						if (this.typing) {
+							this.stopType();
+
+							// Updating the index
+							conf.cursor.index = this.config.cursor.index;
+						}
+
+						// Updating the typing state
+						this.deleting = true;
+
+						// Deleting a character
+						this.config.text = this.config.text.slice(0, conf.cursor.index - 1) + this.config.text.slice(conf.cursor.index);
+						this.config.cursor.index = --conf.cursor.index;
+						this.output();
+
+						// Playing typing sound
+						this.playSound(conf);
+
+						// Caching the deletion state
+						this.cache = {
+							...conf,
+							tick,
+							chars: chars - 1,
+						};
+
+						// Invoking the recursion
+						recDelete(chars - 1, conf.tick || this.config.tick);
+					}, tick);
+				} else {
+
+					// Stopping deleting
+					this.stopDelete();
+
+					// Resolving the typing
+					resolve(this);
+				}
+			}
+
+			// Starting the recursion
+			recDelete(chars, conf.delay || 0, true);
 		});
 	}
 
@@ -141,6 +245,10 @@ class Typewriter {
 	 * Stops the typewriter
 	 */
 	stop(config = {}) {
+
+		// Contextualizing the config object
+		const conf = this.contextConfig(config);
+
 		return new Promise(resolve => {
 			setTimeout(() => {
 
@@ -152,7 +260,7 @@ class Typewriter {
 
 				// Resolving
 				resolve(this);
-			}, config.delay || 0);
+			}, conf.delay || 0);
 		});
 	}
 
@@ -160,112 +268,61 @@ class Typewriter {
 	 * Resumes typing
 	 * @param config The config object
 	 */
-	resume(config = {}) {
-		return new Promise(resolve => {
-			console.log(config);
-			setTimeout(() => {
+	// resume(config = {}) {
+	// 	return new Promise(resolve => {
+	// 		setTimeout(() => {
 
-				// Extracting params
-				const { text, chars, ...conf } = this.cache;
-				console.log({ text, chars, config });
-				// Resuming typing
-				resolve(text
-					? this.type(text, Object.assign({ ...conf }, { ...config, delay: 0 }))
-					: this.delete(chars, Object.assign({ ...conf }, { ...config, delay: 0 }))
-				);
-			}, config.delay || 0);
-		});
-	}
+	// 			// Extracting params
+	// 			const { text, chars, ...conf } = this.cache;
 
-	/**
-	 * Deletes a character or more
-	 * @param chars The characters to delete
-	 * @param config The config object
-	 */
-	delete(chars = 1, config = {}) {
-
-		// Stopping typing
-		this.stopDelete();
-
-		// Caching the typing state
-		this.cache = {
-			...config,
-			chars
-		};
-
-		return new Promise(resolve => {
-
-			// Attaching the delete resolve function
-			this.deleteResolve = resolve;
-
-			// Recursive delete
-			const recDelete = (chars, tick = config.delay || 0) => {
-
-				// Checking if deleting is finished
-				if (chars > 0) {
-					this.deleteTimer = setTimeout(() => {
-
-						// Stopping typing
-						if (this.typing) {
-							this.stopType();
-						}
-
-						// Updating the typing state
-						this.deleting = true;
-
-						// Typing a character
-						this.target.textContent = this.target.textContent.slice(0, this.target.textContent.length - 1);
-
-						// Playing typing sound
-						this.playSound(config);
-
-						// Caching the deletion state
-						this.cache = {
-							...config,
-							tick,
-							chars: chars - 1,
-						};
-
-						// Invoking the recursion
-						recDelete(chars - 1, config.tick || this.tick);
-					}, tick);
-				} else {
-
-					// Updating the typing state
-					this.deleting = false;
-
-					// Clearing timeout
-					clearTimeout(this.deleteTimer);
-
-					// Resolving the typing
-					resolve(this);
-				}
-			}
-
-			// Starting the recursion
-			recDelete(chars);
-		});
-	}
+	// 			// Resuming typing
+	// 			resolve(text
+	// 				? this.type(text, Object.assign({ ...conf }, { ...config, delay: 0 }))
+	// 				: this.delete(chars, Object.assign({ ...conf }, { ...config, delay: 0 }))
+	// 			);
+	// 		}, config.delay || 0);
+	// 	});
+	// }
 
 	/**
 	 * Clears the entire script
 	 */
 	clear(config = {}) {
+
+		// Contextualizing the config object
+		const conf = this.contextConfig(config);
+
 		return new Promise(resolve => {
 			setTimeout(() => {
 				this.stop().then(() => {
 
 					// Clearing the text
-					this.target.textContent = '';
+					this.config.text = '';
 
 					// Resetting the cursor index
-					this.cursor.index = 0;
+					this.config.cursor.index = 0;
+
+					// Updating the output
+					this.output();
 
 					// Resolving
 					resolve(this);
 				});
-			}, config.delay || 0);
+			}, conf.delay || 0);
 		})
+	}
+
+	/**
+	 * Moves the cursor
+	 * @param index The cursor index
+	 */
+	move(index) {
+
+		// Chaning the cursor index
+		this.config.cursor.index = Math.max(Math.min(parseInt(index), this.config.target.textContent.length - 1), 0);
+
+		// Updates the output
+		this.output();
 	}
 
 	//#endregion
@@ -287,8 +344,8 @@ class Typewriter {
 			}
 
 			// Resolving the promises
-			if (this.deleteResolve) {
-				this.deleteResolve(this);
+			if (this.typeResolve) {
+				this.typeResolve(this);
 			}
 
 			// Resolving
@@ -324,13 +381,13 @@ class Typewriter {
 	 * Plays a typing sounds
 	 * @param config The config object
 	 */
-	playSound(config = { sound: false }) {
+	playSound(config = {}) {
 
-		// Constructing the config object
-		const conf = Object.assign({ ...this.sound }, { ...config.sound });
+		// Contextualizing the config object
+		const conf = this.contextConfig(config);
 
 		// Checking if sound is enbaled
-		if (conf.enabled === true) {
+		if (conf.sound.enabled === true) {
 
 			// Getting a random index
 			const index = Math.floor((Math.random()) * 2);
@@ -342,16 +399,46 @@ class Typewriter {
 			const audio = new Audio(typingSound);
 
 			// Setting the volume
-			audio.volume = Math.max(Math.min(parseFloat(conf.volume) || 0.5, 1), 0);
+			audio.volume = Math.max(Math.min(parseFloat(conf.sound.volume) || 0.5, 1), 0);
 
 			// Playing the typing sounds
 			audio.play();
 		}
 	}
 
+	/**
+	 * Textualize the config
+	 * @param config The configuration to clone
+	 */
+	contextConfig(config) {
+
+		// Param config
+		const conf = JSON.parse(JSON.stringify(config));
+
+		// Global config
+		const globalConf = JSON.parse(JSON.stringify(this.config));
+
+		// Merging configs
+		const res = {
+			...globalConf,
+			...conf
+		};
+
+		// Returning the merged config
+		return res;
+	}
+
+	/**
+	 * Outputs the script
+	 */
 	output() {
-		this.target.innerHTML = Array.from(this.text)
-			.map(char => `<span class="eo-typewriter__char">${char}</span>`)
+
+		// Checking the cursor position
+		const cursor = (index) => this.config.cursor.index - 1 === index;
+
+		// Rendering the output
+		this.config.target.innerHTML = Array.from(this.config.text)
+			.map((char, index) => `<span class="eo-typewriter__char ${cursor(index) ? 'eo-typewriter__char--current' : ''}">${char}</span>${cursor(index) ? '<span class="eo-typewriter__cursor"></span>' : ''}`)
 			.join('');
 	}
 
