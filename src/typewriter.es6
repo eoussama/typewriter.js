@@ -103,7 +103,8 @@ class Typewriter {
 						this.typing = true;
 
 						// Typing a character
-						this.target.textContent += text[0];
+						this.text += text[0];
+						this.output();
 
 						// Playing typing sound
 						this.playSound(config);
@@ -346,6 +347,12 @@ class Typewriter {
 			// Playing the typing sounds
 			audio.play();
 		}
+	}
+
+	output() {
+		this.target.innerHTML = Array.from(this.text)
+			.map(char => `<span class="eo-typewriter__char">${char}</span>`)
+			.join('');
 	}
 
 	//#endregion

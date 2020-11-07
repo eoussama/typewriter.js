@@ -182,7 +182,10 @@ var Typewriter =
 
                                 _this.typing = true; // Typing a character
 
-                                _this.target.textContent += text[0]; // Playing typing sound
+                                _this.text += text[0];
+
+                                _this.output(); // Playing typing sound
+
 
                                 _this.playSound(config); // Caching the typing state
 
@@ -431,6 +434,13 @@ var Typewriter =
 
                     audio.play();
                 }
+            }
+        }, {
+            key: "output",
+            value: function output() {
+                this.target.innerHTML = Array.from(this.text).map(function(char) {
+                    return "<span class=\"eo-typewriter__char\">".concat(char, "</span>");
+                }).join('');
             } //#endregion
 
         }]);
