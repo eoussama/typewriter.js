@@ -17,7 +17,7 @@
 - [Description](#description)
 - [Installation](#installation)
 - [Building](#building)
-- [Documentation](#documentation)
+- [Usage](#usage)
 - [Credits](#credits)
 
 ## Description
@@ -65,76 +65,26 @@ Download a specific version from [here](https://github.com/EOussama/typewriterjs
 1. Clone the GitHub repository `https://github.com/EOussama/typewriterjs.git`.
 2. Run `npm install` to install all the dependencies.
 3. Run `npm run prod` to build the package.
-4. The production scripts will be placed in the `dist` folder.
+4. The production script will be placed in the `dist` folder.
 
-## Documentation
+## Usage
 
-### The constructor
+The following example types the string “Hello, world!”:
 
-```js
-TypeWriter((options: Object));
-```
-
-This constructor is used to instantiate typewriter objects that are responsible for producing the animations.
-
-### `typewriter` options.
-
-| Option | Description                                                                    | Default value |
-| ------ | ------------------------------------------------------------------------------ | ------------- |
-| target | The element you want to perform the animation on must be a valid HTML element. | undefined     |
-| speed  | The time between outputting each character in milliseconds.                    | 1500          |
-
-After instantiating a typewriter object, we can use all sort of method to control and customize the animation, here's a list of available methods.
-
-- type
-- delete
-- stop
-- clear
-- moveCursor
-
-### Example
+`index.js`
 
 ```html
-<!-- index.html -->
-
-<!DOCTYPE html>
-
-<html>
-	<body>
-		<p id="target"></p>
-	</body>
-</html>
+<div id="target"></div>
 ```
+
+`script.js`
 
 ```js
-// main.js
-
-var tw = new TypeWriter({
-    target: document.getElementById('target'),
-    speed: 300
-});
-
-tw.type({
-    script: '_Lorem Ipsum!_',
-    endCallback: () => alert('Animation finished!');
-});
+var typewriter = new Typewriter("#target");
+typewriter.type("Hello, world!");
 ```
 
-That would output '_Lorem Ipsum!_' in the paragraph element as if it's being written with a scrapped typewriter, each character will take _300 milliseconds_ to be output, and will trigger a function to execute when it's finished, alerting '_Animation finished!_' for the user.
-
-In order to stop the animation at any point, we can utilize the `stop` function;
-
-```js
-// main.js
-
-setTimeout(() => {
-	tw.stop();
-}, 1000);
-```
-
-That will stop the animation after a second had passed.
-
-> Checkout the `tests/sandbox/index.html` file for usage examples, or visit [this documentation page](https://eoussama.github.io/typewriterjs/).
+See more use cases [here](./docs/documentation.md).
 
 ## Credits
 
