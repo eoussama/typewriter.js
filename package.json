@@ -1,5 +1,5 @@
 {
-	"name": "eo-typewriterjs",
+	"name": "@eoussama/eo-typewriterjs",
 	"version": "5.0.0",
 	"description": "A typewriter for the web.",
 	"main": "./src/typewriter.js",
@@ -30,6 +30,7 @@
 		"url": "https://github.com/EOussama/typewriterjs/issues"
 	},
 	"homepage": "https://github.com/EOussama/typewriterjs#readme",
+	"publishConfig": { "registry": "https://npm.pkg.github.com/" },
 	"devDependencies": {
 		"@babel/core": "^7.2.2",
 		"@babel/preset-env": "^7.2.3",
