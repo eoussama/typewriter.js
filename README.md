@@ -47,7 +47,7 @@ yarn add eo-typewriterjs
 #### cdn
 
 ```bash
-https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
+https://cdn.jsdelivr.net/npm/eo-typewriterjs@latest/dist/typewriter.js
 ```
 
 #### manual
@@ -55,7 +55,7 @@ https://cdn.jsdelivr.net/npm/temmejs@latest/dist/temme.min.js
 Download the latest version from [here](https://github.com/EOussama/typewriterjs/releases).
 Download a specific version from [here](https://github.com/EOussama/typewriterjs/releases).
 
-> The following is only applicable starting from version 5.0.0.
+> The following is only applicable starting from version 4.0.0.
 
 1. Navigate to the `dist` folder inside of the downloaded package.
 2. Copy either of `typewriter.js` or `typewriter.min.js` to your project.
