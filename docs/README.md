@@ -3,6 +3,7 @@
 - [Constructor](#constructor)
 - [Options](#options)
 - [Methods](#methods)
+- [Chaining](#Chaining)
 
 ## Constructor
 
@@ -57,11 +58,15 @@ options = {
 
 ## Methods
 
+TypewriterJS offers various methods to emulate typewriters, all of them are promise-based:
+
+---
+
 ### `type`:
 
 #### Description:
 
-Used to type a passed chunk of text
+> Used to type a passed chunk of text.
 
 #### Prototype:
 
@@ -69,7 +74,7 @@ Used to type a passed chunk of text
 type((text = ""), (config = {}));
 ```
 
-#### Parameterss
+#### Parameters:
 
 | Name   | Type   | Description                                                                   |
 | ------ | ------ | ----------------------------------------------------------------------------- |
@@ -78,7 +83,188 @@ type((text = ""), (config = {}));
 
 #### Example:
 
+> _Typing “Text”_
+
 ```js
 var tw = new Typewriter("#target");
 tw.type("Text");
+```
+
+---
+
+### `delete`:
+
+#### Description:
+
+> Used to delete a select number of characters relative to the position of the cursor
+
+#### Prototype:
+
+```js
+delete ((chars = 1), (config = {}));
+```
+
+#### Parameters:
+
+| Name   | Type   | Description                                                                   |
+| ------ | ------ | ----------------------------------------------------------------------------- |
+| chars  | number | The number of characters to delete                                            |
+| config | object | Optional config object that overrides the default options during this process |
+
+#### Example:
+
+> _Deleting three characters_
+
+```js
+var tw = new Typewriter("#target", { text: "Text" });
+tw.delete(3);
+```
+
+---
+
+### `stop`:
+
+#### Description:
+
+> Used to stop the running process (typing or deleting)
+
+#### Prototype:
+
+```js
+stop((config = {}));
+```
+
+#### Parameters:
+
+| Name   | Type   | Description                                                                   |
+| ------ | ------ | ----------------------------------------------------------------------------- |
+| config | object | Optional config object that overrides the default options during this process |
+
+#### Example:
+
+> _Stopping typing after 1.5 seconds_
+
+```js
+var tw = new Typewriter("#target");
+tw.type("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+tw.stop({ delay: 1500 });
+```
+
+---
+
+### `resume`:
+
+#### Description:
+
+> Used to resume the last stopped process (be it typing or deleting)
+
+#### Prototype:
+
+```js
+resume((config = {}));
+```
+
+#### Parameters:
+
+| Name   | Type   | Description                                                                   |
+| ------ | ------ | ----------------------------------------------------------------------------- |
+| config | object | Optional config object that overrides the default options during this process |
+
+#### Example:
+
+> Resuming deleting after 0.5 seconds of it being stopped\_
+
+```js
+var tw = new Typewriter("#target", {
+	text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+});
+
+tw.delete(20);
+
+tw.stop({ delay: 1000 }).then(() => {
+	tw.resume({ delay: 500 });
+});
+```
+
+---
+
+### `clear`:
+
+#### Description:
+
+> Used to clear the content of the target
+
+#### Prototype:
+
+```js
+clear((config = {}));
+```
+
+#### Parameters:
+
+| Name   | Type   | Description                                                                   |
+| ------ | ------ | ----------------------------------------------------------------------------- |
+| config | object | Optional config object that overrides the default options during this process |
+
+#### Example:
+
+> _Clearing the text after 2 seconds_
+
+```js
+var tw = new Typewriter("#target", {
+	text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+});
+
+tw.clear({ delay: 2000 });
+```
+
+---
+
+### `move`:
+
+#### Description:
+
+> Used to move the cursor around
+
+#### Prototype:
+
+```js
+move(index);
+```
+
+#### Parameters:
+
+| Name  | Type   | Description                                 |
+| ----- | ------ | ------------------------------------------- |
+| index | number | The new index of the cursor starting from 0 |
+
+#### Example:
+
+> _Moving the cursor after the 3rd character_
+
+```js
+var tw = new Typewriter("#target", {
+	text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+});
+
+tw.move(3);
+```
+
+## Chaining
+
+The quirk of TypewriterJS lays in chaning, here's a simple example:
+
+```js
+var tw = new Typewriter("#target", {
+        tick: 500,
+        delay: 1000,
+        sound: {enabled: true},
+        cursor: {blink: true}
+    });
+
+tw.type('world!').then(e =>
+    e.type('Hello, ', {cursor: {index, 0}}).then(e =>
+        e.delete(7, {cursor: {index: 7}})
+    )
+);
 ```

@@ -22,7 +22,7 @@
 
 ## Description
 
-TypewriterJS offers an easy and hackable way of producing and maintaining typewriter-like animations on text, basic stuff like typing, deleting and moving the cursor around are only at the command of a method call.
+TypewriterJS is a promise-based virtual typewriter that offers an easy and hackable way of producing and maintaining typewriter-like animations on text, basic stuff like typing, deleting and moving the cursor around are only at the command of a method call.
 
 ## Installation
 
