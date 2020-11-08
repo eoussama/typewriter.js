@@ -1,5 +1,34 @@
 "use strict";
 
+function _objectWithoutProperties(source, excluded) {
+    if (source == null) return {};
+    var target = _objectWithoutPropertiesLoose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for (i = 0; i < sourceSymbolKeys.length; i++) {
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
+
 function _objectSpread(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
@@ -315,20 +344,30 @@ var Typewriter =
              * Resumes typing
              * @param config The config object
              */
-            // resume(config = {}) {
-            // 	return new Promise(resolve => {
-            // 		setTimeout(() => {
-            // 			// Extracting params
-            // 			const { text, chars, ...conf } = this.cache;
-            // 			// Resuming typing
-            // 			resolve(text
-            // 				? this.type(text, Object.assign({ ...conf }, { ...config, delay: 0 }))
-            // 				: this.delete(chars, Object.assign({ ...conf }, { ...config, delay: 0 }))
-            // 			);
-            // 		}, config.delay || 0);
-            // 	});
-            // }
 
+        }, {
+            key: "resume",
+            value: function resume() {
+                var _this4 = this;
+
+                var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        // Extracting params
+                        var _this4$cache = _this4.cache,
+                            text = _this4$cache.text,
+                            chars = _this4$cache.chars,
+                            conf = _objectWithoutProperties(_this4$cache, ["text", "chars"]); // Resuming typing
+
+
+                        resolve(text ? _this4.type(text, Object.assign(_objectSpread({}, conf), _objectSpread({}, config, {
+                            delay: 0
+                        }))) : _this4.delete(chars, Object.assign(_objectSpread({}, conf), _objectSpread({}, config, {
+                            delay: 0
+                        }))));
+                    }, config.delay || 0);
+                });
+            }
             /**
              * Clears the entire script
              */
@@ -336,23 +375,23 @@ var Typewriter =
         }, {
             key: "clear",
             value: function clear() {
-                var _this4 = this;
+                var _this5 = this;
 
                 var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 // Contextualizing the config object
                 var conf = this.contextConfig(config);
                 return new Promise(function(resolve) {
                     setTimeout(function() {
-                        _this4.stop().then(function() {
+                        _this5.stop().then(function() {
                             // Clearing the text
-                            _this4.config.text = ''; // Resetting the cursor index
+                            _this5.config.text = ''; // Resetting the cursor index
 
-                            _this4.config.cursor.index = 0; // Updating the output
+                            _this5.config.cursor.index = 0; // Updating the output
 
-                            _this4.render(conf); // Resolving
+                            _this5.render(conf); // Resolving
 
 
-                            resolve(_this4);
+                            resolve(_this5);
                         });
                     }, conf.delay || 0);
                 });
@@ -379,23 +418,23 @@ var Typewriter =
         }, {
             key: "stopType",
             value: function stopType() {
-                var _this5 = this;
+                var _this6 = this;
 
                 return new Promise(function(resolve) {
                     // Updating the typing state
-                    _this5.typing = false; // Clearing the timeouts
+                    _this6.typing = false; // Clearing the timeouts
 
-                    if (_this5.typeTimer) {
-                        clearTimeout(_this5.typeTimer);
+                    if (_this6.typeTimer) {
+                        clearTimeout(_this6.typeTimer);
                     } // Resolving the promises
 
 
-                    if (_this5.typeResolve) {
-                        _this5.typeResolve(_this5);
+                    if (_this6.typeResolve) {
+                        _this6.typeResolve(_this6);
                     } // Resolving
 
 
-                    resolve(_this5);
+                    resolve(_this6);
                 });
             }
             /**
@@ -405,23 +444,23 @@ var Typewriter =
         }, {
             key: "stopDelete",
             value: function stopDelete() {
-                var _this6 = this;
+                var _this7 = this;
 
                 return new Promise(function(resolve) {
                     // Updating the typing state
-                    _this6.deleting = false; // Clearing the timeouts
+                    _this7.deleting = false; // Clearing the timeouts
 
-                    if (_this6.deleteTimer) {
-                        clearTimeout(_this6.deleteTimer);
+                    if (_this7.deleteTimer) {
+                        clearTimeout(_this7.deleteTimer);
                     } // Resolving the promises
 
 
-                    if (_this6.deleteResolve) {
-                        _this6.deleteResolve(_this6);
+                    if (_this7.deleteResolve) {
+                        _this7.deleteResolve(_this7);
                     } // Resolving
 
 
-                    resolve(_this6);
+                    resolve(_this7);
                 });
             }
             /**
@@ -477,14 +516,14 @@ var Typewriter =
         }, {
             key: "render",
             value: function render() {
-                var _this7 = this;
+                var _this8 = this;
 
                 var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 // Contextualizing the config object
                 var conf = this.contextConfig(config); // Checking the cursor position
 
                 var cursor = function cursor(index) {
-                    return _this7.config.cursor.index - 1 === index;
+                    return _this8.config.cursor.index - 1 === index;
                 }; // Rendering the output
 
 

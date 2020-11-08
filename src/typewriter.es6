@@ -83,7 +83,7 @@ class Typewriter {
 				delay: config.delay || 0,
 				tick: config.tick || 300,
 				sound: Object.assign({ enabled: false, volume: 0.5 }, { ...config.sound }),
-				cursor: Object.assign({ index: text.length, type: 'stick', blink: true }, { ...config.cursor }),
+				cursor: Object.assign({ index: text.length, type: 'stick', blink: true }, { ...config.cursor })
 			};
 
 			// Initializing the cache
@@ -304,21 +304,21 @@ class Typewriter {
 	 * Resumes typing
 	 * @param config The config object
 	 */
-	// resume(config = {}) {
-	// 	return new Promise(resolve => {
-	// 		setTimeout(() => {
+	resume(config = {}) {
+		return new Promise(resolve => {
+			setTimeout(() => {
 
-	// 			// Extracting params
-	// 			const { text, chars, ...conf } = this.cache;
+				// Extracting params
+				const { text, chars, ...conf } = this.cache;
 
-	// 			// Resuming typing
-	// 			resolve(text
-	// 				? this.type(text, Object.assign({ ...conf }, { ...config, delay: 0 }))
-	// 				: this.delete(chars, Object.assign({ ...conf }, { ...config, delay: 0 }))
-	// 			);
-	// 		}, config.delay || 0);
-	// 	});
-	// }
+				// Resuming typing
+				resolve(text
+					? this.type(text, Object.assign({ ...conf }, { ...config, delay: 0 }))
+					: this.delete(chars, Object.assign({ ...conf }, { ...config, delay: 0 }))
+				);
+			}, config.delay || 0);
+		});
+	}
 
 	/**
 	 * Clears the entire script
