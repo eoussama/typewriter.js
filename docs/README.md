@@ -3,7 +3,8 @@
 - [Constructor](#constructor)
 - [Options](#options)
 - [Methods](#methods)
-- [Chaining](#Chaining)
+- [Chaining](#chaining)
+- [Caret](#caret)
 
 ## Constructor
 
@@ -90,6 +91,8 @@ var tw = new Typewriter("#target");
 tw.type("Text");
 ```
 
+[Try it on Codepen](https://codepen.io/eoussama/pen/eYzLqEY)
+
 ---
 
 ### `delete`:
@@ -119,6 +122,8 @@ delete ((chars = 1), (config = {}));
 var tw = new Typewriter("#target", { text: "Text" });
 tw.delete(3);
 ```
+
+[Try it on Codepen](https://codepen.io/eoussama/pen/OJXoKzw)
 
 ---
 
@@ -256,15 +261,34 @@ The quirk of TypewriterJS lays in chaning, here's a simple example:
 
 ```js
 var tw = new Typewriter("#target", {
-        tick: 500,
-        delay: 1000,
-        sound: {enabled: true},
-        cursor: {blink: true}
-    });
+	tick: 500,
+	delay: 1000,
+	sound: { enabled: true },
+	cursor: { blink: true },
+});
 
-tw.type('world!').then(e =>
-    e.type('Hello, ', {cursor: {index, 0}}).then(e =>
-        e.delete(7, {cursor: {index: 7}})
-    )
-);
+tw.type("world!").then((e) => e.type("Hello", { cursor: { index: 0 } }));
 ```
+
+[Try it on Codepen](https://codepen.io/eoussama/pen/dyXqxdR)
+
+## Caret
+
+Carets come in two types, “stick” and “underscrore”, but you can also customize it the way you want:
+
+### Example
+
+> The string that we pass as the type of the cursor acts as a suffixe to the cursor's class, so it's always going to be `.eo-typewriter__cursor--[TYPE]`, in our example, it's `.eo-typewriter__cursor--my-custom-caret`:
+
+```js
+var tw = new Typewriter(".custom", { cursor: { type: "my-custom-caret" } });
+```
+
+```css
+.eo-typewriter__cursor--my-custom-caret::after {
+	content: "¶";
+	color: red;
+}
+```
+
+[Try it on Codepen](https://codepen.io/eoussama/pen/JjKagvE)
