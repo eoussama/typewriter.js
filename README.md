@@ -84,7 +84,7 @@ var typewriter = new Typewriter("#target");
 typewriter.type("Hello, world!");
 ```
 
-See more use cases [here](./docs/documentation.md).
+See more use cases [here](./docs/).
 
 ## Credits
 
