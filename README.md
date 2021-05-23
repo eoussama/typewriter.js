@@ -71,7 +71,7 @@ Download a specific version from [here](https://github.com/EOussama/typewriterjs
 
 The following example types the string “Hello, world!”:
 
-`index.js`
+`index.html`
 
 ```html
 <div id="target"></div>
