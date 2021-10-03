@@ -1,24 +1,26 @@
-# Ignoring vscode settings.
+# Ignoring vscode settings
 .vscode/
 
-# Ignoring the dependencies' folder.
+# Ignoring the dependencies' folder
 node_modules/
 
-# Ignoring the source files.
+# Ignoring the source files
 src/
 
-# Ignoring the tests.
+# Ignoring the tests
 tests/
 
-# Ignoring the gulp file.
+# Ignoring the gulp file
 gulpfile.js
-
-# Ignoring flow specific files
 .flowconfig
-
-# Ignoring babel specific files
 .babelrc
 
 # Ignoring git specific files.
+.github
 .gitignore
 .gitattributes
+
+# Ignoring documentation and tests
+docs/
+assets/
+README.md
