@@ -1,4 +1,0 @@
-{
-    "flow.pathToFlow": "${workspaceRoot}/node_modules/flow-bin/flow-win64-v0.89.0/flow.exe",
-    "javascript.validate.enable": false
-}
