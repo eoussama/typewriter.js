@@ -1,18 +1,11 @@
 {
-	"name": "@eoussama/eo-typewriterjs",
-	"version": "5.0.0",
-	"description": "A typewriter for the web.",
-	"main": "./src/typewriter.js",
-	"directories": {
-		"doc": "docs",
-		"dist": "dist"
-	},
+	"name": "@eoussama/typewriter",
+	"version": "6.0.0",
+	"description": "Javascript utility for advanced typewriter-like animations.",
+	"main": "./src/index.ts",
 	"scripts": {
-		"clean": "rm -rf dist",
-		"build": "npx gulp",
-		"prod": "npm run clean && npm run build",
-		"dev": "npx gulp build:watch",
-		"test": "npx jest"
+		"start": "node test/test.js",
+		"build": "npx tsc"
 	},
 	"repository": {
 		"type": "git",
@@ -22,7 +15,8 @@
 		"animation",
 		"typewriter",
 		"js",
-		"library"
+		"library",
+		"utility"
 	],
 	"author": "EOussama",
 	"license": "MIT",
@@ -30,18 +24,10 @@
 		"url": "https://github.com/EOussama/typewriterjs/issues"
 	},
 	"homepage": "https://github.com/EOussama/typewriterjs#readme",
-	"publishConfig": { "registry": "https://npm.pkg.github.com/" },
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com/"
+	},
 	"devDependencies": {
-		"@babel/core": "^7.2.2",
-		"@babel/preset-env": "^7.2.3",
-		"@babel/preset-flow": "^7.0.0",
-		"flow-bin": "^0.89.0",
-		"gulp": "^4.0.0",
-		"gulp-babel": "^8.0.0",
-		"gulp-beautify": "^2.0.1",
-		"gulp-cli": "^2.0.1",
-		"gulp-rename": "^1.4.0",
-		"gulp-uglify": "^3.0.1",
-		"gulp-watch": "^5.0.1"
+		"typescript": "^4.4.3"
 	}
 }
