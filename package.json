@@ -4,7 +4,6 @@
 	"description": "Javascript utility for advanced typewriter-like animations.",
 	"main": "./src/index.ts",
 	"scripts": {
-		"start": "node test/test.js",
 		"build": "npx tsc"
 	},
 	"repository": {
@@ -28,6 +27,7 @@
 		"registry": "https://npm.pkg.github.com/"
 	},
 	"devDependencies": {
+		"http-server": "^13.0.2",
 		"typescript": "^4.4.3"
 	}
 }

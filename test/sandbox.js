@@ -1,1 +1,0 @@
-const ts = require('../dist/index');
