@@ -4,6 +4,7 @@
 	"description": "Javascript utility for advanced typewriter-like animations.",
 	"main": "./src/index.ts",
 	"scripts": {
+		"clean": "rm -rf ./dist",
 		"build": "npx tsc"
 	},
 	"repository": {

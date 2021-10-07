@@ -1,3 +1,7 @@
+import { Type } from "./actions/type.js";
+import { Action } from "./actions/action.js";
+import { Nullable } from "./types/nullable.type.js";
+
 export default class Typewriter {
 
 	private context = {
@@ -5,7 +9,7 @@ export default class Typewriter {
 		index: 0
 	};
 
-	private queue: Array<Type> = [];
+	private queue: Array<Action> = [];
 	private target!: Nullable<HTMLElement>;
 
 	constructor(selector: string) {
@@ -31,7 +35,7 @@ export default class Typewriter {
 			if (this.context.content.length > 0) {
 				this.context.content.split('').forEach((char, i) => {
 					output += `<span class="tw-char">${char}</span>`;
-	
+
 					if (i === this.context.index) {
 						output += `<span class="tw_caret">_</span>`;
 					}
@@ -48,39 +52,3 @@ export default class Typewriter {
 		this.render();
 	}
 }
-
-class Action {
-	protected input!: string;
-
-	constructor(input: string) {
-		this.input = input;
-	}
-}
-
-class Type extends Action {
-
-	constructor(input: string) {
-		super(input);
-	}
-
-	async start(context: any, update: any, input: string = this.input, parentResolve?: any): Promise<void> {
-		return new Promise(resolve => {
-			setTimeout(() => {
-				const character = input[0];
-				const rest = input.substr(1);
-
-				context.content += character;
-				context.index = context.content.length - 1;
-				update();
-
-				if (rest.length > 0) {
-					this.start(context, update, rest, parentResolve ?? resolve);
-				} else {
-					parentResolve();
-				}
-			}, 200);
-		});
-	}
-}
-
-type Nullable<T> = T | null;
