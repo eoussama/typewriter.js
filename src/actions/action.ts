@@ -16,8 +16,8 @@ export class Action {
 	 *
 	 * @param input The target input
 	 */
-	constructor(input: string) {
-		this.input = input;
+	constructor(input?: string) {
+		this.input = input ?? '';
 	}
 
 	/**

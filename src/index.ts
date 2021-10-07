@@ -1,6 +1,8 @@
-import { Type } from "./actions/type.js";
-import { Action } from "./actions/action.js";
 import { Nullable } from "./types/nullable.type.js";
+
+import { Action } from "./actions/action.js";
+import { Type } from "./actions/type.js";
+import { Sleep } from "./actions/sleep.js";
 
 export default class Typewriter {
 
@@ -9,17 +11,21 @@ export default class Typewriter {
 		index: 0
 	};
 
+	/**
+	 * @description
+	 * Action queue
+	 */
 	private queue: Array<Action> = [];
+
+	/**
+	 * @description
+	 * HTML target element
+	 */
 	private target!: Nullable<HTMLElement>;
 
 	constructor(selector: string) {
 		this.target = document.querySelector(selector);
 		this.render();
-	}
-
-	public type(input: string) {
-		this.queue.push(new Type(input));
-		return this;
 	}
 
 	public async start() {
@@ -28,6 +34,28 @@ export default class Typewriter {
 		}
 	}
 
+	public sleep(time: number) {
+		this.queue.push(new Sleep(time));
+		return this;
+	}
+
+	public type(input: string) {
+		this.queue.push(new Type(input));
+		return this;
+	}
+
+	/**
+	 * @description
+	 * The update callback, called from inside every action
+	 */
+	private update(): void {
+		this.render();
+	}
+
+	/**
+	 * @description
+	 * Renders the context inside of the target HTML element
+	 */
 	private render(): void {
 		if (this.target) {
 			let output = '';
@@ -46,9 +74,5 @@ export default class Typewriter {
 
 			this.target.innerHTML = output;
 		}
-	}
-
-	private update(): void {
-		this.render();
 	}
 }

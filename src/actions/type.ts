@@ -18,7 +18,7 @@ export class Type extends Action {
 
 	/**
 	 * @description
-	 * Initiates typewriter action
+	 * Initiates type action
 	 *
 	 * @param context Typewriter context
 	 * @param update The update method
@@ -40,7 +40,7 @@ export class Type extends Action {
 				} else {
 					parentResolve();
 				}
-			}, 200);
+			}, parentResolve ? 200 : 0);
 		});
 	}
 }
