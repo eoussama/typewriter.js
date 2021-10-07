@@ -38,7 +38,7 @@ export class Type extends Action {
 				if (rest.length > 0) {
 					this.start(context, update, rest, parentResolve ?? resolve);
 				} else {
-					parentResolve();
+					parentResolve ? parentResolve() : resolve();
 				}
 			}, parentResolve ? 200 : 0);
 		});

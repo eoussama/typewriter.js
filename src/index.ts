@@ -3,6 +3,7 @@ import { Nullable } from "./types/nullable.type.js";
 import { Action } from "./actions/action.js";
 import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
+import { Exec } from "./actions/exec.js";
 
 export default class Typewriter {
 
@@ -34,11 +35,34 @@ export default class Typewriter {
 		}
 	}
 
+	/**
+	 * @description
+	 * Initiates a sleep action
+	 *
+	 * @param time The timeout time in milliseconds
+	 */
 	public sleep(time: number) {
 		this.queue.push(new Sleep(time));
 		return this;
 	}
 
+	/**
+	 * @description
+	 * Initiates anb exec action
+	 *
+	 * @param func The user-defined action
+	 */
+	public exec(func: Promise<void>) {
+		this.queue.push(new Exec(func));
+		return this;
+	}
+
+	/**
+	 * @description
+	 * Initiates a type action
+	 *
+	 * @param input The target input
+	 */
 	public type(input: string) {
 		this.queue.push(new Type(input));
 		return this;
