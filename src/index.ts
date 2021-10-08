@@ -1,5 +1,8 @@
 import { Nullable } from "./types/nullable.type.js";
 
+import { IConfig } from "./types/config.type.js";
+import { IActionConfig } from "./types/action-config.type.js";
+
 import { Action } from "./actions/action.js";
 import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
@@ -7,7 +10,7 @@ import { Exec } from "./actions/exec.js";
 
 export default class Typewriter {
 
-	private context = {
+	public readonly context = {
 		content: '',
 		index: 0
 	};
@@ -16,22 +19,40 @@ export default class Typewriter {
 	 * @description
 	 * Action queue
 	 */
-	private queue: Array<Action> = [];
+	private readonly queue: Array<Action> = [];
 
 	/**
 	 * @description
 	 * HTML target element
 	 */
-	private target!: Nullable<HTMLElement>;
+	private readonly target!: Nullable<HTMLElement>;
 
-	constructor(selector: string) {
+	/**
+	 * @description
+	 * Global configuration
+	 */
+	public config!: IConfig;
+
+	/**
+	 * @description
+	 * Instantiates the typewriter
+	 *
+	 * @param selector The target selector
+	 * @param config The global configuration object
+	 */
+	constructor(selector: string, config?: IConfig) {
 		this.target = document.querySelector(selector);
+
+		this.config = {
+			speed: config?.speed ?? 300
+		};
+
 		this.render();
 	}
 
 	public async start() {
 		for await (let action of this.queue) {
-			await action.start(this.context, this.update.bind(this));
+			await action.start();
 		}
 	}
 
@@ -42,7 +63,7 @@ export default class Typewriter {
 	 * @param time The timeout time in milliseconds
 	 */
 	public sleep(time: number) {
-		this.queue.push(new Sleep(time));
+		this.queue.push(new Sleep(time, this));
 		return this;
 	}
 
@@ -53,7 +74,7 @@ export default class Typewriter {
 	 * @param func The user-defined action
 	 */
 	public exec(func: Promise<void>) {
-		this.queue.push(new Exec(func));
+		this.queue.push(new Exec(func, this));
 		return this;
 	}
 
@@ -62,9 +83,10 @@ export default class Typewriter {
 	 * Initiates a type action
 	 *
 	 * @param input The target input
+	 * @param config The action configuration
 	 */
-	public type(input: string) {
-		this.queue.push(new Type(input));
+	public type(input: string, config?: IActionConfig) {
+		this.queue.push(new Type(input, this, config));
 		return this;
 	}
 
@@ -72,7 +94,7 @@ export default class Typewriter {
 	 * @description
 	 * The update callback, called from inside every action
 	 */
-	private update(): void {
+	public update(): void {
 		this.render();
 	}
 

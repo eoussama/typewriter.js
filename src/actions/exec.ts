@@ -1,3 +1,5 @@
+import Typewriter from "../index.js";
+import { IActionConfig } from "../types/action-config.type.js";
 import { Action } from "./action.js";
 
 /**
@@ -7,32 +9,33 @@ import { Action } from "./action.js";
  */
 export class Exec extends Action {
 
-	/**
-	 * @description
-	 * The user-defined action
-	 */
-	private func: any;
+  /**
+   * @description
+   * The user-defined action
+   */
+  private func: any;
 
-	/**
-	 * @description
-	 * Instantiates an exec action
-	 *
-	 * @param
-	 * The user-defined action
-	 */
-	constructor(func:any) {
-		super();
-		this.func = func;
-	}
+  /**
+   * @description
+   * Instantiates an exec action
+   *
+   * @param func The user-defined action
+   * @param parent The parent typewriter
+   * @param config The configuration object
+   */
+  constructor(func: any, parent: Typewriter, config?: IActionConfig) {
+    super(parent, config);
+    this.func = func;
+  }
 
-	/**
-	 * @description
-	 * Initiates the exec action
-	 */
-	async start(): Promise<void> {
-		return new Promise(async resolve => {
-			await this.func();
-			resolve();
-		});
-	}
+  /**
+   * @description
+   * Initiates the exec action
+   */
+  async start(): Promise<void> {
+    return new Promise(async resolve => {
+      await this.func();
+      resolve();
+    });
+  }
 }

@@ -1,3 +1,6 @@
+import Typewriter from "../index";
+import { IActionConfig } from "../types/action-config.type";
+
 /**
  * @description
  * Base typewriter action
@@ -6,28 +9,33 @@ export class Action {
 
 	/**
 	 * @description
-	 * The target input
+	 * The parent typewriter object
 	 */
-	protected input!: string;
+	protected readonly parent!: Typewriter;
+
+	/**
+	 * @description
+	 * The action configuration object
+	 */
+	protected config!: IActionConfig;
 
 	/**
 	 * @description
 	 * Instantiates a base typewriter action
 	 *
-	 * @param input The target input
+	 * @param parent The parent typewriter
+	 * @param config The configuration object
 	 */
-	constructor(input?: string) {
-		this.input = input ?? '';
+	constructor(parent: Typewriter, config?: IActionConfig) {
+		this.parent = parent;
+		this.config = config as any;
 	}
 
 	/**
 	 * @description
-	 * Initiates typewriter action
-	 *
-	 * @param context Typewriter context
-	 * @param update The update method
-	 * @param input The target input
-	 * @param parentResolve Parent resolve function
+	 * Initiates the action
 	 */
-	async start(context: any, update: any, input?: string, parentResolve?: any): Promise<void> { }
+	async start(): Promise<void> {
+		return Promise.resolve();
+	 }
 }

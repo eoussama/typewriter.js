@@ -1,10 +1,10 @@
 import Typewriter from "./../../dist/index.js";
 
-const options = {};
-const tw = new Typewriter('#target');
+const options = { speed: 100 };
+const tw = new Typewriter('#target', options);
 
 tw
-  .type('Hello,')
+  .type('Hello,', { speed: 500 })
   .sleep(600)
   .type(' World')
   .exec(() => new Promise(resolve => {
