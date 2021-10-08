@@ -44,6 +44,7 @@ export default class Typewriter {
 		this.target = document.querySelector(selector);
 
 		this.config = {
+			step: config?.step ?? 1,
 			speed: config?.speed ?? 300
 		};
 

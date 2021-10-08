@@ -35,12 +35,13 @@ export class Type extends Action {
 	 * @param parentResolve Parent resolve function
 	 */
 	async start(input: string = this.input, parentResolve?: any): Promise<void> {
+		const step = this.config?.step ?? this.parent.config?.step;
 		const speed = this.config?.speed ?? this.parent.config?.speed;
 
 		return new Promise(resolve => {
 			setTimeout(() => {
-				const character = input[0];
-				const rest = input.substr(1);
+				const character = input.substr(0, step);
+				const rest = input.substr(step);
 
 				this.parent.context.content += character;
 				this.parent.context.index = this.parent.context.content.length - 1;
