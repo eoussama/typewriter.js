@@ -4,8 +4,8 @@ const options = { speed: 1000 };
 const tw = new Typewriter('#target', options);
 
 tw
-  .type('Hllo', { speed: 500 })
-  .move(-3).type('e')
+  .type('Hzllo', { speed: 200 })
+  .move(-3).delete(1).type('e')
   .move(3).sleep(600)
   .type(' World', { step: 3 })
   .exec(() => new Promise(resolve => {

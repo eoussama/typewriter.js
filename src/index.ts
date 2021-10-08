@@ -8,6 +8,7 @@ import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
 import { Exec } from "./actions/exec.js";
 import { Move } from "./actions/move.js";
+import { Delete } from "./actions/delete.js";
 
 export default class Typewriter {
 
@@ -94,9 +95,21 @@ export default class Typewriter {
 
 	/**
 	 * @description
+	 * Initiates a delete action
+	 *
+	 * @param times Number of deletions
+	 * @param config The action configuration
+	 */
+	public delete(times: number, config?: IActionConfig) {
+		this.queue.push(new Delete(times, this, config));
+		return this;
+	}
+
+	/**
+	 * @description
 	 * Initiates a move action
 	 *
-	 * @param input The target input
+	 * @param index The target index
 	 * @param config The action configuration
 	 */
 	public move(index: number, config?: IActionConfig) {
