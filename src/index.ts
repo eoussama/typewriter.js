@@ -7,6 +7,7 @@ import { Action } from "./actions/action.js";
 import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
 import { Exec } from "./actions/exec.js";
+import { Move } from "./actions/move.js";
 
 export default class Typewriter {
 
@@ -93,6 +94,18 @@ export default class Typewriter {
 
 	/**
 	 * @description
+	 * Initiates a move action
+	 *
+	 * @param input The target input
+	 * @param config The action configuration
+	 */
+	public move(index: number, config?: IActionConfig) {
+		this.queue.push(new Move(index, this, config));
+		return this;
+	}
+
+	/**
+	 * @description
 	 * The update callback, called from inside every action
 	 */
 	public update(): void {
@@ -111,7 +124,7 @@ export default class Typewriter {
 				this.context.content.split('').forEach((char, i) => {
 					output += `<span class="tw-char">${char}</span>`;
 
-					if (i === this.context.index) {
+					if (i + 1 === this.context.index) {
 						output += `<span class="tw_caret">_</span>`;
 					}
 				});

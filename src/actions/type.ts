@@ -40,11 +40,12 @@ export class Type extends Action {
 
 		return new Promise(resolve => {
 			setTimeout(() => {
-				const character = input.substr(0, step);
+				const characters = input.substr(0, step);
 				const rest = input.substr(step);
 
-				this.parent.context.content += character;
-				this.parent.context.index = this.parent.context.content.length - 1;
+				this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
+				this.parent.context.index += characters.length;
+
 				this.parent.update();
 
 				if (rest.length > 0) {
@@ -52,7 +53,7 @@ export class Type extends Action {
 				} else {
 					parentResolve ? parentResolve() : resolve();
 				}
-			}, parentResolve ? speed : 0);
+			}, speed);
 		});
 	}
 }
