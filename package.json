@@ -5,6 +5,7 @@
 	"main": "./src/index.ts",
 	"scripts": {
 		"clean": "rm -rf ./dist",
+		"sandbox": "npx http-server ./",
 		"build": "npx tsc"
 	},
 	"repository": {
