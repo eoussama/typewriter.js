@@ -11,7 +11,7 @@ export class Action {
 	 * @description
 	 * The parent typewriter object
 	 */
-	protected readonly parent!: Typewriter;
+	public readonly parent!: Typewriter;
 
 	/**
 	 * @description

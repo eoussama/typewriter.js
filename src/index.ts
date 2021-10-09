@@ -31,6 +31,12 @@ export default class Typewriter {
 
 	/**
 	 * @description
+	 * Whether the typewriter is paused
+	 */
+	public paused: boolean = false;
+
+	/**
+	 * @description
 	 * Global configuration
 	 */
 	public config!: IConfig;
@@ -53,7 +59,7 @@ export default class Typewriter {
 		this.render();
 	}
 
-	public async start() {
+	public async start(): Promise<void> {
 		for await (let action of this.queue) {
 			await action.start();
 		}
@@ -65,7 +71,7 @@ export default class Typewriter {
 	 *
 	 * @param time The timeout time in milliseconds
 	 */
-	public sleep(time: number) {
+	public sleep(time: number): Typewriter {
 		this.queue.push(new Sleep(time, this));
 		return this;
 	}
@@ -76,7 +82,7 @@ export default class Typewriter {
 	 *
 	 * @param func The user-defined action
 	 */
-	public exec(func: Promise<void>) {
+	public exec(func: Promise<void>): Typewriter {
 		this.queue.push(new Exec(func, this));
 		return this;
 	}
@@ -88,7 +94,7 @@ export default class Typewriter {
 	 * @param input The target input
 	 * @param config The action configuration
 	 */
-	public type(input: string, config?: IActionConfig) {
+	public type(input: string, config?: IActionConfig): Typewriter {
 		this.queue.push(new Type(input, this, config));
 		return this;
 	}
@@ -100,7 +106,7 @@ export default class Typewriter {
 	 * @param times Number of deletions
 	 * @param config The action configuration
 	 */
-	public delete(times: number, config?: IActionConfig) {
+	public delete(times: number, config?: IActionConfig): Typewriter {
 		this.queue.push(new Delete(times, this, config));
 		return this;
 	}
@@ -112,9 +118,25 @@ export default class Typewriter {
 	 * @param index The target index
 	 * @param config The action configuration
 	 */
-	public move(index: number, config?: IActionConfig) {
+	public move(index: number, config?: IActionConfig): Typewriter {
 		this.queue.push(new Move(index, this, config));
 		return this;
+	}
+
+	/**
+	 * @description
+	 * Pauses the actions of typewriter
+	 */
+	public pause(): void {
+		this.paused = true;
+	}
+
+	/**
+	 * @description
+	 * Resumes the actions of the typewriter
+	 */
+	public resume(): void {
+		this.paused = false;
 	}
 
 	/**
