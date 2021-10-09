@@ -1,3 +1,5 @@
+import { IRendererConfig } from "./renderer-config.type";
+
 /**
  * @description
  * Global configuration object
@@ -8,26 +10,7 @@
    * @description
    * The caret configuration
    */
-  caret: {
-
-    /**
-     * @description
-     * Whether of the caret is enabled
-     */
-    enable: boolean,
-
-    /**
-     * @description
-     * Whether blinking is enabled
-     */
-    blink: boolean,
-
-    /**
-     * @description
-     * The content of the caret
-     */
-    content: string
-  },
+  caret?: IRendererConfig,
 
   /**
    * @description
