@@ -51,6 +51,12 @@ export class Action {
 	 * Initiates the action
 	 */
 	public async start(): Promise<void> {
-		return Promise.resolve();
+		return new Promise(resolve => {
+			this.parent.pauseObservable.subscribe((e) => {
+				if (!e) {
+					resolve();
+				}
+			});
+		});
 	}
 }

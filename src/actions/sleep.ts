@@ -20,7 +20,7 @@ export class Sleep extends Action {
 	 * times out the execution of the action chain
 	 *
 	 * @param time The time in milliseconds
-   * @param parent The parent typewriter
+	 * @param parent The parent typewriter
 	 * @param config The configuration object
 	 */
 	constructor(time: number, parent: Typewriter, config?: IActionConfig) {
@@ -33,6 +33,8 @@ export class Sleep extends Action {
 	 * Initiates the sleep action
 	 */
 	async start(): Promise<void> {
+		await super.start();
+
 		return new Promise(resolve => {
 			setTimeout(() => {
 				resolve();

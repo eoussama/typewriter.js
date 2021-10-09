@@ -11,6 +11,7 @@ import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
 import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
+import { Observable } from "./utils/observable.js";
 
 /**
  * @description
@@ -28,9 +29,16 @@ export default class Typewriter {
 	/**
 	 * @description
 	 * The queuer responsible for
-		 * organizing the actions
+	 * organizing the actions
 	 */
 	private readonly queuer!: Queuer;
+
+	/**
+	 * @description
+	 * The pause observable, handles updates
+	 * for pause/resume operations
+	 */
+	public readonly pauseObservable!: Observable<boolean>;
 
 	/**
 	 * @description
@@ -52,20 +60,29 @@ export default class Typewriter {
 	 * @param config The global configuration object
 	 */
 	constructor(selector: string, config?: IConfig) {
+
+		// Initializing the context
 		this.context = {
 			content: '',
 			index: 0
 		};
 
+		// Initializing global configurations
 		this.config = {
 			caret: config?.caret,
 			step: config?.step ?? 1,
 			speed: config?.speed ?? 300
 		};
 
+		// Initializing the renderer
 		const target = <HTMLElement>document.querySelector(selector);
 		this.renderer = new Renderer(target, this.context);
+
+		// Initializing the queuer
 		this.queuer = new Queuer();
+
+		// Initializing the pause/resume observable
+		this.pauseObservable = new Observable<boolean>(false);
 	}
 
 	/**
@@ -87,7 +104,6 @@ export default class Typewriter {
 	public sleep(time: number): Typewriter {
 		const action = new Sleep(time, this);
 		this.queuer.add(action);
-
 		return this;
 	}
 
@@ -144,6 +160,22 @@ export default class Typewriter {
 		this.queuer.add(action);
 
 		return this;
+	}
+
+	/**
+	 * @description
+	 * Pauses the execution of the actions
+	 */
+	pause(): void {
+		this.pauseObservable.emit(true);
+	}
+
+	/**
+	 * @description
+	 * Resumes the execution of the actions
+	 */
+	resume(): void {
+		this.pauseObservable.emit(false);
 	}
 
 	/**

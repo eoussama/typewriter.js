@@ -33,6 +33,7 @@ export class Move extends Action {
 	 * Initiates the sleep action
 	 */
 	async start(): Promise<void> {
+		await super.start();
 		const speed = this.getConfig('speed');
 
 		return new Promise(resolve => {

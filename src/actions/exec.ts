@@ -33,6 +33,8 @@ export class Exec extends Action {
    * Initiates the exec action
    */
   async start(): Promise<void> {
+    await super.start();
+
     return new Promise(async resolve => {
       await this.func();
       resolve();

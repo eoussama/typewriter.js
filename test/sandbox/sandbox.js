@@ -1,6 +1,6 @@
 import Typewriter from "./../../dist/index.js";
 
-const options = { speed: 1000, caret: { enable: true, content: '_/' } };
+const options = { speed: 200, caret: { enable: true, content: '_/' } };
 const tw = new Typewriter('#target', options);
 
 tw

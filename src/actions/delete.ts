@@ -35,6 +35,8 @@ export class Delete extends Action {
 	 * @param parentResolve Parent resolve function
 	 */
 	async start(times: number = this.times, parentResolve?: any): Promise<void> {
+		await super.start();
+
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
 

@@ -35,6 +35,8 @@ export class Type extends Action {
 	 * @param parentResolve Parent resolve function
 	 */
 	async start(input: string = this.input, parentResolve?: any): Promise<void> {
+		await super.start();
+
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
 
