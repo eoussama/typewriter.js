@@ -24,7 +24,6 @@ export class Audio {
       volume: config?.volume ?? 0.5,
       src: config?.src ?? []
     };
-    console.log(config);
   }
 
   /**

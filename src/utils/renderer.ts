@@ -74,6 +74,16 @@ export class Renderer {
 
   /**
    * @description
+   * Resets the target
+   */
+  public reset(): void {
+    if (this.target) {
+      this.target.innerHTML = '';
+    }
+  }
+
+  /**
+   * @description
    * Returnes the rendered caret
    */
   private renderedCaret(): string {

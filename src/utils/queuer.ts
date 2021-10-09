@@ -8,10 +8,17 @@ import { Action } from "../actions/action.js";
 export class Queuer {
 
   /**
+   * @description
+   * Unique ID for the queue to defferentiate
+   * between overlaping queues
+   */
+  private id!: string;
+
+  /**
    * @description 
    * Action queue
    */
-  private readonly queue!: Array<Action>;
+  private queue!: Array<Action>;
 
   /**
    * @description
@@ -26,7 +33,7 @@ export class Queuer {
    * Instantiates the queuer
    */
   constructor() {
-    this.queue = [];
+    this.reset();
   }
 
   /**
@@ -35,7 +42,27 @@ export class Queuer {
    *
    * @param action The action to add
    */
-  add(action: Action) {
+  public add(action: Action): void {
+    action.queueId = this.id;
     this.queue.push(action);
+  }
+
+  /**
+   * @description
+   * Clears the action list
+   */
+  public reset(): void {
+    this.id = new Date().getTime().toString(32);
+    this.queue = [];
+  }
+
+  /**
+   * @description
+   * Checks if the action belongs to the queue
+   *
+   * @param action The target action
+   */
+  public isValid(action: Action): boolean {
+    return action.queueId === this.id;
   }
 }

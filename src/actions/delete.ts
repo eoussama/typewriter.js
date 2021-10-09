@@ -18,7 +18,7 @@ export class Delete extends Action {
 	 * @description
 	 * Instantiates a type action
 	 *
-	 @param times Number of deletions
+	 * @param times Number of deletions
 	 * @param parent The parent typewriter
 	 * @param config The configuration object
 	 */

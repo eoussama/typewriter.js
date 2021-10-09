@@ -31,7 +31,7 @@ export default class Typewriter {
 	 * The queuer responsible for
 	 * organizing the actions
 	 */
-	private readonly queuer!: Queuer;
+	public readonly queuer!: Queuer;
 
 	/**
 	 * @description
@@ -102,6 +102,10 @@ export default class Typewriter {
 	 */
 	public async start(): Promise<void> {
 		for await (let action of this.queuer.items) {
+			if (!this.queuer.isValid(action)) {
+				continue;
+			}
+
 			await action.start();
 		}
 	}
@@ -186,6 +190,19 @@ export default class Typewriter {
 	 * Resumes the execution of the actions
 	 */
 	resume(): void {
+		this.pauseObservable.emit(false);
+	}
+
+	/**
+	 * @description
+	 * Resets the entire typewriter
+	 */
+	reset(): void {
+		this.context.content = '';
+		this.context.index = 0;
+
+		this.queuer.reset();
+		this.renderer.reset();
 		this.pauseObservable.emit(false);
 	}
 

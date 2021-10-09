@@ -9,15 +9,21 @@ export class Action {
 
 	/**
 	 * @description
-	 * The parent typewriter object
-	 */
-	public readonly parent!: Typewriter;
-
-	/**
-	 * @description
 	 * The action configuration object
 	 */
 	protected config!: IActionConfig;
+
+	/**
+	 * @description
+	 * The parent typewriter object
+	 */
+	protected readonly parent!: Typewriter;
+
+	/**
+	 * @description
+	 * The containing queue ID
+	 */
+	public queueId!: string;
 
 	/**
 	 * @description
@@ -53,7 +59,7 @@ export class Action {
 	public async start(): Promise<void> {
 		return new Promise(resolve => {
 			this.parent.pauseObservable.subscribe((e) => {
-				if (!e) {
+				if (!e && this.parent.queuer.isValid(this)) {
 					resolve();
 				}
 			});

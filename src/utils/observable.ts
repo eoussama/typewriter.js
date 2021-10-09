@@ -22,10 +22,10 @@ export class Observable<T> {
    * @description
    * Instanciates an observable instance
    */
-  constructor(defaultValue: T) {
+  constructor(defaultValue?: T) {
 
     // Initializing the default value
-    this.value = defaultValue;
+    this.value = <any>defaultValue;
 
     // Initializing the subscribers list
     this.subscribers = [];
