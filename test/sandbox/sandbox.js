@@ -1,6 +1,11 @@
 import Typewriter from "./../../dist/index.js";
+import SFX from "./../../dist/assets/audio.js";
 
-const options = { speed: 200, caret: { enable: true, content: '_/' } };
+const options = {
+  speed: 200,
+  audio: { enable: true, src: SFX },
+  caret: { enable: true, content: '_/' }
+};
 const tw = new Typewriter('#target', options);
 
 tw

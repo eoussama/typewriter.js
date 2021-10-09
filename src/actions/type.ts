@@ -49,6 +49,7 @@ export class Type extends Action {
 				this.parent.context.index += characters.length;
 
 				this.parent.update();
+				this.parent.audio.play();
 
 				if (rest.length > 0) {
 					this.start(rest, parentResolve ?? resolve);

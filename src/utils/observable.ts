@@ -1,4 +1,4 @@
-import { Func } from "../types/function.type";
+import { Func } from "../types/function.type.js";
 
 /**
  * @description

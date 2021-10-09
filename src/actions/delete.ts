@@ -49,6 +49,7 @@ export class Delete extends Action {
 				times -= deletionWidth;
 
 				this.parent.update();
+				this.parent.audio.play();
 
 				if (times > 0) {
 					this.start(times, parentResolve ?? resolve);

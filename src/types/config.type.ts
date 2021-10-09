@@ -1,21 +1,16 @@
-import { IRendererConfig } from "./renderer-config.type";
+import { IAudioConfig } from "./audio-config.type.js";
+import { IRendererConfig } from "./renderer-config.type.js";
 
 /**
  * @description
  * Global configuration object
  */
- export interface IConfig {
-
-  /**
-   * @description
-   * The caret configuration
-   */
-  caret?: IRendererConfig,
+export interface IConfig {
 
   /**
    * @description
    * Tick in milliseconds, this is essentially the speed
-	 * in which the typewriter performs every action.
+   * in which the typewriter performs every action.
    */
   speed: number;
 
@@ -25,4 +20,16 @@ import { IRendererConfig } from "./renderer-config.type";
    * by an action, be it typing, deleting, or moving.
    */
   step: number;
+
+  /**
+   * @description
+   * The caret configuration
+   */
+  caret?: IRendererConfig,
+
+  /**
+   * @description
+   * The audio configuration
+   */
+  audio?: IAudioConfig,
 }

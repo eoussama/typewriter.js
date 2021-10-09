@@ -1,5 +1,5 @@
-import Typewriter from "../index";
-import { IActionConfig } from "../types/action-config.type";
+import Typewriter from "../index.js";
+import { IActionConfig } from "../types/action-config.type.js";
 
 /**
  * @description

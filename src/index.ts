@@ -3,7 +3,6 @@ import { IActionConfig } from "./types/action-config.type.js";
 
 import { Renderer } from "./utils/renderer.js";
 
-import { Action } from "./actions/action.js";
 import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
 import { Exec } from "./actions/exec.js";
@@ -12,6 +11,7 @@ import { Delete } from "./actions/delete.js";
 import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
+import { Audio } from "./utils/audio.js";
 
 /**
  * @description
@@ -32,6 +32,13 @@ export default class Typewriter {
 	 * organizing the actions
 	 */
 	private readonly queuer!: Queuer;
+
+	/**
+	 * @description
+	 * The audio utility responsible
+	 * for playing SFX
+	 */
+	public readonly audio!: Audio;
 
 	/**
 	 * @description
@@ -70,13 +77,17 @@ export default class Typewriter {
 		// Initializing global configurations
 		this.config = {
 			caret: config?.caret,
+			audio: config?.audio,
 			step: config?.step ?? 1,
 			speed: config?.speed ?? 300
 		};
 
 		// Initializing the renderer
 		const target = <HTMLElement>document.querySelector(selector);
-		this.renderer = new Renderer(target, this.context);
+		this.renderer = new Renderer(target, this.context, this.config.caret);
+
+		// Initializing the audio utility
+		this.audio = new Audio(this.config.audio);
 
 		// Initializing the queuer
 		this.queuer = new Queuer();

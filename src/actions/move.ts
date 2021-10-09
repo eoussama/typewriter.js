@@ -39,7 +39,9 @@ export class Move extends Action {
 		return new Promise(resolve => {
 			setTimeout(() => {
 				this.parent.context.index += this.index;
+
 				this.parent.update();
+				this.parent.audio.play();
 
 				resolve();
 			}, speed);

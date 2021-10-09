@@ -1,4 +1,3 @@
-
 /**
    * @description
    * Caret configuration
@@ -7,7 +6,7 @@ export interface IRendererConfig {
 
   /**
    * @description
-   * Whether of the caret is enabled
+   * If the caret is enabled
    */
   enable: boolean,
 

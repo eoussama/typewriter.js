@@ -1,6 +1,6 @@
-import { Nullable } from "../types/nullable.type";
-import { IContext } from "../types/context.type";
-import { IRendererConfig } from "../types/renderer-config.type";
+import { Nullable } from "../types/nullable.type.js";
+import { IContext } from "../types/context.type.js";
+import { IRendererConfig } from "../types/renderer-config.type.js";
 
 /**
  * @description
