@@ -33,9 +33,24 @@ export class Action {
 
 	/**
 	 * @description
+	 * Returns the target key value,
+	 * used to check both global and local configuration.
+	 *
+	 * @param key The config key
+	 * @param fallback An optional fallback value
+	 */
+	protected getConfig(key: keyof IActionConfig, fallback?: any) {
+		const localValue = this.config ? this.config[key] : null;
+		const globalValue = this.parent.config ? this.parent.config[key] : null;
+
+		return localValue ?? globalValue ?? fallback;
+	}
+
+	/**
+	 * @description
 	 * Initiates the action
 	 */
-	async start(): Promise<void> {
+	public async start(): Promise<void> {
 		return Promise.resolve();
-	 }
+	}
 }

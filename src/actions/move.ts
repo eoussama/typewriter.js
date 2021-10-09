@@ -33,7 +33,7 @@ export class Move extends Action {
 	 * Initiates the sleep action
 	 */
 	async start(): Promise<void> {
-		const speed = this.config?.speed ?? this.parent.config?.speed;
+		const speed = this.getConfig('speed');
 
 		return new Promise(resolve => {
 			setTimeout(() => {
