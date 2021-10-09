@@ -10,6 +10,7 @@ import { Exec } from "./actions/exec.js";
 import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
 import { IContext } from "./types/context.type.js";
+import { Queuer } from "./utils/queuer.js";
 
 /**
  * @description
@@ -26,14 +27,15 @@ export default class Typewriter {
 
 	/**
 	 * @description
-	 * Action queue
+	 * The queuer responsible for
+		 * organizing the actions
 	 */
-	private readonly queue: Array<Action> = [];
+	private readonly queuer!: Queuer;
 
 	/**
-   * @description
-   * The typewriter's context
-   */
+	 * @description
+	 * The typewriter's context
+	 */
 	public readonly context!: IContext;
 
 	/**
@@ -63,6 +65,7 @@ export default class Typewriter {
 
 		const target = <HTMLElement>document.querySelector(selector);
 		this.renderer = new Renderer(target, this.context);
+		this.queuer = new Queuer();
 	}
 
 	/**
@@ -70,7 +73,7 @@ export default class Typewriter {
 	 * Starts the actions queue
 	 */
 	public async start(): Promise<void> {
-		for await (let action of this.queue) {
+		for await (let action of this.queuer.items) {
 			await action.start();
 		}
 	}
@@ -82,7 +85,9 @@ export default class Typewriter {
 	 * @param time The timeout time in milliseconds
 	 */
 	public sleep(time: number): Typewriter {
-		this.queue.push(new Sleep(time, this));
+		const action = new Sleep(time, this);
+		this.queuer.add(action);
+
 		return this;
 	}
 
@@ -93,7 +98,9 @@ export default class Typewriter {
 	 * @param func The user-defined action
 	 */
 	public exec(func: Promise<void>): Typewriter {
-		this.queue.push(new Exec(func, this));
+		const action = new Exec(func, this);
+		this.queuer.add(action);
+
 		return this;
 	}
 
@@ -105,7 +112,9 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public type(input: string, config?: IActionConfig): Typewriter {
-		this.queue.push(new Type(input, this, config));
+		const action = new Type(input, this, config);
+		this.queuer.add(action);
+
 		return this;
 	}
 
@@ -117,7 +126,9 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public delete(times: number, config?: IActionConfig): Typewriter {
-		this.queue.push(new Delete(times, this, config));
+		const action = new Delete(times, this, config);
+		this.queuer.add(action);
+
 		return this;
 	}
 
@@ -129,7 +140,9 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public move(index: number, config?: IActionConfig): Typewriter {
-		this.queue.push(new Move(index, this, config));
+		const action = new Move(index, this, config);
+		this.queuer.add(action);
+
 		return this;
 	}
 
