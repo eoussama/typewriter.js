@@ -52,10 +52,16 @@ export default class Typewriter {
 		this.target = document.querySelector(selector);
 
 		this.config = {
+			caret: {
+				enable: config?.caret?.enable ?? true,
+				blink: config?.caret?.blink ?? true,
+				content: config?.caret?.content ?? '_'
+			},
 			step: config?.step ?? 1,
 			speed: config?.speed ?? 300
 		};
 
+		this.injectStyle();
 		this.render();
 	}
 
@@ -149,6 +155,14 @@ export default class Typewriter {
 
 	/**
 	 * @description
+	 * Returnes the rendered caret
+	 */
+	private renderedCaret(): string {
+		return `<span class="tw_caret ${this.config.caret.blink ? 'tw_blink' : ''}">${this.config.caret.content}</span>`;
+	}
+
+	/**
+	 * @description
 	 * Renders the context inside of the target HTML element
 	 */
 	private render(): void {
@@ -159,15 +173,48 @@ export default class Typewriter {
 				this.context.content.split('').forEach((char, i) => {
 					output += `<span class="tw-char">${char}</span>`;
 
-					if (i + 1 === this.context.index) {
-						output += `<span class="tw_caret">_</span>`;
+					if (this.config?.caret?.enable && i + 1 === this.context.index) {
+						output += this.renderedCaret();
 					}
 				});
-			} else {
-				output += `<span class="tw_caret">_</span>`;
+			} else if (this.config?.caret?.enable) {
+				output += this.renderedCaret();
 			}
 
 			this.target.innerHTML = output;
+		}
+	}
+
+	/**
+	 * @description
+	 * Injects CSS styling for certain features to work,
+	 * ex; caret blinking, etc...
+	 */
+	private injectStyle(): void {
+		let styles = document.getElementById('tw_styles');
+
+		if (!styles) {
+			styles = document.createElement('style');
+			styles.id = 'tw_styles';
+			styles.textContent = `
+				.tw_caret.tw_blink {
+					animation-name: tw_blink_animation;
+					animation-duration: 0.5s;
+					animation-iteration-count: infinite;
+					animation-direction: alternate-reverse;
+				}
+
+				@keyframes tw_blink_animation {
+					from {
+						opacity: 0;
+					}
+
+					to {
+						opacity: 1
+					}
+				}
+			`;
+			document.head.appendChild(styles);
 		}
 	}
 }

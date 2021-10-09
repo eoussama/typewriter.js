@@ -1,22 +1,23 @@
 import Typewriter from "./../../dist/index.js";
 
-const options = { speed: 1000 };
+const options = { speed: 1000, caret: { enable: true, content: '_/' } };
 const tw = new Typewriter('#target', options);
 
 tw
-  .type('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
-// .type('Hzllo', { speed: 200 })
-// .move(-3).delete(1).type('e')
-// .move(3).sleep(600)
-// .type(' World', { step: 3 })
-// .exec(() => new Promise(resolve => {
-//   setTimeout(() => {
-//     console.log('exec finished');
-//     resolve();
-//   }, 2000);
-// }))
-// .move(-6).type(',')
-// .move(6).type('!');
+  // .type('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
+  .type('Hzllo', { speed: 200 })
+  .move(-3).delete(1).type('e')
+  .move(3).sleep(600)
+  .type(' World', { step: 3 })
+  .exec(() => new Promise(resolve => {
+    setTimeout(() => {
+      console.log('exec finished');
+      tw.config.caret.content = '|';
+      resolve();
+    }, 2000);
+  }))
+  .move(-6).type(',')
+  .move(6).type('!');
 
 const start = document.getElementById('start');
 const pause = document.getElementById('pause');
