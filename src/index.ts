@@ -19,22 +19,22 @@ export default class Typewriter {
 
 	/**
 	 * @description
-	 * The typewriter's context
-	 */
-	public readonly context!: IContext;
-
-	/**
-	 * @description
 	 * The renderer responsible on rendering
 	 * the typewriter's output
 	 */
-	public readonly renderer!: Renderer;
+	private readonly renderer!: Renderer;
 
 	/**
 	 * @description
 	 * Action queue
 	 */
 	private readonly queue: Array<Action> = [];
+
+	/**
+   * @description
+   * The typewriter's context
+   */
+	public readonly context!: IContext;
 
 	/**
 	 * @description
