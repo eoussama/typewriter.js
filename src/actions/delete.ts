@@ -36,6 +36,7 @@ export class Delete extends Action {
 	 */
 	async start(times: number = this.times, parentResolve?: any): Promise<void> {
 		await super.start();
+		this.before();
 
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
@@ -50,6 +51,8 @@ export class Delete extends Action {
 
 				this.parent.update();
 				this.parent.audio.play();
+
+				this.after();
 
 				if (times > 0) {
 					this.start(times, parentResolve ?? resolve);

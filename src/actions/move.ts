@@ -34,6 +34,7 @@ export class Move extends Action {
 	 */
 	async start(): Promise<void> {
 		await super.start();
+		this.before();
 
 		const speed = this.getConfig('speed');
 
@@ -44,6 +45,7 @@ export class Move extends Action {
 				this.parent.update();
 				this.parent.audio.play();
 
+				this.after();
 				resolve();
 			}, speed);
 		});

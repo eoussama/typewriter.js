@@ -12,12 +12,14 @@ import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
 import { Audio } from "./utils/audio.js";
+import { Func } from "./types/function.type.js";
+import { IActions } from "./types/actions.type.js";
 
 /**
  * @description
  * Typewriter
  */
-export default class Typewriter {
+export default class Typewriter implements IActions {
 
 	/**
 	 * @description
@@ -25,6 +27,12 @@ export default class Typewriter {
 	 * the typewriter's output
 	 */
 	private readonly renderer!: Renderer;
+
+	/**
+	 * @description
+	 * Event list
+	 */
+	public events!: Array<{ event: string, func: Func<any> }>;
 
 	/**
 	 * @description
@@ -67,6 +75,9 @@ export default class Typewriter {
 	 * @param config The global configuration object
 	 */
 	constructor(selector: string, config?: IConfig) {
+
+		// Initializing the events
+		this.events = [];
 
 		// Initializing the context
 		this.context = {
@@ -181,7 +192,7 @@ export default class Typewriter {
 	 * @description
 	 * Pauses the execution of the actions
 	 */
-	pause(): void {
+	public pause(): void {
 		this.pauseObservable.emit(true);
 	}
 
@@ -189,7 +200,7 @@ export default class Typewriter {
 	 * @description
 	 * Resumes the execution of the actions
 	 */
-	resume(): void {
+	public resume(): void {
 		this.pauseObservable.emit(false);
 	}
 
@@ -197,13 +208,29 @@ export default class Typewriter {
 	 * @description
 	 * Resets the entire typewriter
 	 */
-	reset(): void {
+	public reset(): void {
 		this.context.content = '';
 		this.context.index = 0;
 
 		this.queuer.reset();
 		this.renderer.reset();
 		this.pauseObservable.emit(false);
+	}
+
+	/**
+	 * @description
+	 * Subscribes to events
+	 */
+	public before<T>(event: keyof IActions, func: Func<T>): void {
+		this.events.push({ event: `before:${event}`, func });
+	}
+
+	/**
+	 * @description
+	 * Subscribes to events
+	 */
+	public after<T>(event: keyof IActions, func: Func<T>): void {
+		this.events.push({ event: `after:${event}`, func });
 	}
 
 	/**

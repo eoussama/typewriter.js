@@ -34,9 +34,11 @@ export class Sleep extends Action {
 	 */
 	async start(): Promise<void> {
 		await super.start();
+		this.before();
 
 		return new Promise(resolve => {
 			setTimeout(() => {
+				this.after();
 				resolve();
 			}, this.time);
 		});

@@ -1,5 +1,6 @@
 import Typewriter from "../index.js";
 import { IActionConfig } from "../types/action-config.type.js";
+import { Func } from "../types/function.type.js";
 
 /**
  * @description
@@ -50,6 +51,24 @@ export class Action {
 		const globalValue = this.parent.config ? this.parent.config[key] : null;
 
 		return localValue ?? globalValue ?? fallback;
+	}
+
+	/**
+	 * @description
+	 * Fires before events
+	 */
+	public before(): void {
+		const name = this.constructor.name?.toLowerCase();
+		this.parent.events.filter(e => e.event === `before:${name}`).forEach(event => event.func());
+	}
+
+	/**
+	 * @description
+	 * Fires after events
+	 */
+	public after(): void {
+		const name = this.constructor.name?.toLowerCase();
+		this.parent.events.filter(e => e.event === `after:${name}`).forEach(event => event.func());
 	}
 
 	/**

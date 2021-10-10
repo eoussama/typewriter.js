@@ -36,6 +36,7 @@ export class Type extends Action {
 	 */
 	async start(input: string = this.input, parentResolve?: any): Promise<void> {
 		await super.start();
+		this.before();
 
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
@@ -50,6 +51,8 @@ export class Type extends Action {
 
 				this.parent.update();
 				this.parent.audio.play();
+
+				this.after();
 
 				if (rest.length > 0) {
 					this.start(rest, parentResolve ?? resolve);
