@@ -1,5 +1,5 @@
-import Typewriter from "../dist/index.js";
-import SFX from "../dist/assets/audio.js";
+import Typewriter from "./lib/index.js";
+import SFX from "./lib/assets/audio.js";
 
 /**
  * @description
