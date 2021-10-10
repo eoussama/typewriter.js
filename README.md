@@ -68,5 +68,3 @@ The following example types the string “Hello, world!”:
 var tw = new Typewriter("#target");
 tw.type("Hello, world!").start();
 ```
-
-See more use cases [here](./docs/).
