@@ -82,11 +82,12 @@ var Exec = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        this.before();
                         return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.func()];
+                                        case 0:
+                                            this.before();
+                                            return [4 /*yield*/, this.func()];
                                         case 1:
                                             _a.sent();
                                             this.after();

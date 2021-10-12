@@ -36,13 +36,14 @@ export class Type extends Action {
 	 */
 	async start(input: string = this.input, parentResolve?: any): Promise<void> {
 		await super.start();
-		this.before();
 
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
 
 		return new Promise(resolve => {
 			setTimeout(() => {
+				this.before();
+
 				const characters = input.substr(0, step);
 				const rest = input.substr(step);
 

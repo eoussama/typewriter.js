@@ -36,13 +36,14 @@ export class Delete extends Action {
 	 */
 	async start(times: number = this.times, parentResolve?: any): Promise<void> {
 		await super.start();
-		this.before();
 
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
 
 		return new Promise(resolve => {
 			setTimeout(() => {
+				this.before();
+
 				const deletionWidth = Math.min(times, step);
 
 				this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index - deletionWidth) + this.parent.context.content.substr(this.parent.context.index + deletionWidth - 1);

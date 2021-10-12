@@ -83,10 +83,10 @@ var Move = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        this.before();
                         speed = this.getConfig('speed');
                         return [2 /*return*/, new Promise(function (resolve) {
                                 setTimeout(function () {
+                                    _this.before();
                                     _this.parent.context.index += _this.index;
                                     _this.parent.update();
                                     _this.parent.audio.play();

@@ -86,11 +86,11 @@ var Delete = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        this.before();
                         step = this.getConfig('step');
                         speed = this.getConfig('speed');
                         return [2 /*return*/, new Promise(function (resolve) {
                                 setTimeout(function () {
+                                    _this.before();
                                     var deletionWidth = Math.min(times, step);
                                     _this.parent.context.content = _this.parent.context.content.substr(0, _this.parent.context.index - deletionWidth) + _this.parent.context.content.substr(_this.parent.context.index + deletionWidth - 1);
                                     _this.parent.context.index -= deletionWidth;

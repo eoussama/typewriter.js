@@ -34,12 +34,13 @@ export class Move extends Action {
 	 */
 	async start(): Promise<void> {
 		await super.start();
-		this.before();
-
 		const speed = this.getConfig('speed');
+
 
 		return new Promise(resolve => {
 			setTimeout(() => {
+				this.before();
+
 				this.parent.context.index += this.index;
 
 				this.parent.update();

@@ -86,11 +86,11 @@ var Type = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        this.before();
                         step = this.getConfig('step');
                         speed = this.getConfig('speed');
                         return [2 /*return*/, new Promise(function (resolve) {
                                 setTimeout(function () {
+                                    _this.before();
                                     var characters = input.substr(0, step);
                                     var rest = input.substr(step);
                                     _this.parent.context.content = _this.parent.context.content.substr(0, _this.parent.context.index) + characters + _this.parent.context.content.substr(_this.parent.context.index);

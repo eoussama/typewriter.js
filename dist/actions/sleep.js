@@ -82,8 +82,8 @@ var Sleep = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        this.before();
                         return [2 /*return*/, new Promise(function (resolve) {
+                                _this.before();
                                 setTimeout(function () {
                                     _this.after();
                                     resolve();
