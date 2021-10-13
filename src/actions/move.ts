@@ -1,4 +1,5 @@
 import Typewriter from "../index.js";
+import { timeOut } from "../utils/timeOut.js"
 import { Action } from "./action.js";
 import { IActionConfig } from "../types/action-config.type.js";
 
@@ -13,6 +14,14 @@ export class Move extends Action {
 	 * The target index
 	 */
 	index!: number;
+
+	/**
+	 * @description
+	 * Whether the movements is to the left
+	 */
+	get moveLeft() {
+		return this.index < 0;
+	}
 
 	/**
 	 * @description
@@ -34,21 +43,46 @@ export class Move extends Action {
 	 */
 	async start(): Promise<void> {
 		await super.start();
+		await this.move();
+	}
+
+	private async move(): Promise<void> {
 		const speed = this.getConfig('speed');
 
+		const currentLength = this.parent.context.content?.length;
+		const currentIndex = this.parent.context.index;
 
-		return new Promise(resolve => {
-			setTimeout(() => {
+		const index = this.moveLeft
+			? Math.max(currentLength * -1, this.index)
+			: Math.min(currentLength - currentIndex, this.index);
+
+		return new Promise(async resolve => {
+			for await (let _ of this.step(index)) {
 				this.before();
 
-				this.parent.context.index += this.index;
-
+				this.parent.context.index += this.moveLeft ? -1 : 1;
 				this.parent.update();
 				this.parent.audio.play();
 
 				this.after();
-				resolve();
-			}, speed);
+				await timeOut(speed);
+			}
+
+			resolve();
 		});
 	}
-}
+
+	/**
+	 * @description
+	 * Defines required steps to resolve the action
+	 *
+	 * @param length The length of the steps
+	 */
+	private * step(length: number) {
+		const max = Math.abs(length);
+
+		for (let i = 0; i < max; i++) {
+			yield i;
+		}
+	}
+};

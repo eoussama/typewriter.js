@@ -33,9 +33,15 @@ var Renderer = /** @class */ (function () {
             var output_1 = '';
             if (this.context.content.length > 0) {
                 this.context.content.split('').forEach(function (char, i) {
-                    var _a;
+                    var _a, _b;
+                    // Render caret at the begining of the content
+                    if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0) {
+                        output_1 += _this.renderedCaret();
+                    }
+                    // Render character
                     output_1 += "<span class=\"tw-char\">" + char + "</span>";
-                    if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i + 1 === _this.context.index) {
+                    // Render caret after character
+                    if (((_b = _this.config) === null || _b === void 0 ? void 0 : _b.enable) && i + 1 === _this.context.index) {
                         output_1 += _this.renderedCaret();
                     }
                 });

@@ -8,8 +8,15 @@ const options = {
 };
 const tw = new Typewriter('#target', options);
 
-// tw
-//   .type('Lorem ipsum dolor sit amet, consectetur adipiscing elit').start();
+tw
+  .type('Lorem', { speed: 0 })
+  .move(5)
+  .move(-6)
+  .move(2)
+  .move(-500)
+  .move(1000)
+  .move(-1)
+  .start();
 
 const start = document.getElementById('start');
 const pause = document.getElementById('pause');

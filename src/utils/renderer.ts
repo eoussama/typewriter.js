@@ -58,8 +58,16 @@ export class Renderer {
 
       if (this.context.content.length > 0) {
         this.context.content.split('').forEach((char, i) => {
+
+          // Render caret at the begining of the content
+          if (this.config?.enable && i === 0 && this.context.index === 0) {
+            output += this.renderedCaret();
+          }
+
+          // Render character
           output += `<span class="tw-char">${char}</span>`;
 
+          // Render caret after character
           if (this.config?.enable && i + 1 === this.context.index) {
             output += this.renderedCaret();
           }
