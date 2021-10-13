@@ -118,7 +118,7 @@ var Move = /** @class */ (function (_super) {
                 currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
                 currentIndex = this.parent.context.index;
                 index = this.moveLeft
-                    ? Math.max(currentLength * -1, this.index)
+                    ? Math.max(currentIndex * -1, this.index)
                     : Math.min(currentLength - currentIndex, this.index);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                         var _a, _b, _, e_1_1;

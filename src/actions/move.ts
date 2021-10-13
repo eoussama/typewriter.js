@@ -53,7 +53,7 @@ export class Move extends Action {
 		const currentIndex = this.parent.context.index;
 
 		const index = this.moveLeft
-			? Math.max(currentLength * -1, this.index)
+			? Math.max(currentIndex * -1, this.index)
 			: Math.min(currentLength - currentIndex, this.index);
 
 		return new Promise(async resolve => {

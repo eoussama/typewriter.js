@@ -54,9 +54,9 @@ resume.addEventListener('click', () => {
 });
 
 tw.before('move', () => {
-  console.log('before move');
+  // console.log('before move');
 });
 
 tw.after('move', () => {
-  console.log('after move');
+  // console.log('after move');
 });
