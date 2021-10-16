@@ -108,33 +108,42 @@ var Move = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * @description
+     * Moves the caret around
+     */
     Move.prototype.move = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var speed, currentLength, currentIndex, index;
+            var speed, step, currentIndex, currentLength, index;
             var _this = this;
             return __generator(this, function (_b) {
                 speed = this.getConfig('speed');
-                currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
+                step = this.getConfig('step');
                 currentIndex = this.parent.context.index;
+                currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
                 index = this.moveLeft
                     ? Math.max(currentIndex * -1, this.index)
                     : Math.min(currentLength - currentIndex, this.index);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, e_1_1;
+                        var _a, _b, _, minStep, nextStep, e_1_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
                                     _d.trys.push([0, 6, 7, 12]);
-                                    _a = __asyncValues(this.step(index));
+                                    _a = __asyncValues(this.step(Math.abs(index), step));
                                     _d.label = 1;
                                 case 1: return [4 /*yield*/, _a.next()];
                                 case 2:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 5];
                                     _ = _b.value;
                                     this.before();
-                                    this.parent.context.index += this.moveLeft ? -1 : 1;
+                                    minStep = this.moveLeft
+                                        ? this.parent.context.index - step
+                                        : this.parent.context.index + step;
+                                    nextStep = Math.min(minStep, step);
+                                    this.parent.context.index += this.moveLeft ? -nextStep : nextStep;
                                     this.parent.update();
                                     this.parent.audio.play();
                                     this.after();
@@ -167,33 +176,6 @@ var Move = /** @class */ (function (_super) {
                         });
                     }); })];
             });
-        });
-    };
-    /**
-     * @description
-     * Defines required steps to resolve the action
-     *
-     * @param length The length of the steps
-     */
-    Move.prototype.step = function (length) {
-        var max, i;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    max = Math.abs(length);
-                    i = 0;
-                    _a.label = 1;
-                case 1:
-                    if (!(i < max)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, i];
-                case 2:
-                    _a.sent();
-                    _a.label = 3;
-                case 3:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 4: return [2 /*return*/];
-            }
         });
     };
     return Move;

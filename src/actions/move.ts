@@ -42,26 +42,37 @@ export class Move extends Action {
 	 * @description
 	 * Initiates the sleep action
 	 */
-	async start(): Promise<void> {
+	public async start(): Promise<void> {
 		await super.start();
 		await this.move();
 	}
 
+	/**
+	 * @description
+	 * Moves the caret around
+	 */
 	private async move(): Promise<void> {
 		const speed = this.getConfig('speed');
+		const step = this.getConfig('step');
 
-		const currentLength = this.parent.context.content?.length;
 		const currentIndex = this.parent.context.index;
+		const currentLength = this.parent.context.content?.length;
 
 		const index = this.moveLeft
 			? Math.max(currentIndex * -1, this.index)
 			: Math.min(currentLength - currentIndex, this.index);
 
 		return new Promise(async resolve => {
-			for await (let _ of this.step(index)) {
+			for await (let _ of this.step(Math.abs(index), step)) {
 				this.before();
 
-				this.parent.context.index += this.moveLeft ? -1 : 1;
+				const minStep = this.moveLeft
+					? this.parent.context.index - step
+					: this.parent.context.index + step;
+
+				const nextStep = Math.min(minStep, step);
+
+				this.parent.context.index += this.moveLeft ? -nextStep : nextStep;
 				this.parent.update();
 				this.parent.audio.play();
 
@@ -71,19 +82,5 @@ export class Move extends Action {
 
 			resolve();
 		});
-	}
-
-	/**
-	 * @description
-	 * Defines required steps to resolve the action
-	 *
-	 * @param length The length of the steps
-	 */
-	private * step(length: number) {
-		const max = Math.abs(length);
-
-		for (let i = 0; i < max; i++) {
-			yield i;
-		}
 	}
 };

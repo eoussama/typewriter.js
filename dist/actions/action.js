@@ -65,6 +65,35 @@ var Action = /** @class */ (function () {
         return (_a = localValue !== null && localValue !== void 0 ? localValue : globalValue) !== null && _a !== void 0 ? _a : fallback;
     };
     /**
+   * @description
+   * Defines required steps to resolve the action
+   *
+   * @param length The length of the steps
+     * @param step The step of every iteration
+   */
+    Action.prototype.step = function (length, step) {
+        var max, i;
+        if (step === void 0) { step = 1; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    max = Math.abs(length);
+                    i = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(i < max)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, i];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3:
+                    i += step;
+                    return [3 /*break*/, 1];
+                case 4: return [2 /*return*/];
+            }
+        });
+    };
+    /**
      * @description
      * Fires before events
      */

@@ -50,6 +50,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { Action } from "./action.js";
+import { timeOut } from "../utils/timeout.js";
 /**
  * @description
  * Typewriter sleep action
@@ -76,20 +77,41 @@ var Sleep = /** @class */ (function (_super) {
      */
     Sleep.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        return [2 /*return*/, new Promise(function (resolve) {
-                                _this.before();
-                                setTimeout(function () {
-                                    _this.after();
-                                    resolve();
-                                }, _this.time);
-                            })];
+                        return [4 /*yield*/, this.sleep()];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
+            });
+        });
+    };
+    /**
+     * @description
+     * Times-out the action queue
+     */
+    Sleep.prototype.sleep = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    this.before();
+                                    return [4 /*yield*/, timeOut(this.time)];
+                                case 1:
+                                    _a.sent();
+                                    this.after();
+                                    resolve();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
             });
         });
     };

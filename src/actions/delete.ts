@@ -1,6 +1,7 @@
 import Typewriter from "../index.js";
 import { Action } from "./action.js";
 import { IActionConfig } from "../types/action-config.type.js";
+import { timeOut } from "../utils/timeout.js";
 
 /**
  * @description
@@ -34,14 +35,22 @@ export class Delete extends Action {
 	 @param times Number of deletions
 	 * @param parentResolve Parent resolve function
 	 */
-	async start(times: number = this.times, parentResolve?: any): Promise<void> {
+	public async start(): Promise<void> {
 		await super.start();
+		await this.delete();
+	}
 
+	/**
+	 * @description
+	 * Deletes content
+	 */
+	private async delete(): Promise<void> {
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
+		let times = this.times;
 
-		return new Promise(resolve => {
-			setTimeout(() => {
+		return new Promise(async resolve => {
+			for await (let _ of this.step(times, step)) {
 				this.before();
 
 				const deletionWidth = Math.min(times, step);
@@ -54,13 +63,10 @@ export class Delete extends Action {
 				this.parent.audio.play();
 
 				this.after();
+				await timeOut(speed);
+			}
 
-				if (times > 0) {
-					this.start(times, parentResolve ?? resolve);
-				} else {
-					parentResolve ? parentResolve() : resolve();
-				}
-			}, speed);
+			resolve();
 		});
 	}
 }

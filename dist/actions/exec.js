@@ -76,27 +76,41 @@ var Exec = /** @class */ (function (_super) {
      */
     Exec.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            this.before();
-                                            return [4 /*yield*/, this.func()];
-                                        case 1:
-                                            _a.sent();
-                                            this.after();
-                                            resolve();
-                                            return [2 /*return*/];
-                                    }
-                                });
-                            }); })];
+                        return [4 /*yield*/, this.exec()];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
+            });
+        });
+    };
+    /**
+     * @description
+     * Executes user defined function
+     */
+    Exec.prototype.exec = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    this.before();
+                                    return [4 /*yield*/, this.func()];
+                                case 1:
+                                    _a.sent();
+                                    this.after();
+                                    resolve();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
             });
         });
     };

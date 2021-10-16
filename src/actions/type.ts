@@ -1,4 +1,6 @@
 import Typewriter from "../index.js";
+
+import { timeOut } from "../utils/timeout.js";
 import { Action } from "./action.js";
 import { IActionConfig } from "../types/action-config.type.js";
 
@@ -34,19 +36,24 @@ export class Type extends Action {
 	 * @param input The target input
 	 * @param parentResolve Parent resolve function
 	 */
-	async start(input: string = this.input, parentResolve?: any): Promise<void> {
+	public async start(): Promise<void> {
 		await super.start();
+		await this.type();
+	}
 
+	/**
+	 * @description
+	 * Types a target input
+	 */
+	private async type(): Promise<void> {
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
 
-		return new Promise(resolve => {
-			setTimeout(() => {
+		return new Promise(async resolve => {
+			for await (let index of this.step(this.input.length, step)) {
 				this.before();
 
-				const characters = input.substr(0, step);
-				const rest = input.substr(step);
-
+				const characters = this.input.substr(index, step);
 				this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
 				this.parent.context.index += characters.length;
 
@@ -54,13 +61,10 @@ export class Type extends Action {
 				this.parent.audio.play();
 
 				this.after();
+				await timeOut(speed);
+			}
 
-				if (rest.length > 0) {
-					this.start(rest, parentResolve ?? resolve);
-				} else {
-					parentResolve ? parentResolve() : resolve();
-				}
-			}, speed);
+			resolve();
 		});
 	}
 }

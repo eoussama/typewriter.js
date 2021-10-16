@@ -9,13 +9,15 @@ const options = {
 const tw = new Typewriter('#target', options);
 
 tw
-  .type('Lorem', { speed: 100 })
-  .move(5, { delay: 3000 })
-  .move(-6)
-  .move(2)
-  .move(-500)
-  .move(1000)
-  .move(-1)
+  .type('Lorem Ipsum', { speed: 5 })
+  .delete(6, {step: 2})
+  // .type('Lorem', { speed: 100 })
+  // .move(5, { delay: 3000 })
+  // .move(-6)
+  // .move(2)
+  // .move(-500)
+  // .move(1000)
+  // .move(-1)
   .start();
 
 const start = document.getElementById('start');
@@ -40,7 +42,7 @@ start.addEventListener('click', async () => {
           resolve();
         }, 2000);
       }))
-      .move(-6).type(',')
+      .move(-6, { step: 6 }).type(',')
       .move(6).type('!').start();
   }, 100);
 });

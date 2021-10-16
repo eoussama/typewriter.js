@@ -32,13 +32,21 @@ export class Exec extends Action {
    * @description
    * Initiates the exec action
    */
-  async start(): Promise<void> {
+  public async start(): Promise<void> {
     await super.start();
+    await this.exec();
+  }
 
+  /**
+   * @description
+   * Executes user defined function
+   */
+  private async exec(): Promise<void> {
     return new Promise(async resolve => {
       this.before();
       await this.func();
       this.after();
+
       resolve();
     });
   }

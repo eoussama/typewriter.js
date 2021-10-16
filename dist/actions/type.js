@@ -49,6 +49,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+import { timeOut } from "../utils/timeout.js";
 import { Action } from "./action.js";
 /**
  * @description
@@ -76,37 +84,80 @@ var Type = /** @class */ (function (_super) {
      * @param input The target input
      * @param parentResolve Parent resolve function
      */
-    Type.prototype.start = function (input, parentResolve) {
-        if (input === void 0) { input = this.input; }
+    Type.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var step, speed;
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        step = this.getConfig('step');
-                        speed = this.getConfig('speed');
-                        return [2 /*return*/, new Promise(function (resolve) {
-                                setTimeout(function () {
-                                    _this.before();
-                                    var characters = input.substr(0, step);
-                                    var rest = input.substr(step);
-                                    _this.parent.context.content = _this.parent.context.content.substr(0, _this.parent.context.index) + characters + _this.parent.context.content.substr(_this.parent.context.index);
-                                    _this.parent.context.index += characters.length;
-                                    _this.parent.update();
-                                    _this.parent.audio.play();
-                                    _this.after();
-                                    if (rest.length > 0) {
-                                        _this.start(rest, parentResolve !== null && parentResolve !== void 0 ? parentResolve : resolve);
-                                    }
-                                    else {
-                                        parentResolve ? parentResolve() : resolve();
-                                    }
-                                }, speed);
-                            })];
+                        return [4 /*yield*/, this.type()];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
+            });
+        });
+    };
+    /**
+     * @description
+     * Types a target input
+     */
+    Type.prototype.type = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var step, speed;
+            var _this = this;
+            return __generator(this, function (_a) {
+                step = this.getConfig('step');
+                speed = this.getConfig('speed');
+                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+                        var _a, _b, index, characters, e_1_1;
+                        var e_1, _c;
+                        return __generator(this, function (_d) {
+                            switch (_d.label) {
+                                case 0:
+                                    _d.trys.push([0, 6, 7, 12]);
+                                    _a = __asyncValues(this.step(this.input.length, step));
+                                    _d.label = 1;
+                                case 1: return [4 /*yield*/, _a.next()];
+                                case 2:
+                                    if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 5];
+                                    index = _b.value;
+                                    this.before();
+                                    characters = this.input.substr(index, step);
+                                    this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
+                                    this.parent.context.index += characters.length;
+                                    this.parent.update();
+                                    this.parent.audio.play();
+                                    this.after();
+                                    return [4 /*yield*/, timeOut(speed)];
+                                case 3:
+                                    _d.sent();
+                                    _d.label = 4;
+                                case 4: return [3 /*break*/, 1];
+                                case 5: return [3 /*break*/, 12];
+                                case 6:
+                                    e_1_1 = _d.sent();
+                                    e_1 = { error: e_1_1 };
+                                    return [3 /*break*/, 12];
+                                case 7:
+                                    _d.trys.push([7, , 10, 11]);
+                                    if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 9];
+                                    return [4 /*yield*/, _c.call(_a)];
+                                case 8:
+                                    _d.sent();
+                                    _d.label = 9;
+                                case 9: return [3 /*break*/, 11];
+                                case 10:
+                                    if (e_1) throw e_1.error;
+                                    return [7 /*endfinally*/];
+                                case 11: return [7 /*endfinally*/];
+                                case 12:
+                                    resolve();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
             });
         });
     };

@@ -1,6 +1,7 @@
 import Typewriter from "../index.js";
 import { Action } from "./action.js";
 import { IActionConfig } from "../types/action-config.type.js";
+import { timeOut } from "../utils/timeout.js";
 
 /**
  * @description
@@ -32,16 +33,22 @@ export class Sleep extends Action {
 	 * @description
 	 * Initiates the sleep action
 	 */
-	async start(): Promise<void> {
+	public async start(): Promise<void> {
 		await super.start();
+		await this.sleep();
+	}
 
-		return new Promise(resolve => {
+	/**
+	 * @description
+	 * Times-out the action queue
+	 */
+	private async sleep(): Promise<void> {
+		return new Promise(async resolve => {
 			this.before();
+			await timeOut(this.time);
+			this.after();
 
-			setTimeout(() => {
-				this.after();
-				resolve();
-			}, this.time);
+			resolve();
 		});
 	}
 }

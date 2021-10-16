@@ -1,6 +1,5 @@
 import Typewriter from "../index.js";
 import { IActionConfig } from "../types/action-config.type.js";
-import { Func } from "../types/function.type.js";
 
 /**
  * @description
@@ -51,6 +50,21 @@ export class Action {
 		const globalValue = this.parent.config ? this.parent.config[key] : null;
 
 		return localValue ?? globalValue ?? fallback;
+	}
+
+	/**
+   * @description
+   * Defines required steps to resolve the action
+   *
+   * @param length The length of the steps
+	 * @param step The step of every iteration
+   */
+	protected * step(length: number, step: number = 1) {
+		const max = Math.abs(length);
+
+		for (let i = 0; i < max; i += step) {
+			yield i;
+		}
 	}
 
 	/**
