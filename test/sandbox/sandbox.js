@@ -9,8 +9,8 @@ const options = {
 const tw = new Typewriter('#target', options);
 
 tw
-  .type('Lorem', { speed: 0 })
-  .move(5)
+  .type('Lorem', { speed: 100 })
+  .move(5, { delay: 3000 })
   .move(-6)
   .move(2)
   .move(-500)

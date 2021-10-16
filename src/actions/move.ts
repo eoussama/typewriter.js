@@ -1,5 +1,6 @@
 import Typewriter from "../index.js";
-import { timeOut } from "../utils/timeOut.js"
+
+import { timeOut } from "../utils/timeout.js";
 import { Action } from "./action.js";
 import { IActionConfig } from "../types/action-config.type.js";
 

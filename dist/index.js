@@ -63,7 +63,7 @@ var Typewriter = /** @class */ (function () {
      * @param config The global configuration object
      */
     function Typewriter(selector, config) {
-        var _a, _b;
+        var _a, _b, _c;
         // Initializing the events
         this.events = [];
         // Initializing the context
@@ -76,7 +76,8 @@ var Typewriter = /** @class */ (function () {
             caret: config === null || config === void 0 ? void 0 : config.caret,
             audio: config === null || config === void 0 ? void 0 : config.audio,
             step: (_a = config === null || config === void 0 ? void 0 : config.step) !== null && _a !== void 0 ? _a : 1,
-            speed: (_b = config === null || config === void 0 ? void 0 : config.speed) !== null && _b !== void 0 ? _b : 300
+            delay: (_b = config === null || config === void 0 ? void 0 : config.delay) !== null && _b !== void 0 ? _b : 0,
+            speed: (_c = config === null || config === void 0 ? void 0 : config.speed) !== null && _c !== void 0 ? _c : 300
         };
         // Initializing the renderer
         var target = document.querySelector(selector);

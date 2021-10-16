@@ -90,6 +90,7 @@ export default class Typewriter implements IActions {
 			caret: config?.caret,
 			audio: config?.audio,
 			step: config?.step ?? 1,
+			delay: config?.delay ?? 0,
 			speed: config?.speed ?? 300
 		};
 

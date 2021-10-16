@@ -88,14 +88,18 @@ var Action = /** @class */ (function () {
      */
     Action.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var delay;
             var _this = this;
             return __generator(this, function (_a) {
+                delay = this.getConfig('delay');
                 return [2 /*return*/, new Promise(function (resolve) {
-                        _this.parent.pauseObservable.subscribe(function (e) {
-                            if (!e && _this.parent.queuer.isValid(_this)) {
-                                resolve();
-                            }
-                        });
+                        setTimeout(function () {
+                            _this.parent.pauseObservable.subscribe(function (e) {
+                                if (!e && _this.parent.queuer.isValid(_this)) {
+                                    resolve();
+                                }
+                            });
+                        }, delay);
                     })];
             });
         });

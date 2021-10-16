@@ -76,12 +76,16 @@ export class Action {
 	 * Initiates the action
 	 */
 	public async start(): Promise<void> {
+		const delay = this.getConfig('delay');
+
 		return new Promise(resolve => {
-			this.parent.pauseObservable.subscribe((e) => {
-				if (!e && this.parent.queuer.isValid(this)) {
-					resolve();
-				}
-			});
+			setTimeout(() => {
+				this.parent.pauseObservable.subscribe((e) => {
+					if (!e && this.parent.queuer.isValid(this)) {
+						resolve();
+					}
+				});
+			}, delay);
 		});
 	}
 }

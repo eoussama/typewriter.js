@@ -6,6 +6,13 @@ export interface IActionConfig {
 
   /**
    * @description
+   * Delay before the action starts
+   * in milliseconds.
+   */
+  delay: number;
+
+  /**
+   * @description
    * The action speed in milliseconds
    */
   speed: number;

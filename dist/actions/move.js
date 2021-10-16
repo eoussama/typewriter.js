@@ -56,7 +56,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-import { timeOut } from "../utils/timeOut.js";
+import { timeOut } from "../utils/timeout.js";
 import { Action } from "./action.js";
 /**
  * @description
