@@ -90,6 +90,19 @@ var Typewriter = /** @class */ (function () {
         // Initializing the pause/resume observable
         this.pauseObservable = new Observable(false);
     }
+    Object.defineProperty(Typewriter.prototype, "errorHandler", {
+        /**
+         * @description
+         * Returns the event handler
+         */
+        get: function () {
+            var _a, _b;
+            var handler = (_b = (_a = this.events.find(function (e) { return e.event === 'error'; })) === null || _a === void 0 ? void 0 : _a.func) !== null && _b !== void 0 ? _b : (function () { });
+            return handler;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      * @description
      * Starts the actions queue
@@ -241,6 +254,21 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.update = function () {
         this.renderer.render();
+    };
+    /**
+     * @description
+     * Hooks the event handler
+     *
+     * @param handler The event handler
+     */
+    Typewriter.prototype.catch = function (handler) {
+        var handlerIndex = this.events.findIndex(function (e) { return e.event === 'error'; });
+        if (handlerIndex === -1) {
+            this.events.push({ event: "error", func: handler });
+        }
+        else {
+            this.events[handlerIndex].func = handler;
+        }
     };
     return Typewriter;
 }());

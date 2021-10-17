@@ -8,6 +8,8 @@ const options = {
 };
 const tw = new Typewriter('#target', options);
 
+tw.catch(console.log);
+
 tw
   .type('Lorem Ipsum', { speed: 100 })
   .delete(6, { step: 2 })

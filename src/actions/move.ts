@@ -63,25 +63,29 @@ export class Move extends Action {
 			: Math.min(currentLength - currentIndex, this.index);
 
 		return new Promise(async resolve => {
-			for await (let _ of this.step(Math.abs(index), step)) {
-				this.before();
+			try {
+				for await (let _ of this.step(Math.abs(index), step)) {
+					this.before();
 
-				const minStep = this.moveLeft
-					? this.parent.context.index - step
-					: this.parent.context.index + step;
+					const minStep = this.moveLeft
+						? this.parent.context.index - step
+						: this.parent.context.index + step;
 
-				const nextStep = Math.min(minStep, step);
+					const nextStep = Math.min(minStep, step);
 
-				this.parent.context.index += this.moveLeft ? -nextStep : nextStep;
-				this.parent.update();
-				this.parent.audio.play();
+					this.parent.context.index += this.moveLeft ? -nextStep : nextStep;
+					this.parent.update();
+					this.parent.audio.play();
 
-				this.after();
-				await timeOut(speed);
+					this.after();
+					await timeOut(speed);
+				}
+
+				this.resolveAction();
+				resolve();
+			} catch (err) {
+				this.parent.errorHandler(err);
 			}
-
-			this.resolveAction();
-			resolve();
 		});
 	}
 };

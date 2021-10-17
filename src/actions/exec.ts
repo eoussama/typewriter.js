@@ -43,12 +43,16 @@ export class Exec extends Action {
    */
   private async exec(): Promise<void> {
     return new Promise(async resolve => {
-      this.before();
-      await this.func();
-      this.after();
+      try {
+        this.before();
+        await this.func();
+        this.after();
 
-      this.resolveAction();
-      resolve();
+        this.resolveAction();
+        resolve();
+      } catch (err) {
+        this.parent.errorHandler(err);
+      }
     });
   }
 }

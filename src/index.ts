@@ -69,6 +69,15 @@ export default class Typewriter implements IActions {
 
 	/**
 	 * @description
+	 * Returns the event handler
+	 */
+	get errorHandler() {
+		const handler = this.events.find(e => e.event === 'error')?.func ?? (() => { })
+		return handler;
+	}
+
+	/**
+	 * @description
 	 * Instantiates the typewriter
 	 *
 	 * @param selector The target selector
@@ -241,5 +250,21 @@ export default class Typewriter implements IActions {
 	 */
 	public update(): void {
 		this.renderer.render();
+	}
+
+	/**
+	 * @description
+	 * Hooks the event handler
+	 *
+	 * @param handler The event handler
+	 */
+	public catch<T>(handler: Func<T>): void {
+		const handlerIndex = this.events.findIndex(e => e.event === 'error');
+
+		if (handlerIndex === -1) {
+			this.events.push({ event: `error`, func: handler });
+		} else {
+			this.events[handlerIndex].func = handler;
+		}
 	}
 }

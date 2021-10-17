@@ -111,17 +111,20 @@ var Type = /** @class */ (function (_super) {
                 step = this.getConfig('step');
                 speed = this.getConfig('speed');
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, index, characters, e_1_1;
+                        var _a, _b, index, characters, e_1_1, err_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
-                                    _d.trys.push([0, 6, 7, 12]);
-                                    _a = __asyncValues(this.step(this.input.length, step));
+                                    _d.trys.push([0, 14, , 15]);
                                     _d.label = 1;
-                                case 1: return [4 /*yield*/, _a.next()];
-                                case 2:
-                                    if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 5];
+                                case 1:
+                                    _d.trys.push([1, 7, 8, 13]);
+                                    _a = __asyncValues(this.step(this.input.length, step));
+                                    _d.label = 2;
+                                case 2: return [4 /*yield*/, _a.next()];
+                                case 3:
+                                    if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     index = _b.value;
                                     this.before();
                                     characters = this.input.substr(index, step);
@@ -131,31 +134,36 @@ var Type = /** @class */ (function (_super) {
                                     this.parent.audio.play();
                                     this.after();
                                     return [4 /*yield*/, timeOut(speed)];
-                                case 3:
+                                case 4:
                                     _d.sent();
-                                    _d.label = 4;
-                                case 4: return [3 /*break*/, 1];
-                                case 5: return [3 /*break*/, 12];
-                                case 6:
+                                    _d.label = 5;
+                                case 5: return [3 /*break*/, 2];
+                                case 6: return [3 /*break*/, 13];
+                                case 7:
                                     e_1_1 = _d.sent();
                                     e_1 = { error: e_1_1 };
-                                    return [3 /*break*/, 12];
-                                case 7:
-                                    _d.trys.push([7, , 10, 11]);
-                                    if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 9];
-                                    return [4 /*yield*/, _c.call(_a)];
+                                    return [3 /*break*/, 13];
                                 case 8:
+                                    _d.trys.push([8, , 11, 12]);
+                                    if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
+                                    return [4 /*yield*/, _c.call(_a)];
+                                case 9:
                                     _d.sent();
-                                    _d.label = 9;
-                                case 9: return [3 /*break*/, 11];
-                                case 10:
+                                    _d.label = 10;
+                                case 10: return [3 /*break*/, 12];
+                                case 11:
                                     if (e_1) throw e_1.error;
                                     return [7 /*endfinally*/];
-                                case 11: return [7 /*endfinally*/];
-                                case 12:
+                                case 12: return [7 /*endfinally*/];
+                                case 13:
                                     this.resolveAction();
                                     resolve();
-                                    return [2 /*return*/];
+                                    return [3 /*break*/, 15];
+                                case 14:
+                                    err_1 = _d.sent();
+                                    this.parent.errorHandler(err_1);
+                                    return [3 /*break*/, 15];
+                                case 15: return [2 /*return*/];
                             }
                         });
                     }); })];

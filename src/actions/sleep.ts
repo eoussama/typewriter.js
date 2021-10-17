@@ -44,12 +44,16 @@ export class Sleep extends Action {
 	 */
 	private async sleep(): Promise<void> {
 		return new Promise(async resolve => {
-			this.before();
-			await timeOut(this.time);
-			this.after();
+			try {
+				this.before();
+				await timeOut(this.time);
+				this.after();
 
-			this.resolveAction();
-			resolve();
+				this.resolveAction();
+				resolve();
+			} catch (err) {
+				this.parent.errorHandler(err);
+			}
 		});
 	}
 }

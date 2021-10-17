@@ -50,24 +50,28 @@ export class Delete extends Action {
 		let times = this.times;
 
 		return new Promise(async resolve => {
-			for await (let _ of this.step(times, step)) {
-				this.before();
+			try {
+				for await (let _ of this.step(times, step)) {
+					this.before();
 
-				const deletionWidth = Math.min(times, step);
+					const deletionWidth = Math.min(times, step);
 
-				this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index - deletionWidth) + this.parent.context.content.substr(this.parent.context.index + deletionWidth - 1);
-				this.parent.context.index -= deletionWidth;
-				times -= deletionWidth;
+					this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index - deletionWidth) + this.parent.context.content.substr(this.parent.context.index + deletionWidth - 1);
+					this.parent.context.index -= deletionWidth;
+					times -= deletionWidth;
 
-				this.parent.update();
-				this.parent.audio.play();
+					this.parent.update();
+					this.parent.audio.play();
 
-				this.after();
-				await timeOut(speed);
+					this.after();
+					await timeOut(speed);
+				}
+
+				this.resolveAction();
+				resolve();
+			} catch (err) {
+				this.parent.errorHandler(err);
 			}
-
-			this.resolveAction();
-			resolve();
 		});
 	}
 }

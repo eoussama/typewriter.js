@@ -50,22 +50,26 @@ export class Type extends Action {
 		const speed = this.getConfig('speed');
 
 		return new Promise(async resolve => {
-			for await (let index of this.step(this.input.length, step)) {
-				this.before();
+			try {
+				for await (let index of this.step(this.input.length, step)) {
+					this.before();
 
-				const characters = this.input.substr(index, step);
-				this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
-				this.parent.context.index += characters.length;
+					const characters = this.input.substr(index, step);
+					this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
+					this.parent.context.index += characters.length;
 
-				this.parent.update();
-				this.parent.audio.play();
+					this.parent.update();
+					this.parent.audio.play();
 
-				this.after();
-				await timeOut(speed);
+					this.after();
+					await timeOut(speed);
+				}
+
+				this.resolveAction();
+				resolve();
+			} catch (err) {
+				this.parent.errorHandler(err);
 			}
-
-			this.resolveAction();
-			resolve();
 		});
 	}
 }
