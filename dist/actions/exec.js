@@ -106,6 +106,7 @@ var Exec = /** @class */ (function (_super) {
                                 case 1:
                                     _a.sent();
                                     this.after();
+                                    this.resolveAction();
                                     resolve();
                                     return [2 /*return*/];
                             }

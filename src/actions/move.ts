@@ -80,6 +80,7 @@ export class Move extends Action {
 				await timeOut(speed);
 			}
 
+			this.resolveAction();
 			resolve();
 		});
 	}

@@ -155,6 +155,7 @@ var Delete = /** @class */ (function (_super) {
                                     return [7 /*endfinally*/];
                                 case 11: return [7 /*endfinally*/];
                                 case 12:
+                                    this.resolveAction();
                                     resolve();
                                     return [2 /*return*/];
                             }

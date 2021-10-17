@@ -48,6 +48,7 @@ export class Sleep extends Action {
 			await timeOut(this.time);
 			this.after();
 
+			this.resolveAction();
 			resolve();
 		});
 	}

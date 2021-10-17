@@ -64,6 +64,7 @@ export class Type extends Action {
 				await timeOut(speed);
 			}
 
+			this.resolveAction();
 			resolve();
 		});
 	}

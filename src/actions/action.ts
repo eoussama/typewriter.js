@@ -53,6 +53,14 @@ export class Action {
 	}
 
 	/**
+	 * @description
+	 * Calls the resolving user-defined callback
+	 */
+	protected resolveAction() {
+		this.getConfig('done')();
+	}
+
+	/**
    * @description
    * Defines required steps to resolve the action
    *

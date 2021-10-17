@@ -23,4 +23,11 @@ export interface IActionConfig {
    * by an action, be it typing, deleting, or moving.
    */
   step: number;
+
+  /**
+   * @description
+   * Resolving callback, called
+   * after the action is finished.
+   */
+  done: () => void
 }

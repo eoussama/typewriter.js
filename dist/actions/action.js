@@ -65,6 +65,13 @@ var Action = /** @class */ (function () {
         return (_a = localValue !== null && localValue !== void 0 ? localValue : globalValue) !== null && _a !== void 0 ? _a : fallback;
     };
     /**
+     * @description
+     * Calls the resolving user-defined callback
+     */
+    Action.prototype.resolveAction = function () {
+        this.getConfig('done')();
+    };
+    /**
    * @description
    * Defines required steps to resolve the action
    *

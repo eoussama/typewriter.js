@@ -47,6 +47,7 @@ export class Exec extends Action {
       await this.func();
       this.after();
 
+      this.resolveAction();
       resolve();
     });
   }

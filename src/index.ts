@@ -91,7 +91,8 @@ export default class Typewriter implements IActions {
 			audio: config?.audio,
 			step: config?.step ?? 1,
 			delay: config?.delay ?? 0,
-			speed: config?.speed ?? 300
+			speed: config?.speed ?? 300,
+			done: config?.done ?? (() => { })
 		};
 
 		// Initializing the renderer

@@ -9,8 +9,8 @@ const options = {
 const tw = new Typewriter('#target', options);
 
 tw
-  .type('Lorem Ipsum', { speed: 5 })
-  .delete(6, {step: 2})
+  .type('Lorem Ipsum', { speed: 100 })
+  .delete(6, { step: 2 })
   // .type('Lorem', { speed: 100 })
   // .move(5, { delay: 3000 })
   // .move(-6)

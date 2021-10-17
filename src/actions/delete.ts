@@ -66,6 +66,7 @@ export class Delete extends Action {
 				await timeOut(speed);
 			}
 
+			this.resolveAction();
 			resolve();
 		});
 	}
