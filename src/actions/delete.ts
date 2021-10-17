@@ -13,7 +13,7 @@ export class Delete extends Action {
 	 * @description
 	 * Number of deletions
 	 */
-	private times!: number;
+	private times!: number | 'start';
 
 	/**
 	 * @description
@@ -47,7 +47,7 @@ export class Delete extends Action {
 	private async delete(): Promise<void> {
 		const step = this.getConfig('step');
 		const speed = this.getConfig('speed');
-		let times = this.times;
+		let times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
 
 		return new Promise(async resolve => {
 			try {

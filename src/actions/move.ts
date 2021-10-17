@@ -14,15 +14,7 @@ export class Move extends Action {
 	 * @description
 	 * The target index
 	 */
-	index!: number;
-
-	/**
-	 * @description
-	 * Whether the movements is to the left
-	 */
-	get moveLeft() {
-		return this.index < 0;
-	}
+	index!: number | 'start' | 'end';
 
 	/**
 	 * @description
@@ -57,23 +49,28 @@ export class Move extends Action {
 
 		const currentIndex = this.parent.context.index;
 		const currentLength = this.parent.context.content?.length;
+		const absoluteIndex = typeof this.index === 'number'
+			? this.index
+			: this.index === 'start'
+				? -currentIndex
+				: currentLength - currentIndex
 
-		const index = this.moveLeft
-			? Math.max(currentIndex * -1, this.index)
-			: Math.min(currentLength - currentIndex, this.index);
+		const index = absoluteIndex < 0
+			? Math.max(currentIndex * -1, absoluteIndex)
+			: Math.min(currentLength - currentIndex, absoluteIndex);
 
 		return new Promise(async resolve => {
 			try {
 				for await (let _ of this.step(Math.abs(index), step)) {
 					this.before();
 
-					const minStep = this.moveLeft
+					const minStep = absoluteIndex < 0
 						? this.parent.context.index - step
 						: this.parent.context.index + step;
 
-					const nextStep = Math.min(minStep, step);
+					const nextStep = Math.min(minStep + 1, step);
 
-					this.parent.context.index += this.moveLeft ? -nextStep : nextStep;
+					this.parent.context.index += absoluteIndex < 0 ? -nextStep : nextStep;
 					this.parent.update();
 					this.parent.audio.play();
 

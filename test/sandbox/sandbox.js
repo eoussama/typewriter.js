@@ -2,7 +2,7 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 1000,
+  speed: 500,
   audio: { enable: true, src: SFX },
   caret: { enable: true, content: '_/' }
 };
@@ -11,8 +11,10 @@ const tw = new Typewriter('#target', options);
 tw.catch(console.log);
 
 tw
-  .type('Lorem Ipsum', { speed: 100 })
-  .delete(6, { step: 2 })
+  .type('Lorem', { speed: 100 })
+  .move(-5, { delay: 1000})
+  // .move('end', { delay: 1000})
+  // .delete(2)
   // .type('Lorem', { speed: 100 })
   // .move(5, { delay: 3000 })
   // .move(-6)

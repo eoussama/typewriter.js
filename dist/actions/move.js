@@ -78,17 +78,6 @@ var Move = /** @class */ (function (_super) {
         _this.index = index;
         return _this;
     }
-    Object.defineProperty(Move.prototype, "moveLeft", {
-        /**
-         * @description
-         * Whether the movements is to the left
-         */
-        get: function () {
-            return this.index < 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
      * @description
      * Initiates the sleep action
@@ -115,16 +104,21 @@ var Move = /** @class */ (function (_super) {
     Move.prototype.move = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var speed, step, currentIndex, currentLength, index;
+            var speed, step, currentIndex, currentLength, absoluteIndex, index;
             var _this = this;
             return __generator(this, function (_b) {
                 speed = this.getConfig('speed');
                 step = this.getConfig('step');
                 currentIndex = this.parent.context.index;
                 currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
-                index = this.moveLeft
-                    ? Math.max(currentIndex * -1, this.index)
-                    : Math.min(currentLength - currentIndex, this.index);
+                absoluteIndex = typeof this.index === 'number'
+                    ? this.index
+                    : this.index === 'start'
+                        ? -currentIndex
+                        : currentLength - currentIndex;
+                index = absoluteIndex < 0
+                    ? Math.max(currentIndex * -1, absoluteIndex)
+                    : Math.min(currentLength - currentIndex, absoluteIndex);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                         var _a, _b, _, minStep, nextStep, e_1_1, err_1;
                         var e_1, _c;
@@ -142,11 +136,11 @@ var Move = /** @class */ (function (_super) {
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
                                     this.before();
-                                    minStep = this.moveLeft
+                                    minStep = absoluteIndex < 0
                                         ? this.parent.context.index - step
                                         : this.parent.context.index + step;
-                                    nextStep = Math.min(minStep, step);
-                                    this.parent.context.index += this.moveLeft ? -nextStep : nextStep;
+                                    nextStep = Math.min(minStep + 1, step);
+                                    this.parent.context.index += absoluteIndex < 0 ? -nextStep : nextStep;
                                     this.parent.update();
                                     this.parent.audio.play();
                                     this.after();

@@ -110,7 +110,7 @@ var Delete = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 step = this.getConfig('step');
                 speed = this.getConfig('speed');
-                times = this.times;
+                times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                         var _a, _b, _, deletionWidth, e_1_1, err_1;
                         var e_1, _c;
