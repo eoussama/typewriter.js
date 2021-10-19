@@ -17,9 +17,8 @@ const resume = document.getElementById('resume');
 start.addEventListener('click', async () => {
   tw
     .type('LOREM_IPSUM', { step: 'LOREM_IPSUM'.length })
-    .move('start', { step: 2 })
-    .move('end', { step: 100 })
-    .move(-80, { step: 4 })
+    .move(-8, { step: 8 })
+    .highlight(-5, { step: 8 })
     .start();
 
 });
@@ -32,4 +31,4 @@ resume.addEventListener('click', () => {
   tw.resume();
 });
 
-tw.after('move', () => console.log('deleted'));
+tw.after('highlight', () => console.log('highlighted'));

@@ -1,3 +1,5 @@
+import { Nullable } from './nullable.type';
+
 /**
  * @description
  *  The typewriter context
@@ -16,4 +18,10 @@ export interface IContext {
    * position of the caret
    */
   index: number;
+
+  /**
+   * @description
+   * The highlight range
+   */
+  highlight: [Nullable<number>, Nullable<number>];
 }

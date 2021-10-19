@@ -71,7 +71,6 @@ export class Move extends Action {
 					const remIndex = index - iterPart;
 					const sanitizedStep = Math.min(remIndex, step);
 
-
 					this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
 					this.parent.update();
 					this.parent.audio.play();

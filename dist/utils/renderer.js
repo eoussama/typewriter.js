@@ -38,8 +38,16 @@ var Renderer = /** @class */ (function () {
                     if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0) {
                         output_1 += _this.renderedCaret();
                     }
+                    // Opening the highlighter tag
+                    if (_this.canHighlight() && _this.context.highlight[0] === i) {
+                        output_1 += '<mark class="tw-highlight">';
+                    }
                     // Render character
                     output_1 += "<span class=\"tw-char\">" + char + "</span>";
+                    // Opening the highlighter tag
+                    if (_this.canHighlight() && _this.context.highlight[1] === i) {
+                        output_1 += '</mark>';
+                    }
                     // Render caret after character
                     if (((_b = _this.config) === null || _b === void 0 ? void 0 : _b.enable) && i + 1 === _this.context.index) {
                         output_1 += _this.renderedCaret();
@@ -63,7 +71,14 @@ var Renderer = /** @class */ (function () {
     };
     /**
      * @description
-     * Returnes the rendered caret
+     * If the highlighter is active
+     */
+    Renderer.prototype.canHighlight = function () {
+        return true;
+    };
+    /**
+     * @description
+     * Returns the rendered caret
      */
     Renderer.prototype.renderedCaret = function () {
         return "<span class=\"tw_caret " + (this.config.blink ? 'tw_blink' : '') + "\">" + this.config.content + "</span>";

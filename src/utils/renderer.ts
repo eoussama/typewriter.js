@@ -64,8 +64,18 @@ export class Renderer {
             output += this.renderedCaret();
           }
 
+          // Opening the highlighter tag
+          if (this.canHighlight() && this.context.highlight[0] === i) {
+            output += '<mark class="tw-highlight">';
+          }
+
           // Render character
           output += `<span class="tw-char">${char}</span>`;
+
+          // Opening the highlighter tag
+          if (this.canHighlight() && this.context.highlight[1] === i) {
+            output += '</mark>';
+          }
 
           // Render caret after character
           if (this.config?.enable && i + 1 === this.context.index) {
@@ -92,7 +102,15 @@ export class Renderer {
 
   /**
    * @description
-   * Returnes the rendered caret
+   * If the highlighter is active
+   */
+  private canHighlight(): boolean {
+    return true;
+  }
+
+  /**
+   * @description
+   * Returns the rendered caret
    */
   private renderedCaret(): string {
     return `<span class="tw_caret ${this.config.blink ? 'tw_blink' : ''}">${this.config.content}</span>`;

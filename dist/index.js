@@ -47,6 +47,7 @@ import { Sleep } from "./actions/sleep.js";
 import { Exec } from "./actions/exec.js";
 import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
+import { Highlight } from "./actions/highlight.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
 import { Audio } from "./utils/audio.js";
@@ -69,7 +70,8 @@ var Typewriter = /** @class */ (function () {
         // Initializing the context
         this.context = {
             content: '',
-            index: 0
+            index: 0,
+            highlight: [null, null]
         };
         // Initializing global configurations
         this.config = {
@@ -206,6 +208,18 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.move = function (index, config) {
         var action = new Move(index, this, config);
+        this.queuer.add(action);
+        return this;
+    };
+    /**
+     * @description
+     * Highlights content
+     *
+     * @param index The target index
+     * @param config The action configuration
+     */
+    Typewriter.prototype.highlight = function (index, config) {
+        var action = new Highlight(index, this, config);
         this.queuer.add(action);
         return this;
     };

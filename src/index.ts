@@ -8,6 +8,7 @@ import { Sleep } from "./actions/sleep.js";
 import { Exec } from "./actions/exec.js";
 import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
+import { Highlight } from "./actions/highlight.js";
 import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
@@ -91,7 +92,8 @@ export default class Typewriter implements IActions {
 		// Initializing the context
 		this.context = {
 			content: '',
-			index: 0
+			index: 0,
+			highlight: [null, null]
 		};
 
 		// Initializing global configurations
@@ -194,6 +196,20 @@ export default class Typewriter implements IActions {
 	 */
 	public move(index: number, config?: IActionConfig): Typewriter {
 		const action = new Move(index, this, config);
+		this.queuer.add(action);
+
+		return this;
+	}
+
+	/**
+	 * @description
+	 * Highlights content
+	 *
+	 * @param index The target index
+	 * @param config The action configuration
+	 */
+	public highlight(index: number, config?: IActionConfig): Typewriter {
+		const action = new Highlight(index, this, config);
 		this.queuer.add(action);
 
 		return this;
