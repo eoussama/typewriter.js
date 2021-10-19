@@ -16,8 +16,10 @@ const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-    .type('Lorem', { step: 5 })
-    .move(-2)
+    .type('LOREM_IPSUM', { step: 'LOREM_IPSUM'.length })
+    .move('start', { step: 2 })
+    .move('end', { step: 100 })
+    .move(-80, { step: 4 })
     .start();
 
 });
@@ -30,4 +32,4 @@ resume.addEventListener('click', () => {
   tw.resume();
 });
 
-tw.after('delete', () => console.log('deleted'));
+tw.after('move', () => console.log('deleted'));

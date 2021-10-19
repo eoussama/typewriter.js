@@ -55,22 +55,23 @@ export class Move extends Action {
 				? -currentIndex
 				: currentLength - currentIndex
 
-		const index = absoluteIndex < 0
+		const limitedIndex = absoluteIndex < 0
 			? Math.max(currentIndex * -1, absoluteIndex)
 			: Math.min(currentLength - currentIndex, absoluteIndex);
+
+		const index = Math.abs(limitedIndex);
 
 		return new Promise(async resolve => {
 			try {
 				for await (let _ of this.step(Math.abs(index), step)) {
+					const iteration = (_ / step);
+					const iterPart = iteration * step;
+					const remIndex = index - iterPart;
+					const sanitizedStep = Math.min(remIndex, step);
+
 					this.before();
 
-					const minStep = absoluteIndex < 0
-						? this.parent.context.index - step
-						: this.parent.context.index + step;
-
-					const nextStep = Math.min(minStep + 1, step);
-
-					this.parent.context.index += absoluteIndex < 0 ? -nextStep : nextStep;
+					this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
 					this.parent.update();
 					this.parent.audio.play();
 

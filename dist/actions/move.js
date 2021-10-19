@@ -104,7 +104,7 @@ var Move = /** @class */ (function (_super) {
     Move.prototype.move = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var step, speed, currentIndex, currentLength, absoluteIndex, index;
+            var step, speed, currentIndex, currentLength, absoluteIndex, limitedIndex, index;
             var _this = this;
             return __generator(this, function (_b) {
                 step = Math.max(1, this.getConfig('step'));
@@ -116,11 +116,12 @@ var Move = /** @class */ (function (_super) {
                     : this.index === 'start'
                         ? -currentIndex
                         : currentLength - currentIndex;
-                index = absoluteIndex < 0
+                limitedIndex = absoluteIndex < 0
                     ? Math.max(currentIndex * -1, absoluteIndex)
                     : Math.min(currentLength - currentIndex, absoluteIndex);
+                index = Math.abs(limitedIndex);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, minStep, nextStep, e_1_1, err_1;
+                        var _a, _b, _, iteration, iterPart, remIndex, sanitizedStep, e_1_1, err_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
@@ -135,12 +136,12 @@ var Move = /** @class */ (function (_super) {
                                 case 3:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
+                                    iteration = (_ / step);
+                                    iterPart = iteration * step;
+                                    remIndex = index - iterPart;
+                                    sanitizedStep = Math.min(remIndex, step);
                                     this.before();
-                                    minStep = absoluteIndex < 0
-                                        ? this.parent.context.index - step
-                                        : this.parent.context.index + step;
-                                    nextStep = Math.min(minStep + 1, step);
-                                    this.parent.context.index += absoluteIndex < 0 ? -nextStep : nextStep;
+                                    this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
                                     this.parent.update();
                                     this.parent.audio.play();
                                     this.after();
