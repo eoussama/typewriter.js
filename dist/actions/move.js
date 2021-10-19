@@ -104,11 +104,11 @@ var Move = /** @class */ (function (_super) {
     Move.prototype.move = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var speed, step, currentIndex, currentLength, absoluteIndex, index;
+            var step, speed, currentIndex, currentLength, absoluteIndex, index;
             var _this = this;
             return __generator(this, function (_b) {
-                speed = this.getConfig('speed');
-                step = this.getConfig('step');
+                step = Math.max(1, this.getConfig('step'));
+                speed = Math.max(0, this.getConfig('speed'));
                 currentIndex = this.parent.context.index;
                 currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
                 absoluteIndex = typeof this.index === 'number'

@@ -108,8 +108,8 @@ var Delete = /** @class */ (function (_super) {
             var step, speed, times;
             var _this = this;
             return __generator(this, function (_a) {
-                step = this.getConfig('step');
-                speed = this.getConfig('speed');
+                step = Math.max(1, this.getConfig('step'));
+                speed = Math.max(0, this.getConfig('speed'));
                 times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                         var _a, _b, _, deletionWidth, e_1_1, err_1;

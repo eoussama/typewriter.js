@@ -96,8 +96,10 @@ var Sleep = /** @class */ (function (_super) {
      */
     Sleep.prototype.sleep = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var time;
             var _this = this;
             return __generator(this, function (_a) {
+                time = Math.max(0, this.time);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                         var err_1;
                         return __generator(this, function (_a) {
@@ -105,7 +107,7 @@ var Sleep = /** @class */ (function (_super) {
                                 case 0:
                                     _a.trys.push([0, 2, , 3]);
                                     this.before();
-                                    return [4 /*yield*/, timeOut(this.time)];
+                                    return [4 /*yield*/, timeOut(time)];
                                 case 1:
                                     _a.sent();
                                     this.after();

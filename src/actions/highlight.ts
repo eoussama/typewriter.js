@@ -45,8 +45,8 @@ export class Highlight extends Action {
    * Highlights content
    */
   private async highlight(): Promise<void> {
+    const step = Math.max(1, this.getConfig('step'));
     const speed = Math.max(0, this.getConfig('speed'));
-    const step = Math.max(0, this.getConfig('step'));
 
     const currentIndex = this.parent.context.index;
     const currentLength = this.parent.context.content?.length;
@@ -72,11 +72,11 @@ export class Highlight extends Action {
           const nextStep = Math.min(minStep + 1, step);
 
           this.parent.context.index += absoluteIndex < 0 ? -nextStep : nextStep;
-          this.parent.context.highlight = [
-            absoluteIndex < 0 ? this.parent.context.index : currentIndex,
-            absoluteIndex < 0 ? absoluteIndex : this.parent.context.index
-          ];
-          console.log(this.parent.context.highlight);
+          // this.parent.context.highlight = [
+          //   absoluteIndex < 0 ? this.parent.context.index : currentIndex,
+          //   absoluteIndex < 0 ? absoluteIndex : this.parent.context.index
+          // ];
+          // console.log(this.parent.context.highlight);
           this.parent.update();
           this.parent.audio.play();
 

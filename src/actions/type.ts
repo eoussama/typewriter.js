@@ -46,9 +46,9 @@ export class Type extends Action {
 	 * Types a target input
 	 */
 	private async type(): Promise<void> {
-		const step = Math.max(0, this.getConfig('step'))
+		const step = Math.max(1, this.getConfig('step'))
 		const speed = Math.max(0, this.getConfig('speed'));
-
+		
 		return new Promise(async resolve => {
 			try {
 				for await (let index of this.step(this.input.length, step)) {

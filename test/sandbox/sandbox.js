@@ -16,7 +16,8 @@ const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-    .type('Lorem', { step: -6 })
+    .type('Lorem', { step: 5 })
+    .move(-2)
     .start();
 
 });
@@ -28,3 +29,5 @@ pause.addEventListener('click', () => {
 resume.addEventListener('click', () => {
   tw.resume();
 });
+
+tw.after('delete', () => console.log('deleted'));

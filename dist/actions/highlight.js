@@ -60,38 +60,36 @@ import { timeOut } from "../utils/timeout.js";
 import { Action } from "./action.js";
 /**
  * @description
- * Typewriter type action
+ * Typewriter move action
  */
-var Type = /** @class */ (function (_super) {
-    __extends(Type, _super);
+var Highlight = /** @class */ (function (_super) {
+    __extends(Highlight, _super);
     /**
      * @description
-     * Instantiates a type action
+     * Instantiates a move action,
+     * moves the caret tomoves the caret to the target index
      *
-     * @param input The target input
+     * @param index The target index
      * @param parent The parent typewriter
      * @param config The configuration object
      */
-    function Type(input, parent, config) {
+    function Highlight(index, parent, config) {
         var _this = _super.call(this, parent, config) || this;
-        _this.input = input;
+        _this.index = index;
         return _this;
     }
     /**
      * @description
-     * Initiates type action
-     *
-     * @param input The target input
-     * @param parentResolve Parent resolve function
+     * Initiates the sleep action
      */
-    Type.prototype.start = function () {
+    Highlight.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.type()];
+                        return [4 /*yield*/, this.highlight()];
                     case 2:
                         _a.sent();
                         return [2 /*return*/];
@@ -101,17 +99,28 @@ var Type = /** @class */ (function (_super) {
     };
     /**
      * @description
-     * Types a target input
+     * Highlights content
      */
-    Type.prototype.type = function () {
+    Highlight.prototype.highlight = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var step, speed;
+            var step, speed, currentIndex, currentLength, absoluteIndex, index;
             var _this = this;
-            return __generator(this, function (_a) {
+            return __generator(this, function (_b) {
                 step = Math.max(1, this.getConfig('step'));
                 speed = Math.max(0, this.getConfig('speed'));
+                currentIndex = this.parent.context.index;
+                currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
+                absoluteIndex = typeof this.index === 'number'
+                    ? this.index
+                    : this.index === 'start'
+                        ? -currentIndex
+                        : currentLength - currentIndex;
+                index = absoluteIndex < 0
+                    ? Math.max(currentIndex * -1, absoluteIndex)
+                    : Math.min(currentLength - currentIndex, absoluteIndex);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, index, characters, e_1_1, err_1;
+                        var _a, _b, _, minStep, nextStep, e_1_1, err_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
@@ -120,16 +129,23 @@ var Type = /** @class */ (function (_super) {
                                     _d.label = 1;
                                 case 1:
                                     _d.trys.push([1, 7, 8, 13]);
-                                    _a = __asyncValues(this.step(this.input.length, step));
+                                    _a = __asyncValues(this.step(Math.abs(index), step));
                                     _d.label = 2;
                                 case 2: return [4 /*yield*/, _a.next()];
                                 case 3:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
-                                    index = _b.value;
+                                    _ = _b.value;
                                     this.before();
-                                    characters = this.input.substr(index, step);
-                                    this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
-                                    this.parent.context.index += characters.length;
+                                    minStep = absoluteIndex < 0
+                                        ? this.parent.context.index - step
+                                        : this.parent.context.index + step;
+                                    nextStep = Math.min(minStep + 1, step);
+                                    this.parent.context.index += absoluteIndex < 0 ? -nextStep : nextStep;
+                                    // this.parent.context.highlight = [
+                                    //   absoluteIndex < 0 ? this.parent.context.index : currentIndex,
+                                    //   absoluteIndex < 0 ? absoluteIndex : this.parent.context.index
+                                    // ];
+                                    // console.log(this.parent.context.highlight);
                                     this.parent.update();
                                     this.parent.audio.play();
                                     this.after();
@@ -170,6 +186,7 @@ var Type = /** @class */ (function (_super) {
             });
         });
     };
-    return Type;
+    return Highlight;
 }(Action));
-export { Type };
+export { Highlight };
+;
