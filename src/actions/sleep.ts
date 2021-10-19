@@ -43,10 +43,12 @@ export class Sleep extends Action {
 	 * Times-out the action queue
 	 */
 	private async sleep(): Promise<void> {
+		const time = Math.max(0, this.time);
+
 		return new Promise(async resolve => {
 			try {
 				this.before();
-				await timeOut(this.time);
+				await timeOut(time);
 				this.after();
 
 				this.resolveAction();

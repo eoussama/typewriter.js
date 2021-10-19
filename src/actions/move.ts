@@ -44,8 +44,8 @@ export class Move extends Action {
 	 * Moves the caret around
 	 */
 	private async move(): Promise<void> {
-		const speed = this.getConfig('speed');
-		const step = this.getConfig('step');
+		const speed = Math.max(0, this.getConfig('speed'));
+		const step = Math.max(0, this.getConfig('step'));
 
 		const currentIndex = this.parent.context.index;
 		const currentLength = this.parent.context.content?.length;

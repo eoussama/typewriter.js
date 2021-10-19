@@ -2,7 +2,7 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 200,
+  speed: 500,
   audio: { enable: false, src: SFX },
   caret: { enable: true, content: '|' }
 };
@@ -16,8 +16,8 @@ const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-  .type('LoremIpsum')
-  .start();
+    .type('Lorem', { step: -6 })
+    .start();
 
 });
 

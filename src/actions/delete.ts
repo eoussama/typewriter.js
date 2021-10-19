@@ -45,8 +45,9 @@ export class Delete extends Action {
 	 * Deletes content
 	 */
 	private async delete(): Promise<void> {
-		const step = this.getConfig('step');
-		const speed = this.getConfig('speed');
+		const step = Math.max(0, this.getConfig('step'));
+		const speed = Math.max(0, this.getConfig('speed'));
+
 		let times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
 
 		return new Promise(async resolve => {
