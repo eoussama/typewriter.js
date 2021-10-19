@@ -64,12 +64,13 @@ export class Move extends Action {
 		return new Promise(async resolve => {
 			try {
 				for await (let _ of this.step(Math.abs(index), step)) {
+					this.before();
+
 					const iteration = (_ / step);
 					const iterPart = iteration * step;
 					const remIndex = index - iterPart;
 					const sanitizedStep = Math.min(remIndex, step);
 
-					this.before();
 
 					this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
 					this.parent.update();

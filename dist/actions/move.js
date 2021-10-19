@@ -136,11 +136,11 @@ var Move = /** @class */ (function (_super) {
                                 case 3:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
+                                    this.before();
                                     iteration = (_ / step);
                                     iterPart = iteration * step;
                                     remIndex = index - iterPart;
                                     sanitizedStep = Math.min(remIndex, step);
-                                    this.before();
                                     this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
                                     this.parent.update();
                                     this.parent.audio.play();
