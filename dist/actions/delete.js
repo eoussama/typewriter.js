@@ -56,6 +56,15 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { Action } from "./action.js";
 import { timeOut } from "../utils/timeout.js";
 /**
@@ -129,7 +138,7 @@ var Delete = /** @class */ (function (_super) {
                                     _ = _b.value;
                                     this.before();
                                     deletionWidth = Math.min(times, step);
-                                    this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index - deletionWidth) + this.parent.context.content.substr(this.parent.context.index + deletionWidth - 1);
+                                    this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index - deletionWidth), true), this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1), true);
                                     this.parent.context.index -= deletionWidth;
                                     times -= deletionWidth;
                                     this.parent.update();

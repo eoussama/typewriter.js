@@ -69,8 +69,8 @@ var Typewriter = /** @class */ (function () {
         this.events = [];
         // Initializing the context
         this.context = {
-            content: '',
             index: 0,
+            content: [],
             highlight: [null, null]
         };
         // Initializing global configurations
@@ -242,8 +242,9 @@ var Typewriter = /** @class */ (function () {
      * Resets the entire typewriter
      */
     Typewriter.prototype.reset = function () {
-        this.context.content = '';
         this.context.index = 0;
+        this.context.content = [];
+        this.context.highlight = [null, null];
         this.queuer.reset();
         this.renderer.reset();
         this.pauseObservable.emit(false);

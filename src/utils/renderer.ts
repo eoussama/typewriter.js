@@ -57,7 +57,7 @@ export class Renderer {
       let output = '';
 
       if (this.context.content.length > 0) {
-        this.context.content.split('').forEach((char, i) => {
+        this.context.content.forEach((content, i) => {
 
           // Render caret at the begining of the content
           if (this.config?.enable && i === 0 && this.context.index === 0) {
@@ -70,7 +70,7 @@ export class Renderer {
           }
 
           // Render character
-          output += `<span class="tw-char">${char}</span>`;
+          output += `<span class="tw-char">${content.char}</span>`;
 
           // Opening the highlighter tag
           if (this.canHighlight() && this.context.highlight[1] === i) {

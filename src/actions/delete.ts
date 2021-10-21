@@ -57,7 +57,11 @@ export class Delete extends Action {
 
 					const deletionWidth = Math.min(times, step);
 
-					this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index - deletionWidth) + this.parent.context.content.substr(this.parent.context.index + deletionWidth - 1);
+					this.parent.context.content = [
+						...this.parent.context.content.slice(0, this.parent.context.index - deletionWidth),
+						...this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1)
+					]
+
 					this.parent.context.index -= deletionWidth;
 					times -= deletionWidth;
 

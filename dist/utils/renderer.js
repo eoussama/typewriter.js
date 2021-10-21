@@ -32,7 +32,7 @@ var Renderer = /** @class */ (function () {
         if (this.target) {
             var output_1 = '';
             if (this.context.content.length > 0) {
-                this.context.content.split('').forEach(function (char, i) {
+                this.context.content.forEach(function (content, i) {
                     var _a, _b;
                     // Render caret at the begining of the content
                     if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0) {
@@ -43,7 +43,7 @@ var Renderer = /** @class */ (function () {
                         output_1 += '<mark class="tw-highlight">';
                     }
                     // Render character
-                    output_1 += "<span class=\"tw-char\">" + char + "</span>";
+                    output_1 += "<span class=\"tw-char\">" + content.char + "</span>";
                     // Opening the highlighter tag
                     if (_this.canHighlight() && _this.context.highlight[1] === i) {
                         output_1 += '</mark>';

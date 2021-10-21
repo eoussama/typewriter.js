@@ -48,14 +48,20 @@ export class Type extends Action {
 	private async type(): Promise<void> {
 		const step = Math.max(1, this.getConfig('step'))
 		const speed = Math.max(0, this.getConfig('speed'));
-		
+
 		return new Promise(async resolve => {
 			try {
 				for await (let index of this.step(this.input.length, step)) {
 					this.before();
 
 					const characters = this.input.substr(index, step);
-					this.parent.context.content = this.parent.context.content.substr(0, this.parent.context.index) + characters + this.parent.context.content.substr(this.parent.context.index);
+
+					this.parent.context.content = [
+						...this.parent.context.content.slice(0, this.parent.context.index),
+						...characters.split('').map(e => ({ char: e })),
+						...this.parent.context.content.slice(this.parent.context.index)
+					];
+
 					this.parent.context.index += characters.length;
 
 					this.parent.update();

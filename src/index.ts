@@ -91,8 +91,8 @@ export default class Typewriter implements IActions {
 
 		// Initializing the context
 		this.context = {
-			content: '',
 			index: 0,
+			content: [],
 			highlight: [null, null]
 		};
 
@@ -236,8 +236,9 @@ export default class Typewriter implements IActions {
 	 * Resets the entire typewriter
 	 */
 	public reset(): void {
-		this.context.content = '';
 		this.context.index = 0;
+		this.context.content = [];
+		this.context.highlight = [null, null];
 
 		this.queuer.reset();
 		this.renderer.reset();

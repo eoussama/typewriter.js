@@ -18,7 +18,8 @@ start.addEventListener('click', async () => {
   tw
     .type('LOREM_IPSUM', { step: 'LOREM_IPSUM'.length })
     .move(-8, { step: 8 })
-    .highlight(-5, { step: 8 })
+    .delete(2)
+    .highlight(5, { step: 8 })
     .start();
 
 });

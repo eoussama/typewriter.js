@@ -2,7 +2,7 @@ import { Nullable } from './nullable.type';
 
 /**
  * @description
- *  The typewriter context
+ * The typewriter context
  */
 export interface IContext {
 
@@ -10,7 +10,7 @@ export interface IContext {
    * @description
    * The content that formulates the output
    */
-  content: string;
+  content: Array<IContent>;
 
   /**
    * @description
@@ -24,4 +24,36 @@ export interface IContext {
    * The highlight range
    */
   highlight: [Nullable<number>, Nullable<number>];
+}
+
+/**
+ * @description
+ * Content array
+ */
+interface IContent {
+
+  /**
+   * @description
+   * Target character
+   */
+  char: string;
+
+  /**
+   * @description
+   * Properties of character
+   */
+  props?: Partial<IProps>;
+}
+
+/**
+ * @description
+ * Content character properties
+ */
+interface IProps {
+
+  /**
+   * @description
+   * CSS Classes
+   */
+  classes: Array<string>;
 }
