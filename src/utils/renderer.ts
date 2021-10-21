@@ -70,7 +70,7 @@ export class Renderer {
           }
 
           // Render character
-          output += `<span class="tw-char">${content.char}</span>`;
+          output += `<span class="tw-char ${content?.props?.classes?.join('')}">${content.char}</span>`;
 
           // Opening the highlighter tag
           if (this.canHighlight() && this.context.highlight[1] === i) {

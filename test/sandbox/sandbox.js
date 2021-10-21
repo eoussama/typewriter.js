@@ -2,8 +2,8 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 500,
-  audio: { enable: false, src: SFX },
+  speed: 100,
+  audio: { enable: true, src: SFX },
   caret: { enable: true, content: '|' }
 };
 
@@ -16,10 +16,16 @@ const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-    .type('LOREM_IPSUM', { step: 'LOREM_IPSUM'.length })
-    .move(-8, { step: 8 })
-    .delete(2)
-    .highlight(5, { step: 8 })
+    // .type('LO')
+    // .type('REM_', { classes: ['style'] })
+    // .type('IPSUM')
+    // .move(-8, { step: 8 })
+    // .delete(2)
+    // .highlight(5, { step: 8 })
+    .type('Hello, my name is Oussama')
+    .delete('Oussama'.length, { delay: 500 })
+    .type('Oussama', { classes: ['style'] })
+    .type('!')
     .start();
 
 });

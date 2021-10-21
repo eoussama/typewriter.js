@@ -31,3 +31,16 @@ export interface IActionConfig {
    */
   done: () => void
 }
+
+/**
+ * @description
+ * Type action configuration object
+ */
+export interface IActionConfigType extends IActionConfig {
+
+  /**
+   * @description
+   * CSS Classes
+   */
+  classes: Array<string>;
+}

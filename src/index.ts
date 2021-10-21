@@ -1,5 +1,5 @@
 import { IConfig } from "./types/config.type.js";
-import { IActionConfig } from "./types/action-config.type.js";
+import { IActionConfig, IActionConfigType } from "./types/action-config.type.js";
 
 import { Renderer } from "./utils/renderer.js";
 
@@ -166,7 +166,7 @@ export default class Typewriter implements IActions {
 	 * @param input The target input
 	 * @param config The action configuration
 	 */
-	public type(input: string, config?: IActionConfig): Typewriter {
+	public type(input: string, config?: IActionConfigType): Typewriter {
 		const action = new Type(input, this, config);
 		this.queuer.add(action);
 

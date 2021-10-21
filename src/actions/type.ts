@@ -2,7 +2,7 @@ import Typewriter from "../index.js";
 
 import { timeOut } from "../utils/timeout.js";
 import { Action } from "./action.js";
-import { IActionConfig } from "../types/action-config.type.js";
+import { IActionConfigType } from "../types/action-config.type.js";
 
 /**
  * @description
@@ -24,7 +24,7 @@ export class Type extends Action {
 	 * @param parent The parent typewriter
 	 * @param config The configuration object
 	 */
-	constructor(input: string, parent: Typewriter, config?: IActionConfig) {
+	constructor(input: string, parent: Typewriter, config?: IActionConfigType) {
 		super(parent, config);
 		this.input = input;
 	}
@@ -55,10 +55,12 @@ export class Type extends Action {
 					this.before();
 
 					const characters = this.input.substr(index, step);
+					const classes = (this.config as IActionConfigType)?.classes ?? [];
+					const props = { classes };
 
 					this.parent.context.content = [
 						...this.parent.context.content.slice(0, this.parent.context.index),
-						...characters.split('').map(e => ({ char: e })),
+						...characters.split('').map(char => ({ char, props })),
 						...this.parent.context.content.slice(this.parent.context.index)
 					];
 

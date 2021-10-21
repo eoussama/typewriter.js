@@ -33,7 +33,7 @@ var Renderer = /** @class */ (function () {
             var output_1 = '';
             if (this.context.content.length > 0) {
                 this.context.content.forEach(function (content, i) {
-                    var _a, _b;
+                    var _a, _b, _c, _d;
                     // Render caret at the begining of the content
                     if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0) {
                         output_1 += _this.renderedCaret();
@@ -43,13 +43,13 @@ var Renderer = /** @class */ (function () {
                         output_1 += '<mark class="tw-highlight">';
                     }
                     // Render character
-                    output_1 += "<span class=\"tw-char\">" + content.char + "</span>";
+                    output_1 += "<span class=\"tw-char " + ((_c = (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.classes) === null || _c === void 0 ? void 0 : _c.join('')) + "\">" + content.char + "</span>";
                     // Opening the highlighter tag
                     if (_this.canHighlight() && _this.context.highlight[1] === i) {
                         output_1 += '</mark>';
                     }
                     // Render caret after character
-                    if (((_b = _this.config) === null || _b === void 0 ? void 0 : _b.enable) && i + 1 === _this.context.index) {
+                    if (((_d = _this.config) === null || _d === void 0 ? void 0 : _d.enable) && i + 1 === _this.context.index) {
                         output_1 += _this.renderedCaret();
                     }
                 });
