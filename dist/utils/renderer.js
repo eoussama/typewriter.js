@@ -94,7 +94,7 @@ var Renderer = /** @class */ (function () {
         if (!styles) {
             styles = document.createElement('style');
             styles.id = 'tw_styles';
-            styles.textContent = "\n\t\t\t\t.tw_caret.tw_blink {\n\t\t\t\t\tanimation-name: tw_blink_animation;\n\t\t\t\t\tanimation-duration: 0.5s;\n\t\t\t\t\tanimation-iteration-count: infinite;\n\t\t\t\t\tanimation-direction: alternate-reverse;\n\t\t\t\t}\n\n\t\t\t\t@keyframes tw_blink_animation {\n\t\t\t\t\tfrom {\n\t\t\t\t\t\topacity: 0;\n\t\t\t\t\t}\n\n\t\t\t\t\tto {\n\t\t\t\t\t\topacity: 1;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t";
+            styles.textContent = "\n        .tw_highlight {\n          background-color: #3390ff;\n          color: #ffffff;\n        }\n\n\t\t\t\t.tw_caret.tw_blink {\n\t\t\t\t\tanimation-name: tw_blink_animation;\n\t\t\t\t\tanimation-duration: 0.5s;\n\t\t\t\t\tanimation-iteration-count: infinite;\n\t\t\t\t\tanimation-direction: alternate-reverse;\n\t\t\t\t}\n\n\t\t\t\t@keyframes tw_blink_animation {\n\t\t\t\t\tfrom {\n\t\t\t\t\t\topacity: 0;\n\t\t\t\t\t}\n\n\t\t\t\t\tto {\n\t\t\t\t\t\topacity: 1;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t";
             document.head.appendChild(styles);
         }
     };

@@ -34,7 +34,7 @@ start.addEventListener('click', async () => {
 
     .type('LoremIpsum')
     .highlight(-3)
-    .type('TEST', { delay: 500, speed: 1000, step: 1 })
+    // .type('TEST', { delay: 500, speed: 1000, step: 1 })
     // .delete(5, { delay: 500, speed: 1000, step: 1 })
     .start();
 });

@@ -129,6 +129,11 @@ export class Renderer {
       styles = document.createElement('style');
       styles.id = 'tw_styles';
       styles.textContent = `
+        .tw_highlight {
+          background-color: #3390ff;
+          color: #ffffff;
+        }
+
 				.tw_caret.tw_blink {
 					animation-name: tw_blink_animation;
 					animation-duration: 0.5s;
