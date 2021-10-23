@@ -285,6 +285,13 @@ var Typewriter = /** @class */ (function () {
             this.events[handlerIndex].func = handler;
         }
     };
+    /**
+     * @description
+     * Checks if content has highlight
+     */
+    Typewriter.prototype.hasHighlight = function () {
+        return this.context.highlight.map(function (e) { return parseInt(e, 10); }).filter(function (e) { return !isNaN(e); }).length === 2;
+    };
     return Typewriter;
 }());
 export default Typewriter;

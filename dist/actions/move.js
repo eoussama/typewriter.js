@@ -141,6 +141,7 @@ var Move = /** @class */ (function (_super) {
                                     iterPart = iteration * step;
                                     remIndex = index - iterPart;
                                     sanitizedStep = Math.min(remIndex, step);
+                                    this.parent.context.highlight = [null, null];
                                     this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
                                     this.parent.update();
                                     this.parent.audio.play();

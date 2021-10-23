@@ -284,4 +284,12 @@ export default class Typewriter implements IActions {
 			this.events[handlerIndex].func = handler;
 		}
 	}
+
+	/**
+	 * @description
+	 * Checks if content has highlight
+	 */
+	public hasHighlight(): boolean {
+		return this.context.highlight.map(e => parseInt(e as any, 10)).filter(e => !isNaN(e)).length === 2
+	}
 }

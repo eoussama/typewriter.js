@@ -57,13 +57,28 @@ export class Delete extends Action {
 
 					const deletionWidth = Math.min(times, step);
 
-					this.parent.context.content = [
-						...this.parent.context.content.slice(0, this.parent.context.index - deletionWidth),
-						...this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1)
-					]
+					// Deleting highlighted content
+					if (this.parent.hasHighlight()) {
+						const start = <number>this.parent.context.highlight[0];
+						const end = <number>this.parent.context.highlight[1] + 1;
 
-					this.parent.context.index -= deletionWidth;
-					times -= deletionWidth;
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, start),
+							...this.parent.context.content.slice(end)
+						];
+
+						// Deleting regular content
+					} else {
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, this.parent.context.index - deletionWidth),
+							...this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1)
+						]
+
+						this.parent.context.index -= deletionWidth;
+						times -= deletionWidth;
+					}
+
+					this.parent.context.highlight = [null, null];
 
 					this.parent.update();
 					this.parent.audio.play();

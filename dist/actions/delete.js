@@ -121,7 +121,7 @@ var Delete = /** @class */ (function (_super) {
                 speed = Math.max(0, this.getConfig('speed'));
                 times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, deletionWidth, e_1_1, err_1;
+                        var _a, _b, _, deletionWidth, start, end, e_1_1, err_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
@@ -138,9 +138,19 @@ var Delete = /** @class */ (function (_super) {
                                     _ = _b.value;
                                     this.before();
                                     deletionWidth = Math.min(times, step);
-                                    this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index - deletionWidth), true), this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1), true);
-                                    this.parent.context.index -= deletionWidth;
-                                    times -= deletionWidth;
+                                    // Deleting highlighted content
+                                    if (this.parent.hasHighlight()) {
+                                        start = this.parent.context.highlight[0];
+                                        end = this.parent.context.highlight[1] + 1;
+                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
+                                        // Deleting regular content
+                                    }
+                                    else {
+                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index - deletionWidth), true), this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1), true);
+                                        this.parent.context.index -= deletionWidth;
+                                        times -= deletionWidth;
+                                    }
+                                    this.parent.context.highlight = [null, null];
                                     this.parent.update();
                                     this.parent.audio.play();
                                     this.after();

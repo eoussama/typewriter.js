@@ -58,13 +58,28 @@ export class Type extends Action {
 					const classes = (this.config as IActionConfigType)?.classes ?? [];
 					const props = { classes };
 
-					this.parent.context.content = [
-						...this.parent.context.content.slice(0, this.parent.context.index),
-						...characters.split('').map(char => ({ char, props })),
-						...this.parent.context.content.slice(this.parent.context.index)
-					];
+					// Overwriting highlighted content
+					if (this.parent.hasHighlight()) {
+						const start = <number>this.parent.context.highlight[0];
+						const end = <number>this.parent.context.highlight[1] + 1;
+
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, start),
+							...characters.split('').map(char => ({ char, props })),
+							...this.parent.context.content.slice(end)
+						];
+
+						// Typing regular content
+					} else {
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, this.parent.context.index),
+							...characters.split('').map(char => ({ char, props })),
+							...this.parent.context.content.slice(this.parent.context.index)
+						];
+					}
 
 					this.parent.context.index += characters.length;
+					this.parent.context.highlight = [null, null];
 
 					this.parent.update();
 					this.parent.audio.play();

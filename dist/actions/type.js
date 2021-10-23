@@ -120,7 +120,7 @@ var Type = /** @class */ (function (_super) {
                 step = Math.max(1, this.getConfig('step'));
                 speed = Math.max(0, this.getConfig('speed'));
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, index, characters, classes, props, e_1_1, err_1;
+                        var _a, _b, index, characters, classes, props, start, end, e_1_1, err_1;
                         var e_1, _c;
                         var _d, _e;
                         return __generator(this, function (_f) {
@@ -140,8 +140,18 @@ var Type = /** @class */ (function (_super) {
                                     characters = this.input.substr(index, step);
                                     classes = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.classes) !== null && _e !== void 0 ? _e : [];
                                     props = { classes: classes };
-                                    this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(this.parent.context.index), true);
+                                    // Overwriting highlighted content
+                                    if (this.parent.hasHighlight()) {
+                                        start = this.parent.context.highlight[0];
+                                        end = this.parent.context.highlight[1] + 1;
+                                        this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(end), true);
+                                        // Typing regular content
+                                    }
+                                    else {
+                                        this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(this.parent.context.index), true);
+                                    }
                                     this.parent.context.index += characters.length;
+                                    this.parent.context.highlight = [null, null];
                                     this.parent.update();
                                     this.parent.audio.play();
                                     this.after();

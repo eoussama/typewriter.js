@@ -2,7 +2,7 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 100,
+  speed: 80,
   audio: { enable: true, src: SFX },
   caret: { enable: true, content: '|' }
 };
@@ -34,7 +34,8 @@ start.addEventListener('click', async () => {
 
     .type('LoremIpsum')
     .highlight(-3)
-    .highlight(0)
+    .type('TEST', { delay: 500, speed: 1000, step: 1 })
+    // .delete(5, { delay: 500, speed: 1000, step: 1 })
     .start();
 });
 
@@ -45,5 +46,3 @@ pause.addEventListener('click', () => {
 resume.addEventListener('click', () => {
   tw.resume();
 });
-
-tw.after('highlight', () => console.log('highlighted'));
