@@ -64,25 +64,30 @@ export class Highlight extends Action {
 
     return new Promise(async resolve => {
       try {
-        for await (let _ of this.step(Math.abs(index), step)) {
-          this.before();
-
-          const iteration = (_ / step);
-          const iterPart = iteration * step;
-          const remIndex = index - iterPart;
-          const sanitizedStep = Math.min(remIndex, step);
-
-          this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
-          this.parent.context.highlight = [
-            absoluteIndex < 0 ? this.parent.context.index : currentIndex,
-            absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
-          ];
-
+        if (index !== 0) {
+          for await (let _ of this.step(Math.abs(index), step)) {
+            this.before();
+  
+            const iteration = (_ / step);
+            const iterPart = iteration * step;
+            const remIndex = index - iterPart;
+            const sanitizedStep = Math.min(remIndex, step);
+  
+            this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
+            this.parent.context.highlight = [
+              absoluteIndex < 0 ? this.parent.context.index : currentIndex,
+              absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
+            ];
+  
+            this.parent.update();
+            this.parent.audio.play();
+  
+            this.after();
+            await timeOut(speed);
+          }
+        } else {
+          this.parent.context.highlight = [null, null];
           this.parent.update();
-          this.parent.audio.play();
-
-          this.after();
-          await timeOut(speed);
         }
 
         this.resolveAction();

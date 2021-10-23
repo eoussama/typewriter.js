@@ -126,7 +126,8 @@ var Highlight = /** @class */ (function (_super) {
                         return __generator(this, function (_d) {
                             switch (_d.label) {
                                 case 0:
-                                    _d.trys.push([0, 14, , 15]);
+                                    _d.trys.push([0, 16, , 17]);
+                                    if (!(index !== 0)) return [3 /*break*/, 14];
                                     _d.label = 1;
                                 case 1:
                                     _d.trys.push([1, 7, 8, 13]);
@@ -171,15 +172,20 @@ var Highlight = /** @class */ (function (_super) {
                                     if (e_1) throw e_1.error;
                                     return [7 /*endfinally*/];
                                 case 12: return [7 /*endfinally*/];
-                                case 13:
+                                case 13: return [3 /*break*/, 15];
+                                case 14:
+                                    this.parent.context.highlight = [null, null];
+                                    this.parent.update();
+                                    _d.label = 15;
+                                case 15:
                                     this.resolveAction();
                                     resolve();
-                                    return [3 /*break*/, 15];
-                                case 14:
+                                    return [3 /*break*/, 17];
+                                case 16:
                                     err_1 = _d.sent();
                                     this.parent.errorHandler(err_1);
-                                    return [3 /*break*/, 15];
-                                case 15: return [2 /*return*/];
+                                    return [3 /*break*/, 17];
+                                case 17: return [2 /*return*/];
                             }
                         });
                     }); })];
