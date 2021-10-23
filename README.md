@@ -1,6 +1,6 @@
 <p align="center">
     <a href="http://eoussama.github.io/typewriterjs">
-      <img src="assets/Typewriter.svg" alt="Logo" width="200px">
+      <img src="assets/typewriter.svg" alt="Logo" width="200px">
       <h1 align="center">Typewriter.js</h1>
     </a>
     <p align="center">Typewriting utility for JavaScript</p>
