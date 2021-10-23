@@ -28,7 +28,9 @@ var Audio = /** @class */ (function () {
             var sfx = this.config.src[index];
             var audio = new window.Audio(sfx);
             audio.volume = this.config.volume;
-            audio.play();
+            if (document === null || document === void 0 ? void 0 : document.hasFocus()) {
+                audio.play().catch(function (err) { });
+            }
         }
     };
     return Audio;

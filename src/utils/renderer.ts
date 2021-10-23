@@ -66,11 +66,11 @@ export class Renderer {
 
           // Opening the highlighter tag
           if (this.canHighlight() && this.context.highlight[0] === i) {
-            output += '<mark class="tw-highlight">';
+            output += '<mark class="tw_highlight">';
           }
 
           // Render character
-          output += `<span class="tw-char ${content?.props?.classes?.join('')}">${content.char}</span>`;
+          output += `<span class="tw_char ${content?.props?.classes?.join('')}">${content.char}</span>`;
 
           // Opening the highlighter tag
           if (this.canHighlight() && this.context.highlight[1] === i) {

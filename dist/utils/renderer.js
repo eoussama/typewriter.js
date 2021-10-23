@@ -40,10 +40,10 @@ var Renderer = /** @class */ (function () {
                     }
                     // Opening the highlighter tag
                     if (_this.canHighlight() && _this.context.highlight[0] === i) {
-                        output_1 += '<mark class="tw-highlight">';
+                        output_1 += '<mark class="tw_highlight">';
                     }
                     // Render character
-                    output_1 += "<span class=\"tw-char " + ((_c = (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.classes) === null || _c === void 0 ? void 0 : _c.join('')) + "\">" + content.char + "</span>";
+                    output_1 += "<span class=\"tw_char " + ((_c = (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.classes) === null || _c === void 0 ? void 0 : _c.join('')) + "\">" + content.char + "</span>";
                     // Opening the highlighter tag
                     if (_this.canHighlight() && _this.context.highlight[1] === i) {
                         output_1 += '</mark>';

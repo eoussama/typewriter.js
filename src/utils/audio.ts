@@ -38,7 +38,10 @@ export class Audio {
       const audio = new window.Audio(sfx);
 
       audio.volume = this.config.volume;
-      audio.play();
+      
+      if (document?.hasFocus()) {
+        audio.play().catch(err => {});
+      }
     }
   }
 }

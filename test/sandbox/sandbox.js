@@ -27,7 +27,6 @@ start.addEventListener('click', async () => {
     .type('Oussama', { classes: ['style'] })
     .type('!')
     .start();
-
 });
 
 pause.addEventListener('click', () => {
