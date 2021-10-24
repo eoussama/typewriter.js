@@ -110,8 +110,11 @@ export default class Typewriter implements IActions {
 			targetAttribute: config?.targetAttribute ?? 'innerHTML'
 		};
 
-		// Initializing the renderer
+		// Initializing the content
 		const target = <HTMLElement>document.querySelector(selector);
+		this.initializeContent(target);
+
+		// Initializing the renderer
 		this.renderer = new Renderer(target, this.config?.targetAttribute, this.config?.parseHTML, this.context, this.config.caret);
 
 		// Initializing the audio utility
@@ -322,5 +325,20 @@ export default class Typewriter implements IActions {
 	 */
 	public hasHighlight(): boolean {
 		return this.context.highlight.map(e => parseInt(e as any, 10)).filter(e => !isNaN(e)).length === 2
+	}
+
+	/**
+	 * @description
+	 * Initializes the contents, copyies over the target's
+	 * contents and adapts the typewriter's context.
+	 *
+	 * @param target The target element
+	 */
+	private initializeContent(target: HTMLElement): void {
+		const targetAttribute = this.config.targetAttribute === 'innerHTML' ? 'textContent' : this.config.targetAttribute;
+		const targetContent = (target as any)[targetAttribute];
+
+		this.context.content = targetContent?.split('').map((e: string) => ({ char: e, props: { classes: [] } })) ?? [];
+		this.context.index = this.context.content.length;
 	}
 }

@@ -86,8 +86,10 @@ var Typewriter = /** @class */ (function () {
             parseHTML: (_e = config === null || config === void 0 ? void 0 : config.parseHTML) !== null && _e !== void 0 ? _e : true,
             targetAttribute: (_f = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _f !== void 0 ? _f : 'innerHTML'
         };
-        // Initializing the renderer
+        // Initializing the content
         var target = document.querySelector(selector);
+        this.initializeContent(target);
+        // Initializing the renderer
         this.renderer = new Renderer(target, (_g = this.config) === null || _g === void 0 ? void 0 : _g.targetAttribute, (_h = this.config) === null || _h === void 0 ? void 0 : _h.parseHTML, this.context, this.config.caret);
         // Initializing the audio utility
         this.audio = new Audio(this.config.audio);
@@ -319,6 +321,20 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.hasHighlight = function () {
         return this.context.highlight.map(function (e) { return parseInt(e, 10); }).filter(function (e) { return !isNaN(e); }).length === 2;
+    };
+    /**
+     * @description
+     * Initializes the contents, copyies over the target's
+     * contents and adapts the typewriter's context.
+     *
+     * @param target The target element
+     */
+    Typewriter.prototype.initializeContent = function (target) {
+        var _a;
+        var targetAttribute = this.config.targetAttribute === 'innerHTML' ? 'textContent' : this.config.targetAttribute;
+        var targetContent = target[targetAttribute];
+        this.context.content = (_a = targetContent === null || targetContent === void 0 ? void 0 : targetContent.split('').map(function (e) { return ({ char: e, props: { classes: [] } }); })) !== null && _a !== void 0 ? _a : [];
+        this.context.index = this.context.content.length;
     };
     return Typewriter;
 }());

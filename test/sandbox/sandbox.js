@@ -3,13 +3,13 @@ import SFX from "./../../dist/assets/audio.js";
 
 const options = {
   speed: 80,
-  targetAttribute: 'placeholder',
-  parseHTML: false,
+  // targetAttribute: 'placeholder',
+  // parseHTML: false,
   audio: { enable: true, src: SFX },
   caret: { enable: true, content: '|' }
 };
 
-const tw = new Typewriter('#input', options);
+const tw = new Typewriter('#target', options);
 tw.catch(console.log);
 
 const start = document.getElementById('start');
@@ -48,8 +48,8 @@ start.addEventListener('click', async () => {
     // .type('}')
     // .highlight(-8)
 
-    .type('Hello')
-    .highlight(-3)
+    .move(-3)
+    .delete('end')
 
     .start();
 });
