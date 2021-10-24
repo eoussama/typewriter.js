@@ -49,11 +49,11 @@ export class Type extends Action {
 		return new Promise(async resolve => {
 			try {
 				for await (let index of this.step(this.input.length, step)) {
-					this.before();
-
 					const characters = this.input.substr(index, step);
 					const classes = (this.config as IActionConfigType)?.classes ?? [];
 					const props = { classes };
+
+					this.before({ currentIndex: this.parent.context.index });
 
 					// Overwriting highlighted content
 					if (this.parent.hasHighlight()) {
@@ -81,7 +81,11 @@ export class Type extends Action {
 					this.parent.update();
 					this.parent.audio.play();
 
-					this.after();
+					this.after({
+						character: characters,
+						currentIndex: this.parent.context.index,
+					});
+
 					await timeOut(speed);
 				}
 

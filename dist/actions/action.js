@@ -72,12 +72,12 @@ var Action = /** @class */ (function () {
         this.getConfig('done')();
     };
     /**
-   * @description
-   * Defines required steps to resolve the action
-   *
-   * @param length The length of the steps
+     * @description
+     * Defines required steps to resolve the action
+     *
+     * @param length The length of the steps
      * @param step The step of every iteration
-   */
+     */
     Action.prototype.step = function (length, step) {
         var max, i;
         if (step === void 0) { step = 1; }
@@ -104,19 +104,21 @@ var Action = /** @class */ (function () {
      * @description
      * Fires before events
      */
-    Action.prototype.before = function () {
+    Action.prototype.before = function (params) {
         var _a;
+        if (params === void 0) { params = {}; }
         var name = (_a = this.constructor.name) === null || _a === void 0 ? void 0 : _a.toLowerCase();
-        this.parent.events.filter(function (e) { return e.event === "before:" + name; }).forEach(function (event) { return event.func(); });
+        this.parent.events.filter(function (e) { return e.event === "before:" + name; }).forEach(function (event) { return event.func(params); });
     };
     /**
      * @description
      * Fires after events
      */
-    Action.prototype.after = function () {
+    Action.prototype.after = function (params) {
         var _a;
+        if (params === void 0) { params = {}; }
         var name = (_a = this.constructor.name) === null || _a === void 0 ? void 0 : _a.toLowerCase();
-        this.parent.events.filter(function (e) { return e.event === "after:" + name; }).forEach(function (event) { return event.func(); });
+        this.parent.events.filter(function (e) { return e.event === "after:" + name; }).forEach(function (event) { return event.func(params); });
     };
     /**
      * @description

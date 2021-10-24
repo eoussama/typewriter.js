@@ -35,16 +35,19 @@ start.addEventListener('click', async () => {
     // .highlight(-5, { step: 5 })
     // .delete(2, { delay: 1550, speed: 1000 })
 
-    .type('void ', { classes: ['blue'] })
-    .type('main', { classes: ['italic'] })
-    .type(' {')
-    .return()
-    .tab()
-    .type('return', { classes: ['magenta'] })
-    .type(' 0;')
-    .return()
-    .type('}')
-    .highlight(-8)
+    // .type('void ', { classes: ['blue'] })
+    // .type('main', { classes: ['italic'] })
+    // .type(' {')
+    // .return()
+    // .tab()
+    // .type('return', { classes: ['magenta'] })
+    // .type(' 0;')
+    // .return()
+    // .type('}')
+    // .highlight(-8)
+
+    .type('Hello')
+    .highlight(-3)
 
     .start();
 });
@@ -56,3 +59,6 @@ pause.addEventListener('click', () => {
 resume.addEventListener('click', () => {
   tw.resume();
 });
+
+tw.before('highlight', before => console.log({ before }));
+tw.after('highlight', after => console.log({ after }));

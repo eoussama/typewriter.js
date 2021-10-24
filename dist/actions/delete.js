@@ -129,7 +129,7 @@ var Delete = /** @class */ (function (_super) {
                     : Math.min(startingIndex, sanitizedIndex);
                 absoluteIndex = Math.abs(normalizedIndex);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, start, end, iteration, iterPart, remainingIndex, deletionWidth, start, end, e_1_1, err_1;
+                        var _a, _b, _, deletedContent, start, end, iteration, iterPart, remainingIndex, deletionWidth, start, end, e_1_1, err_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
@@ -144,11 +144,14 @@ var Delete = /** @class */ (function (_super) {
                                 case 3:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
-                                    this.before();
+                                    deletedContent = '';
+                                    this.before({ currentIndex: this.parent.context.index });
                                     // Deleting highlighted content
                                     if (this.parent.hasHighlight()) {
                                         start = this.parent.context.highlight[0];
                                         end = this.parent.context.highlight[1] + 1;
+                                        // Extracting the content that's gonna be deleted
+                                        deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
                                         this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
                                         // Deleting regular content
                                     }
@@ -159,6 +162,8 @@ var Delete = /** @class */ (function (_super) {
                                         deletionWidth = Math.min(remainingIndex, step);
                                         start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
                                         end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
+                                        // Extracting the content that's gonna be deleted
+                                        deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
                                         // Deleting the marked width
                                         this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
                                         // Updating the caret position
@@ -167,7 +172,10 @@ var Delete = /** @class */ (function (_super) {
                                     this.parent.context.highlight = [null, null];
                                     this.parent.update();
                                     this.parent.audio.play();
-                                    this.after();
+                                    this.after({
+                                        characters: deletedContent,
+                                        currentIndex: this.parent.context.index
+                                    });
                                     return [4 /*yield*/, timeOut(speed)];
                                 case 4:
                                     _d.sent();

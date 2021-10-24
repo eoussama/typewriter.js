@@ -137,7 +137,10 @@ var Highlight = /** @class */ (function (_super) {
                                 case 3:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
-                                    this.before();
+                                    this.before({
+                                        currentIndex: this.parent.context.index,
+                                        currentRange: this.parent.context.highlight.slice(0)
+                                    });
                                     iteration = (_ / step);
                                     iterPart = iteration * step;
                                     remIndex = index - iterPart;
@@ -149,7 +152,10 @@ var Highlight = /** @class */ (function (_super) {
                                     ];
                                     this.parent.update();
                                     this.parent.audio.play();
-                                    this.after();
+                                    this.after({
+                                        currentIndex: this.parent.context.index,
+                                        currentRange: this.parent.context.highlight.slice(0)
+                                    });
                                     return [4 /*yield*/, timeOut(speed)];
                                 case 4:
                                     _d.sent();

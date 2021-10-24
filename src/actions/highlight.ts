@@ -66,23 +66,31 @@ export class Highlight extends Action {
       try {
         if (index !== 0) {
           for await (let _ of this.step(Math.abs(index), step)) {
-            this.before();
-  
+
+            this.before({
+              currentIndex: this.parent.context.index,
+              currentRange: this.parent.context.highlight.slice(0)
+            });
+
             const iteration = (_ / step);
             const iterPart = iteration * step;
             const remIndex = index - iterPart;
             const sanitizedStep = Math.min(remIndex, step);
-  
+
             this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
             this.parent.context.highlight = [
               absoluteIndex < 0 ? this.parent.context.index : currentIndex,
               absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
             ];
-  
+
             this.parent.update();
             this.parent.audio.play();
-  
-            this.after();
+
+            this.after({
+              currentIndex: this.parent.context.index,
+              currentRange: this.parent.context.highlight.slice(0)
+            });
+
             await timeOut(speed);
           }
         } else {

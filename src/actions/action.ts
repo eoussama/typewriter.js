@@ -61,12 +61,12 @@ export class Action {
 	}
 
 	/**
-   * @description
-   * Defines required steps to resolve the action
-   *
-   * @param length The length of the steps
+	 * @description
+	 * Defines required steps to resolve the action
+	 *
+	 * @param length The length of the steps
 	 * @param step The step of every iteration
-   */
+	 */
 	protected * step(length: number, step: number = 1) {
 		const max = Math.abs(length);
 
@@ -79,18 +79,18 @@ export class Action {
 	 * @description
 	 * Fires before events
 	 */
-	public before(): void {
+	public before(params: object = {}): void {
 		const name = this.constructor.name?.toLowerCase();
-		this.parent.events.filter(e => e.event === `before:${name}`).forEach(event => event.func());
+		this.parent.events.filter(e => e.event === `before:${name}`).forEach(event => event.func(params));
 	}
 
 	/**
 	 * @description
 	 * Fires after events
 	 */
-	public after(): void {
+	public after(params: object = {}): void {
 		const name = this.constructor.name?.toLowerCase();
-		this.parent.events.filter(e => e.event === `after:${name}`).forEach(event => event.func());
+		this.parent.events.filter(e => e.event === `after:${name}`).forEach(event => event.func(params));
 	}
 
 	/**

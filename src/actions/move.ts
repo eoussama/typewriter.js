@@ -64,7 +64,7 @@ export class Move extends Action {
 		return new Promise(async resolve => {
 			try {
 				for await (let _ of this.step(Math.abs(index), step)) {
-					this.before();
+					this.before({ currentIndex: this.parent.context.index });
 
 					const iteration = (_ / step);
 					const iterPart = iteration * step;
@@ -77,7 +77,7 @@ export class Move extends Action {
 					this.parent.update();
 					this.parent.audio.play();
 
-					this.after();
+					this.after({ currentIndex: this.parent.context.index });
 					await timeOut(speed);
 				}
 

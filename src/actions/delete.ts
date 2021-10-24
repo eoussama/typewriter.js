@@ -72,12 +72,17 @@ export class Delete extends Action {
 		return new Promise(async resolve => {
 			try {
 				for await (let _ of this.step(absoluteIndex, step)) {
-					this.before();
+					let deletedContent = '';
+
+					this.before({ currentIndex: this.parent.context.index });
 
 					// Deleting highlighted content
 					if (this.parent.hasHighlight()) {
 						const start = <number>this.parent.context.highlight[0];
 						const end = <number>this.parent.context.highlight[1] + 1;
+
+						// Extracting the content that's gonna be deleted
+						deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
 
 						this.parent.context.content = [
 							...this.parent.context.content.slice(0, start),
@@ -101,6 +106,9 @@ export class Delete extends Action {
 						const start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
 						const end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
 
+						// Extracting the content that's gonna be deleted
+						deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
+
 						// Deleting the marked width
 						this.parent.context.content = [
 							...this.parent.context.content.slice(0, start),
@@ -116,7 +124,11 @@ export class Delete extends Action {
 					this.parent.update();
 					this.parent.audio.play();
 
-					this.after();
+					this.after({
+						characters: deletedContent,
+						currentIndex: this.parent.context.index
+					});
+
 					await timeOut(speed);
 				}
 

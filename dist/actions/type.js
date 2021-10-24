@@ -133,10 +133,10 @@ var Type = /** @class */ (function (_super) {
                                 case 3:
                                     if (!(_b = _f.sent(), !_b.done)) return [3 /*break*/, 6];
                                     index = _b.value;
-                                    this.before();
                                     characters = this.input.substr(index, step);
                                     classes = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.classes) !== null && _e !== void 0 ? _e : [];
                                     props = { classes: classes };
+                                    this.before({ currentIndex: this.parent.context.index });
                                     // Overwriting highlighted content
                                     if (this.parent.hasHighlight()) {
                                         start = this.parent.context.highlight[0];
@@ -151,7 +151,10 @@ var Type = /** @class */ (function (_super) {
                                     this.parent.context.highlight = [null, null];
                                     this.parent.update();
                                     this.parent.audio.play();
-                                    this.after();
+                                    this.after({
+                                        character: characters,
+                                        currentIndex: this.parent.context.index,
+                                    });
                                     return [4 /*yield*/, timeOut(speed)];
                                 case 4:
                                     _f.sent();
