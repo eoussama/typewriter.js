@@ -31,9 +31,6 @@ export class Delete extends Action {
 	/**
 	 * @description
 	 * Initiates delete action
-	 *
-	 @param times Number of deletions
-	 * @param parentResolve Parent resolve function
 	 */
 	public async start(): Promise<void> {
 		await super.start();
@@ -70,7 +67,7 @@ export class Delete extends Action {
 			: Math.min(startingIndex, sanitizedIndex);
 
 		// Positive value of the index
-		const absoluteIndex = Math.abs(normalizedIndex) + (this.parent.hasHighlight() ? 1 : 0);
+		const absoluteIndex = Math.abs(normalizedIndex);
 
 		return new Promise(async resolve => {
 			try {

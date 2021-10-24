@@ -9,6 +9,7 @@ import { Exec } from "./actions/exec.js";
 import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
 import { Highlight } from "./actions/highlight.js";
+import { Tab } from "./actions/tab.js";
 import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
@@ -210,6 +211,20 @@ export default class Typewriter implements IActions {
 	 */
 	public highlight(index: number, config?: IActionConfig): Typewriter {
 		const action = new Highlight(index, this, config);
+		this.queuer.add(action);
+
+		return this;
+	}
+
+	/**
+	 * @description
+	 * Inserts tabulation
+	 *
+	 * @param spaces Number of spaces that make the tabulation
+	 * @param config The action configuration
+	 */
+	public tab(index: number = 4, config?: IActionConfig): Typewriter {
+		const action = new Tab(index, this, config);
 		this.queuer.add(action);
 
 		return this;

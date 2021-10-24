@@ -89,9 +89,6 @@ var Type = /** @class */ (function (_super) {
     /**
      * @description
      * Initiates type action
-     *
-     * @param input The target input
-     * @param parentResolve Parent resolve function
      */
     Type.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {

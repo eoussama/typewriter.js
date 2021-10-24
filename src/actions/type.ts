@@ -32,9 +32,6 @@ export class Type extends Action {
 	/**
 	 * @description
 	 * Initiates type action
-	 *
-	 * @param input The target input
-	 * @param parentResolve Parent resolve function
 	 */
 	public async start(): Promise<void> {
 		await super.start();

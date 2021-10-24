@@ -16,30 +16,24 @@ const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-    /* 
-    .type('LO')
-    .type('REM_', { classes: ['style'] })
-    .type('IPSUM')
-    .move(-8, { step: 8 })
-    .delete(2)
-    .highlight(5, { step: 8 })
-    */
+    // .type('Hello, my name is Oussama')
+    // .delete('Oussama'.length, { delay: 500 })
+    // .type('Oussama', { classes: ['style'] })
+    // .type('!')
 
-    /*
-    .type('Hello, my name is Oussama')
-    .delete('Oussama'.length, { delay: 500 })
-    .type('Oussama', { classes: ['style'] })
-    .type('!')
-    */
+    .type('Hello')
+    .tab()
+    .type('World')
+    .move(-2)
+    .highlight(-4)
+    .delete(-2, {delay: 1550, speed: 1000})
 
-    .type('TEXT')
-    .move('start')
-    .delete('end', { step: 1, delay: 1000, speed: 1000, done: () => console.info('done') })
-    // .move(-3)
-    // .highlight(-1)
-    // .delete(10, { step: 5, speed: 500, done: () => console.info('done') })
-    // .type('TEST', { delay: 500, speed: 1000, step: 1 })
-    // .delete(5, { delay: 500, speed: 1000, step: 1 })
+    // .type('Hello')
+    // .tab()
+    // .type('World')
+    // .highlight(-4)
+    // .delete(2, {delay: 1550, speed: 1000})
+
     .start();
 });
 

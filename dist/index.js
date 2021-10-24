@@ -48,6 +48,7 @@ import { Exec } from "./actions/exec.js";
 import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
 import { Highlight } from "./actions/highlight.js";
+import { Tab } from "./actions/tab.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
 import { Audio } from "./utils/audio.js";
@@ -220,6 +221,19 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.highlight = function (index, config) {
         var action = new Highlight(index, this, config);
+        this.queuer.add(action);
+        return this;
+    };
+    /**
+     * @description
+     * Inserts tabulation
+     *
+     * @param spaces Number of spaces that make the tabulation
+     * @param config The action configuration
+     */
+    Typewriter.prototype.tab = function (index, config) {
+        if (index === void 0) { index = 4; }
+        var action = new Tab(index, this, config);
         this.queuer.add(action);
         return this;
     };

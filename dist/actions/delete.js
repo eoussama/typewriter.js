@@ -89,9 +89,6 @@ var Delete = /** @class */ (function (_super) {
     /**
      * @description
      * Initiates delete action
-     *
-     @param times Number of deletions
-     * @param parentResolve Parent resolve function
      */
     Delete.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -130,7 +127,7 @@ var Delete = /** @class */ (function (_super) {
                 normalizedIndex = inverseDeletion
                     ? Math.min(startingLength - startingIndex, Math.abs(sanitizedIndex))
                     : Math.min(startingIndex, sanitizedIndex);
-                absoluteIndex = Math.abs(normalizedIndex) + (this.parent.hasHighlight() ? 1 : 0);
+                absoluteIndex = Math.abs(normalizedIndex);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
                         var _a, _b, _, start, end, iteration, iterPart, remainingIndex, deletionWidth, start, end, e_1_1, err_1;
                         var e_1, _c;
