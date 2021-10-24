@@ -5,13 +5,13 @@
 	"main": "./src/index.ts",
 	"scripts": {
 		"clean": "rm -rf ./dist",
-		"sandbox": "npx http-server -o test/sandbox/sandbox.html",
+		"sandbox": "npx http-server -o ./test/sandbox/sandbox.html",
 		"build:dev": "npx tsc --watch",
 		"build": "npx tsc"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/EOussama/typewriterjs.git"
+		"url": "git+https://github.com/EOussama/typewriter.js.git"
 	},
 	"keywords": [
 		"animation",
@@ -23,9 +23,9 @@
 	"author": "EOussama",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/EOussama/typewriterjs/issues"
+		"url": "https://github.com/EOussama/typewriter.js/issues"
 	},
-	"homepage": "https://github.com/EOussama/typewriterjs#readme",
+	"homepage": "https://github.com/EOussama/typewriter.js#readme",
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/"
 	},
