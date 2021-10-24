@@ -66,7 +66,7 @@ var Typewriter = /** @class */ (function () {
      * @param config The global configuration object
      */
     function Typewriter(selector, config) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         // Initializing the events
         this.events = [];
         // Initializing the context
@@ -82,11 +82,13 @@ var Typewriter = /** @class */ (function () {
             step: (_a = config === null || config === void 0 ? void 0 : config.step) !== null && _a !== void 0 ? _a : 1,
             delay: (_b = config === null || config === void 0 ? void 0 : config.delay) !== null && _b !== void 0 ? _b : 0,
             speed: (_c = config === null || config === void 0 ? void 0 : config.speed) !== null && _c !== void 0 ? _c : 300,
-            done: (_d = config === null || config === void 0 ? void 0 : config.done) !== null && _d !== void 0 ? _d : (function () { })
+            done: (_d = config === null || config === void 0 ? void 0 : config.done) !== null && _d !== void 0 ? _d : (function () { }),
+            parseHTML: (_e = config === null || config === void 0 ? void 0 : config.parseHTML) !== null && _e !== void 0 ? _e : true,
+            targetAttribute: (_f = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _f !== void 0 ? _f : 'innerHTML'
         };
         // Initializing the renderer
         var target = document.querySelector(selector);
-        this.renderer = new Renderer(target, this.context, this.config.caret);
+        this.renderer = new Renderer(target, (_g = this.config) === null || _g === void 0 ? void 0 : _g.targetAttribute, (_h = this.config) === null || _h === void 0 ? void 0 : _h.parseHTML, this.context, this.config.caret);
         // Initializing the audio utility
         this.audio = new Audio(this.config.audio);
         // Initializing the queuer

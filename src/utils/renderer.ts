@@ -18,6 +18,18 @@ export class Renderer {
 
   /**
    * @description
+   * The attribute to update
+   */
+  private targetAttribute!: string;
+
+  /**
+   * @description
+   * Whether or not to keep HTML output
+   */
+  private parseHTML!: boolean;
+
+  /**
+   * @description
    * The renderer's config
    */
   private config!: IRendererConfig;
@@ -32,15 +44,21 @@ export class Renderer {
    * @description
    * Instantiates the renderer instance
    *
+   * @param target The target element
+   * @param targetAttribute The target attributes that recieves content update
+   * @param parseHTML Whether or not to keep HTML output
+   * @param context The typewriter context
    * @param config The renderer configuration
    */
-  constructor(target: HTMLElement, context: any, config?: IRendererConfig) {
+  constructor(target: HTMLElement, targetAttribute: string, parseHTML: boolean, context: any, config?: IRendererConfig) {
     this.context = context;
     this.target = target;
+    this.parseHTML = parseHTML ?? true;
+    this.targetAttribute = targetAttribute;
 
     this.config = {
-      enable: config?.enable ?? true,
       blink: config?.blink ?? true,
+      enable: config?.enable ?? true,
       content: config?.content ?? '_'
     };
 
@@ -85,7 +103,9 @@ export class Renderer {
         output += this.renderedCaret();
       }
 
-      this.target.innerHTML = output;
+      (this.target as any)[this.targetAttribute] = this.parseHTML
+        ? output
+        : this.stripHTML(output);
     }
   }
 
@@ -95,8 +115,21 @@ export class Renderer {
    */
   public reset(): void {
     if (this.target) {
-      this.target.innerHTML = '';
+      (this.target as any)[this.targetAttribute] = '';
     }
+  }
+
+  /**
+   * @description
+   * Strips out HTML formatting and returns a raw string
+   *
+   * @param input The HTML input to sanitize
+   * @returns 
+   */
+  private stripHTML(input: string): string {
+    const element = document.createElement('div');
+    element.innerHTML = input;
+    return element.textContent ?? '';
   }
 
   /**

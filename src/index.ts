@@ -105,12 +105,14 @@ export default class Typewriter implements IActions {
 			step: config?.step ?? 1,
 			delay: config?.delay ?? 0,
 			speed: config?.speed ?? 300,
-			done: config?.done ?? (() => { })
+			done: config?.done ?? (() => { }),
+			parseHTML: config?.parseHTML ?? true,
+			targetAttribute: config?.targetAttribute ?? 'innerHTML'
 		};
 
 		// Initializing the renderer
 		const target = <HTMLElement>document.querySelector(selector);
-		this.renderer = new Renderer(target, this.context, this.config.caret);
+		this.renderer = new Renderer(target, this.config?.targetAttribute, this.config?.parseHTML, this.context, this.config.caret);
 
 		// Initializing the audio utility
 		this.audio = new Audio(this.config.audio);

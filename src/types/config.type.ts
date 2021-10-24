@@ -10,6 +10,18 @@ export interface IConfig extends IActionConfig {
 
   /**
    * @description
+   * Whether or not to keep HTML output
+   */
+  parseHTML: boolean;
+
+  /**
+   * @description
+   * The attribute to update
+   */
+  targetAttribute: string;
+
+  /**
+   * @description
    * The caret configuration
    */
   caret?: IRendererConfig,

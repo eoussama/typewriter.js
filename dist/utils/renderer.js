@@ -8,15 +8,21 @@ var Renderer = /** @class */ (function () {
      * @description
      * Instantiates the renderer instance
      *
+     * @param target The target element
+     * @param targetAttribute The target attributes that recieves content update
+     * @param parseHTML Whether or not to keep HTML output
+     * @param context The typewriter context
      * @param config The renderer configuration
      */
-    function Renderer(target, context, config) {
+    function Renderer(target, targetAttribute, parseHTML, context, config) {
         var _a, _b, _c;
         this.context = context;
         this.target = target;
+        this.parseHTML = parseHTML !== null && parseHTML !== void 0 ? parseHTML : true;
+        this.targetAttribute = targetAttribute;
         this.config = {
-            enable: (_a = config === null || config === void 0 ? void 0 : config.enable) !== null && _a !== void 0 ? _a : true,
-            blink: (_b = config === null || config === void 0 ? void 0 : config.blink) !== null && _b !== void 0 ? _b : true,
+            blink: (_a = config === null || config === void 0 ? void 0 : config.blink) !== null && _a !== void 0 ? _a : true,
+            enable: (_b = config === null || config === void 0 ? void 0 : config.enable) !== null && _b !== void 0 ? _b : true,
             content: (_c = config === null || config === void 0 ? void 0 : config.content) !== null && _c !== void 0 ? _c : '_'
         };
         this.injectStyle();
@@ -57,7 +63,9 @@ var Renderer = /** @class */ (function () {
             else if ((_a = this.config) === null || _a === void 0 ? void 0 : _a.enable) {
                 output_1 += this.renderedCaret();
             }
-            this.target.innerHTML = output_1;
+            this.target[this.targetAttribute] = this.parseHTML
+                ? output_1
+                : this.stripHTML(output_1);
         }
     };
     /**
@@ -66,8 +74,21 @@ var Renderer = /** @class */ (function () {
      */
     Renderer.prototype.reset = function () {
         if (this.target) {
-            this.target.innerHTML = '';
+            this.target[this.targetAttribute] = '';
         }
+    };
+    /**
+     * @description
+     * Strips out HTML formatting and returns a raw string
+     *
+     * @param input The HTML input to sanitize
+     * @returns
+     */
+    Renderer.prototype.stripHTML = function (input) {
+        var _a;
+        var element = document.createElement('div');
+        element.innerHTML = input;
+        return (_a = element.textContent) !== null && _a !== void 0 ? _a : '';
     };
     /**
      * @description

@@ -3,11 +3,13 @@ import SFX from "./../../dist/assets/audio.js";
 
 const options = {
   speed: 80,
+  targetAttribute: 'placeholder',
+  parseHTML: false,
   audio: { enable: true, src: SFX },
   caret: { enable: true, content: '|' }
 };
 
-const tw = new Typewriter('#target', options);
+const tw = new Typewriter('#input', options);
 tw.catch(console.log);
 
 const start = document.getElementById('start');
@@ -59,6 +61,3 @@ pause.addEventListener('click', () => {
 resume.addEventListener('click', () => {
   tw.resume();
 });
-
-tw.before('highlight', before => console.log({ before }));
-tw.after('highlight', after => console.log({ after }));
