@@ -14,3 +14,15 @@
   font-style: italic;
   text-decoration: underline;
 }
+
+.italic {
+  font-style: italic;
+}
+
+.blue {
+  color: rgb(55, 134, 252);
+}
+
+.magenta {
+  color: rgb(255, 66, 230);
+}

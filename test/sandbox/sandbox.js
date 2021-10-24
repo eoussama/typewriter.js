@@ -21,18 +21,30 @@ start.addEventListener('click', async () => {
     // .type('Oussama', { classes: ['style'] })
     // .type('!')
 
-    .type('Hello')
-    .tab()
-    .type('World')
-    .move(-2)
-    .highlight(-4)
-    .delete(-2, {delay: 1550, speed: 1000})
-
     // .type('Hello')
     // .tab()
     // .type('World')
+    // .move(-2)
     // .highlight(-4)
-    // .delete(2, {delay: 1550, speed: 1000})
+    // .delete(-2, {delay: 1550, speed: 1000})
+
+    // .type('Hello')
+    // .tab()
+    // .tab()
+    // .type('World')
+    // .highlight(-5, { step: 5 })
+    // .delete(2, { delay: 1550, speed: 1000 })
+
+    .type('void ', { classes: ['blue'] })
+    .type('main', { classes: ['italic'] })
+    .type(' {')
+    .return()
+    .tab()
+    .type('return', { classes: ['magenta'] })
+    .type(' 0;')
+    .return()
+    .type('}')
+    .highlight(-8)
 
     .start();
 });

@@ -10,6 +10,7 @@ import { Move } from "./actions/move.js";
 import { Delete } from "./actions/delete.js";
 import { Highlight } from "./actions/highlight.js";
 import { Tab } from "./actions/tab.js";
+import { Return } from "./actions/return.js";
 import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
@@ -225,6 +226,19 @@ export default class Typewriter implements IActions {
 	 */
 	public tab(index: number = 4, config?: IActionConfig): Typewriter {
 		const action = new Tab(index, this, config);
+		this.queuer.add(action);
+
+		return this;
+	}
+
+	/**
+	 * @description
+	 * Inserts carriage return
+	 *
+	 * @param config The action configuration
+	 */
+	public return(config?: IActionConfig): Typewriter {
+		const action = new Return(this, config);
 		this.queuer.add(action);
 
 		return this;
