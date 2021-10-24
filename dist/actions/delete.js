@@ -114,14 +114,25 @@ var Delete = /** @class */ (function (_super) {
      */
     Delete.prototype.delete = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var step, speed, times;
+            var step, speed, startingIndex, startingLength, sanitizedIndex, inverseDeletion, normalizedIndex, absoluteIndex;
             var _this = this;
             return __generator(this, function (_a) {
                 step = Math.max(1, this.getConfig('step'));
                 speed = Math.max(0, this.getConfig('speed'));
-                times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
+                startingIndex = this.parent.context.index;
+                startingLength = this.parent.context.content.length;
+                sanitizedIndex = typeof this.times === 'string'
+                    ? this.times === 'start'
+                        ? startingIndex
+                        : startingIndex - startingLength
+                    : this.times;
+                inverseDeletion = sanitizedIndex < 0;
+                normalizedIndex = inverseDeletion
+                    ? Math.min(startingLength - startingIndex, Math.abs(sanitizedIndex))
+                    : Math.min(startingIndex, sanitizedIndex);
+                absoluteIndex = Math.abs(normalizedIndex) + (this.parent.hasHighlight() ? 1 : 0);
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, deletionWidth, start, end, e_1_1, err_1;
+                        var _a, _b, _, start, end, iteration, iterPart, remainingIndex, deletionWidth, start, end, e_1_1, err_1;
                         var e_1, _c;
                         return __generator(this, function (_d) {
                             switch (_d.label) {
@@ -130,14 +141,13 @@ var Delete = /** @class */ (function (_super) {
                                     _d.label = 1;
                                 case 1:
                                     _d.trys.push([1, 7, 8, 13]);
-                                    _a = __asyncValues(this.step(times, step));
+                                    _a = __asyncValues(this.step(absoluteIndex, step));
                                     _d.label = 2;
                                 case 2: return [4 /*yield*/, _a.next()];
                                 case 3:
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
                                     this.before();
-                                    deletionWidth = Math.min(times, step);
                                     // Deleting highlighted content
                                     if (this.parent.hasHighlight()) {
                                         start = this.parent.context.highlight[0];
@@ -146,9 +156,16 @@ var Delete = /** @class */ (function (_super) {
                                         // Deleting regular content
                                     }
                                     else {
-                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index - deletionWidth), true), this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1), true);
-                                        this.parent.context.index -= deletionWidth;
-                                        times -= deletionWidth;
+                                        iteration = (_ / step);
+                                        iterPart = iteration * step;
+                                        remainingIndex = absoluteIndex - iterPart;
+                                        deletionWidth = Math.min(remainingIndex, step);
+                                        start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
+                                        end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
+                                        // Deleting the marked width
+                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
+                                        // Updating the caret position
+                                        this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
                                     }
                                     this.parent.context.highlight = [null, null];
                                     this.parent.update();

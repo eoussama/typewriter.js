@@ -32,8 +32,12 @@ start.addEventListener('click', async () => {
     .type('!')
     */
 
-    .type('LoremIpsum')
-    .highlight(-3)
+    .type('TEXT')
+    .move('start')
+    .delete('end', { step: 1, delay: 1000, speed: 1000, done: () => console.info('done') })
+    // .move(-3)
+    // .highlight(-1)
+    // .delete(10, { step: 5, speed: 500, done: () => console.info('done') })
     // .type('TEST', { delay: 500, speed: 1000, step: 1 })
     // .delete(5, { delay: 500, speed: 1000, step: 1 })
     .start();

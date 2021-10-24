@@ -48,14 +48,34 @@ export class Delete extends Action {
 		const step = Math.max(1, this.getConfig('step'));
 		const speed = Math.max(0, this.getConfig('speed'));
 
-		let times = (typeof this.times === 'string' && this.times === 'start') ? this.parent.context.index : this.times;
+		// The starting index, the current poisition of the caret
+		const startingIndex = this.parent.context.index;
+
+		// The starting length of the content
+		const startingLength = this.parent.context.content.length;
+
+		// Converting the anchor to a valid number
+		const sanitizedIndex = typeof this.times === 'string'
+			? this.times === 'start'
+				? startingIndex
+				: startingIndex - startingLength
+			: this.times;
+
+		// If the deletion mode is inverted
+		const inverseDeletion = sanitizedIndex < 0;
+
+		// Comparing bounds to prevent overflowing index
+		const normalizedIndex = inverseDeletion
+			? Math.min(startingLength - startingIndex, Math.abs(sanitizedIndex))
+			: Math.min(startingIndex, sanitizedIndex);
+
+		// Positive value of the index
+		const absoluteIndex = Math.abs(normalizedIndex) + (this.parent.hasHighlight() ? 1 : 0);
 
 		return new Promise(async resolve => {
 			try {
-				for await (let _ of this.step(times, step)) {
+				for await (let _ of this.step(absoluteIndex, step)) {
 					this.before();
-
-					const deletionWidth = Math.min(times, step);
 
 					// Deleting highlighted content
 					if (this.parent.hasHighlight()) {
@@ -69,13 +89,29 @@ export class Delete extends Action {
 
 						// Deleting regular content
 					} else {
+
+						// The current iteration
+						const iteration = (_ / step);
+
+						// The remaining deletion index
+						const iterPart = iteration * step;
+						const remainingIndex = absoluteIndex - iterPart;
+
+						// Deleting width accounting for the counding step
+						const deletionWidth = Math.min(remainingIndex, step);
+
+						// Deletion bounds
+						const start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
+						const end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
+
+						// Deleting the marked width
 						this.parent.context.content = [
-							...this.parent.context.content.slice(0, this.parent.context.index - deletionWidth),
-							...this.parent.context.content.slice(this.parent.context.index + deletionWidth - 1)
+							...this.parent.context.content.slice(0, start),
+							...this.parent.context.content.slice(end)
 						]
 
-						this.parent.context.index -= deletionWidth;
-						times -= deletionWidth;
+						// Updating the caret position
+						this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
 					}
 
 					this.parent.context.highlight = [null, null];
