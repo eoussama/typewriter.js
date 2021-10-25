@@ -29,53 +29,53 @@ export default class Typewriter implements IActions {
 	 * The renderer responsible on rendering
 	 * the typewriter's output
 	 */
-	private readonly renderer!: Renderer;
+	private readonly _renderer!: Renderer;
 
 	/**
 	 * @description
 	 * Event list
 	 */
-	public events!: Array<{ event: string, func: Func<any> }>;
+	public _events!: Array<{ event: string, func: Func<any> }>;
 
 	/**
 	 * @description
 	 * The queuer responsible for
 	 * organizing the actions
 	 */
-	public readonly queuer!: Queuer;
+	public readonly _queuer!: Queuer;
 
 	/**
 	 * @description
 	 * The audio utility responsible
 	 * for playing SFX
 	 */
-	public readonly audio!: Audio;
+	public readonly _audio!: Audio;
 
 	/**
 	 * @description
 	 * The pause observable, handles updates
 	 * for pause/resume operations
 	 */
-	public readonly pauseObservable!: Observable<boolean>;
+	public readonly _pauseObservable!: Observable<boolean>;
 
 	/**
 	 * @description
 	 * The typewriter's context
 	 */
-	public readonly context!: IContext;
+	public readonly _context!: IContext;
 
 	/**
 	 * @description
 	 * Global configuration
 	 */
-	public config!: IConfig;
+	public _config!: IConfig;
 
 	/**
 	 * @description
 	 * Returns the event handler
 	 */
 	get errorHandler() {
-		const handler = this.events.find(e => e.event === 'error')?.func ?? (() => { })
+		const handler = this._events.find(e => e.event === 'error')?.func ?? (() => { })
 		return handler;
 	}
 
@@ -89,17 +89,17 @@ export default class Typewriter implements IActions {
 	constructor(selector: string, config?: IConfig) {
 
 		// Initializing the events
-		this.events = [];
+		this._events = [];
 
 		// Initializing the context
-		this.context = {
+		this._context = {
 			index: 0,
 			content: [],
 			highlight: [null, null]
 		};
 
 		// Initializing global configurations
-		this.config = {
+		this._config = {
 			caret: config?.caret,
 			audio: config?.audio,
 			step: config?.step ?? 1,
@@ -115,16 +115,16 @@ export default class Typewriter implements IActions {
 		this.initializeContent(target);
 
 		// Initializing the renderer
-		this.renderer = new Renderer(target, this.config?.targetAttribute, this.config?.parseHTML, this.context, this.config.caret);
+		this._renderer = new Renderer(target, this._config?.targetAttribute, this._config?.parseHTML, this._context, this._config.caret);
 
 		// Initializing the audio utility
-		this.audio = new Audio(this.config.audio);
+		this._audio = new Audio(this._config.audio);
 
 		// Initializing the queuer
-		this.queuer = new Queuer();
+		this._queuer = new Queuer();
 
 		// Initializing the pause/resume observable
-		this.pauseObservable = new Observable<boolean>(false);
+		this._pauseObservable = new Observable<boolean>(false);
 	}
 
 	/**
@@ -132,8 +132,8 @@ export default class Typewriter implements IActions {
 	 * Starts the actions queue
 	 */
 	public async start(): Promise<void> {
-		for await (let action of this.queuer.items) {
-			if (!this.queuer.isValid(action)) {
+		for await (let action of this._queuer.items) {
+			if (!this._queuer.isValid(action)) {
 				continue;
 			}
 
@@ -149,7 +149,7 @@ export default class Typewriter implements IActions {
 	 */
 	public sleep(time: number): Typewriter {
 		const action = new Sleep(time, this);
-		this.queuer.add(action);
+		this._queuer.add(action);
 		return this;
 	}
 
@@ -161,7 +161,7 @@ export default class Typewriter implements IActions {
 	 */
 	public exec(func: Promise<void>): Typewriter {
 		const action = new Exec(func, this);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -175,7 +175,7 @@ export default class Typewriter implements IActions {
 	 */
 	public type(input: string, config?: IActionConfigType): Typewriter {
 		const action = new Type(input, this, config);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -189,7 +189,7 @@ export default class Typewriter implements IActions {
 	 */
 	public delete(times: number, config?: IActionConfig): Typewriter {
 		const action = new Delete(times, this, config);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -203,7 +203,7 @@ export default class Typewriter implements IActions {
 	 */
 	public move(index: number, config?: IActionConfig): Typewriter {
 		const action = new Move(index, this, config);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -217,7 +217,7 @@ export default class Typewriter implements IActions {
 	 */
 	public highlight(index: number, config?: IActionConfig): Typewriter {
 		const action = new Highlight(index, this, config);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -231,7 +231,7 @@ export default class Typewriter implements IActions {
 	 */
 	public tab(index: number = 4, config?: IActionConfig): Typewriter {
 		const action = new Tab(index, this, config);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -244,7 +244,7 @@ export default class Typewriter implements IActions {
 	 */
 	public return(config?: IActionConfig): Typewriter {
 		const action = new Return(this, config);
-		this.queuer.add(action);
+		this._queuer.add(action);
 
 		return this;
 	}
@@ -254,7 +254,7 @@ export default class Typewriter implements IActions {
 	 * Pauses the execution of the actions
 	 */
 	public pause(): void {
-		this.pauseObservable.emit(true);
+		this._pauseObservable.emit(true);
 	}
 
 	/**
@@ -262,7 +262,7 @@ export default class Typewriter implements IActions {
 	 * Resumes the execution of the actions
 	 */
 	public resume(): void {
-		this.pauseObservable.emit(false);
+		this._pauseObservable.emit(false);
 	}
 
 	/**
@@ -270,13 +270,13 @@ export default class Typewriter implements IActions {
 	 * Resets the entire typewriter
 	 */
 	public reset(): void {
-		this.context.index = 0;
-		this.context.content = [];
-		this.context.highlight = [null, null];
+		this._context.index = 0;
+		this._context.content = [];
+		this._context.highlight = [null, null];
 
-		this.queuer.reset();
-		this.renderer.reset();
-		this.pauseObservable.emit(false);
+		this._queuer.reset();
+		this._renderer.reset();
+		this._pauseObservable.emit(false);
 	}
 
 	/**
@@ -284,7 +284,7 @@ export default class Typewriter implements IActions {
 	 * Subscribes to events
 	 */
 	public before<T>(event: keyof IActions, func: Func<T>): void {
-		this.events.push({ event: `before:${event}`, func });
+		this._events.push({ event: `before:${event}`, func });
 	}
 
 	/**
@@ -292,7 +292,7 @@ export default class Typewriter implements IActions {
 	 * Subscribes to events
 	 */
 	public after<T>(event: keyof IActions, func: Func<T>): void {
-		this.events.push({ event: `after:${event}`, func });
+		this._events.push({ event: `after:${event}`, func });
 	}
 
 	/**
@@ -300,7 +300,7 @@ export default class Typewriter implements IActions {
 	 * The update callback, called from inside every action
 	 */
 	public update(): void {
-		this.renderer.render();
+		this._renderer.render();
 	}
 
 	/**
@@ -310,12 +310,12 @@ export default class Typewriter implements IActions {
 	 * @param handler The event handler
 	 */
 	public catch<T>(handler: Func<T>): void {
-		const handlerIndex = this.events.findIndex(e => e.event === 'error');
+		const handlerIndex = this._events.findIndex(e => e.event === 'error');
 
 		if (handlerIndex === -1) {
-			this.events.push({ event: `error`, func: handler });
+			this._events.push({ event: `error`, func: handler });
 		} else {
-			this.events[handlerIndex].func = handler;
+			this._events[handlerIndex].func = handler;
 		}
 	}
 
@@ -324,7 +324,7 @@ export default class Typewriter implements IActions {
 	 * Checks if content has highlight
 	 */
 	public hasHighlight(): boolean {
-		return this.context.highlight.map(e => parseInt(e as any, 10)).filter(e => !isNaN(e)).length === 2
+		return this._context.highlight.map(e => parseInt(e as any, 10)).filter(e => !isNaN(e)).length === 2
 	}
 
 	/**
@@ -335,10 +335,10 @@ export default class Typewriter implements IActions {
 	 * @param target The target element
 	 */
 	private initializeContent(target: HTMLElement): void {
-		const targetAttribute = this.config.targetAttribute === 'innerHTML' ? 'textContent' : this.config.targetAttribute;
+		const targetAttribute = this._config.targetAttribute === 'innerHTML' ? 'textContent' : this._config.targetAttribute;
 		const targetContent = (target as any)[targetAttribute];
 
-		this.context.content = targetContent?.split('').map((e: string) => ({ char: e, props: { classes: [] } })) ?? [];
-		this.context.index = this.context.content.length;
+		this._context.content = targetContent?.split('').map((e: string) => ({ char: e, props: { classes: [] } })) ?? [];
+		this._context.index = this._context.content.length;
 	}
 }

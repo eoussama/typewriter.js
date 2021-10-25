@@ -47,7 +47,7 @@ export class Action {
 	 */
 	protected getConfig(key: keyof IActionConfig, fallback?: any) {
 		const localValue = this.config ? this.config[key] : null;
-		const globalValue = this.parent.config ? this.parent.config[key] : null;
+		const globalValue = this.parent._config ? this.parent._config[key] : null;
 
 		return localValue ?? globalValue ?? fallback;
 	}
@@ -81,7 +81,7 @@ export class Action {
 	 */
 	public before(params: object = {}): void {
 		const name = this.constructor.name?.toLowerCase();
-		this.parent.events.filter(e => e.event === `before:${name}`).forEach(event => event.func(params));
+		this.parent._events.filter(e => e.event === `before:${name}`).forEach(event => event.func(params));
 	}
 
 	/**
@@ -90,7 +90,7 @@ export class Action {
 	 */
 	public after(params: object = {}): void {
 		const name = this.constructor.name?.toLowerCase();
-		this.parent.events.filter(e => e.event === `after:${name}`).forEach(event => event.func(params));
+		this.parent._events.filter(e => e.event === `after:${name}`).forEach(event => event.func(params));
 	}
 
 	/**
@@ -102,8 +102,8 @@ export class Action {
 
 		return new Promise(resolve => {
 			setTimeout(() => {
-				this.parent.pauseObservable.subscribe((e) => {
-					if (!e && this.parent.queuer.isValid(this)) {
+				this.parent._pauseObservable.subscribe((e) => {
+					if (!e && this.parent._queuer.isValid(this)) {
 						resolve();
 					}
 				});

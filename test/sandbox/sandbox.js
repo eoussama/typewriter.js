@@ -61,3 +61,5 @@ pause.addEventListener('click', () => {
 resume.addEventListener('click', () => {
   tw.resume();
 });
+
+console.log({ tw });

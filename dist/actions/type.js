@@ -136,24 +136,24 @@ var Type = /** @class */ (function (_super) {
                                     characters = this.input.substr(index, step);
                                     classes = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.classes) !== null && _e !== void 0 ? _e : [];
                                     props = { classes: classes };
-                                    this.before({ currentIndex: this.parent.context.index });
+                                    this.before({ currentIndex: this.parent._context.index });
                                     // Overwriting highlighted content
                                     if (this.parent.hasHighlight()) {
-                                        start = this.parent.context.highlight[0];
-                                        end = this.parent.context.highlight[1] + 1;
-                                        this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(end), true);
+                                        start = this.parent._context.highlight[0];
+                                        end = this.parent._context.highlight[1] + 1;
+                                        this.parent._context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent._context.content.slice(0, start), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent._context.content.slice(end), true);
                                         // Typing regular content
                                     }
                                     else {
-                                        this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(this.parent.context.index), true);
+                                        this.parent._context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent._context.content.slice(0, this.parent._context.index), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent._context.content.slice(this.parent._context.index), true);
                                     }
-                                    this.parent.context.index += characters.length;
-                                    this.parent.context.highlight = [null, null];
+                                    this.parent._context.index += characters.length;
+                                    this.parent._context.highlight = [null, null];
                                     this.parent.update();
-                                    this.parent.audio.play();
+                                    this.parent._audio.play();
                                     this.after({
                                         character: characters,
-                                        currentIndex: this.parent.context.index,
+                                        currentIndex: this.parent._context.index,
                                     });
                                     return [4 /*yield*/, timeOut(speed)];
                                 case 4:

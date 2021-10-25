@@ -109,8 +109,8 @@ var Highlight = /** @class */ (function (_super) {
             return __generator(this, function (_b) {
                 step = Math.max(1, this.getConfig('step'));
                 speed = Math.max(0, this.getConfig('speed'));
-                currentIndex = this.parent.context.index;
-                currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
+                currentIndex = this.parent._context.index;
+                currentLength = (_a = this.parent._context.content) === null || _a === void 0 ? void 0 : _a.length;
                 absoluteIndex = typeof this.index === 'number'
                     ? this.index
                     : this.index === 'start'
@@ -138,23 +138,23 @@ var Highlight = /** @class */ (function (_super) {
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
                                     this.before({
-                                        currentIndex: this.parent.context.index,
-                                        currentRange: this.parent.context.highlight.slice(0)
+                                        currentIndex: this.parent._context.index,
+                                        currentRange: this.parent._context.highlight.slice(0)
                                     });
                                     iteration = (_ / step);
                                     iterPart = iteration * step;
                                     remIndex = index - iterPart;
                                     sanitizedStep = Math.min(remIndex, step);
-                                    this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
-                                    this.parent.context.highlight = [
-                                        absoluteIndex < 0 ? this.parent.context.index : currentIndex,
-                                        absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
+                                    this.parent._context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
+                                    this.parent._context.highlight = [
+                                        absoluteIndex < 0 ? this.parent._context.index : currentIndex,
+                                        absoluteIndex < 0 ? currentIndex - 1 : this.parent._context.index - 1
                                     ];
                                     this.parent.update();
-                                    this.parent.audio.play();
+                                    this.parent._audio.play();
                                     this.after({
-                                        currentIndex: this.parent.context.index,
-                                        currentRange: this.parent.context.highlight.slice(0)
+                                        currentIndex: this.parent._context.index,
+                                        currentRange: this.parent._context.highlight.slice(0)
                                     });
                                     return [4 /*yield*/, timeOut(speed)];
                                 case 4:
@@ -180,7 +180,7 @@ var Highlight = /** @class */ (function (_super) {
                                 case 12: return [7 /*endfinally*/];
                                 case 13: return [3 /*break*/, 15];
                                 case 14:
-                                    this.parent.context.highlight = [null, null];
+                                    this.parent._context.highlight = [null, null];
                                     this.parent.update();
                                     _d.label = 15;
                                 case 15:

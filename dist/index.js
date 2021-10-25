@@ -68,15 +68,15 @@ var Typewriter = /** @class */ (function () {
     function Typewriter(selector, config) {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         // Initializing the events
-        this.events = [];
+        this._events = [];
         // Initializing the context
-        this.context = {
+        this._context = {
             index: 0,
             content: [],
             highlight: [null, null]
         };
         // Initializing global configurations
-        this.config = {
+        this._config = {
             caret: config === null || config === void 0 ? void 0 : config.caret,
             audio: config === null || config === void 0 ? void 0 : config.audio,
             step: (_a = config === null || config === void 0 ? void 0 : config.step) !== null && _a !== void 0 ? _a : 1,
@@ -90,13 +90,13 @@ var Typewriter = /** @class */ (function () {
         var target = document.querySelector(selector);
         this.initializeContent(target);
         // Initializing the renderer
-        this.renderer = new Renderer(target, (_g = this.config) === null || _g === void 0 ? void 0 : _g.targetAttribute, (_h = this.config) === null || _h === void 0 ? void 0 : _h.parseHTML, this.context, this.config.caret);
+        this._renderer = new Renderer(target, (_g = this._config) === null || _g === void 0 ? void 0 : _g.targetAttribute, (_h = this._config) === null || _h === void 0 ? void 0 : _h.parseHTML, this._context, this._config.caret);
         // Initializing the audio utility
-        this.audio = new Audio(this.config.audio);
+        this._audio = new Audio(this._config.audio);
         // Initializing the queuer
-        this.queuer = new Queuer();
+        this._queuer = new Queuer();
         // Initializing the pause/resume observable
-        this.pauseObservable = new Observable(false);
+        this._pauseObservable = new Observable(false);
     }
     Object.defineProperty(Typewriter.prototype, "errorHandler", {
         /**
@@ -105,7 +105,7 @@ var Typewriter = /** @class */ (function () {
          */
         get: function () {
             var _a, _b;
-            var handler = (_b = (_a = this.events.find(function (e) { return e.event === 'error'; })) === null || _a === void 0 ? void 0 : _a.func) !== null && _b !== void 0 ? _b : (function () { });
+            var handler = (_b = (_a = this._events.find(function (e) { return e.event === 'error'; })) === null || _a === void 0 ? void 0 : _a.func) !== null && _b !== void 0 ? _b : (function () { });
             return handler;
         },
         enumerable: false,
@@ -123,13 +123,13 @@ var Typewriter = /** @class */ (function () {
                 switch (_d.label) {
                     case 0:
                         _d.trys.push([0, 6, 7, 12]);
-                        _b = __asyncValues(this.queuer.items);
+                        _b = __asyncValues(this._queuer.items);
                         _d.label = 1;
                     case 1: return [4 /*yield*/, _b.next()];
                     case 2:
                         if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 5];
                         action = _c.value;
-                        if (!this.queuer.isValid(action)) {
+                        if (!this._queuer.isValid(action)) {
                             return [3 /*break*/, 4];
                         }
                         return [4 /*yield*/, action.start()];
@@ -167,7 +167,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.sleep = function (time) {
         var action = new Sleep(time, this);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -178,7 +178,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.exec = function (func) {
         var action = new Exec(func, this);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -190,7 +190,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.type = function (input, config) {
         var action = new Type(input, this, config);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -202,7 +202,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.delete = function (times, config) {
         var action = new Delete(times, this, config);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -214,7 +214,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.move = function (index, config) {
         var action = new Move(index, this, config);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -226,7 +226,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.highlight = function (index, config) {
         var action = new Highlight(index, this, config);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -239,7 +239,7 @@ var Typewriter = /** @class */ (function () {
     Typewriter.prototype.tab = function (index, config) {
         if (index === void 0) { index = 4; }
         var action = new Tab(index, this, config);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -250,7 +250,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.return = function (config) {
         var action = new Return(this, config);
-        this.queuer.add(action);
+        this._queuer.add(action);
         return this;
     };
     /**
@@ -258,47 +258,47 @@ var Typewriter = /** @class */ (function () {
      * Pauses the execution of the actions
      */
     Typewriter.prototype.pause = function () {
-        this.pauseObservable.emit(true);
+        this._pauseObservable.emit(true);
     };
     /**
      * @description
      * Resumes the execution of the actions
      */
     Typewriter.prototype.resume = function () {
-        this.pauseObservable.emit(false);
+        this._pauseObservable.emit(false);
     };
     /**
      * @description
      * Resets the entire typewriter
      */
     Typewriter.prototype.reset = function () {
-        this.context.index = 0;
-        this.context.content = [];
-        this.context.highlight = [null, null];
-        this.queuer.reset();
-        this.renderer.reset();
-        this.pauseObservable.emit(false);
+        this._context.index = 0;
+        this._context.content = [];
+        this._context.highlight = [null, null];
+        this._queuer.reset();
+        this._renderer.reset();
+        this._pauseObservable.emit(false);
     };
     /**
      * @description
      * Subscribes to events
      */
     Typewriter.prototype.before = function (event, func) {
-        this.events.push({ event: "before:" + event, func: func });
+        this._events.push({ event: "before:" + event, func: func });
     };
     /**
      * @description
      * Subscribes to events
      */
     Typewriter.prototype.after = function (event, func) {
-        this.events.push({ event: "after:" + event, func: func });
+        this._events.push({ event: "after:" + event, func: func });
     };
     /**
      * @description
      * The update callback, called from inside every action
      */
     Typewriter.prototype.update = function () {
-        this.renderer.render();
+        this._renderer.render();
     };
     /**
      * @description
@@ -307,12 +307,12 @@ var Typewriter = /** @class */ (function () {
      * @param handler The event handler
      */
     Typewriter.prototype.catch = function (handler) {
-        var handlerIndex = this.events.findIndex(function (e) { return e.event === 'error'; });
+        var handlerIndex = this._events.findIndex(function (e) { return e.event === 'error'; });
         if (handlerIndex === -1) {
-            this.events.push({ event: "error", func: handler });
+            this._events.push({ event: "error", func: handler });
         }
         else {
-            this.events[handlerIndex].func = handler;
+            this._events[handlerIndex].func = handler;
         }
     };
     /**
@@ -320,7 +320,7 @@ var Typewriter = /** @class */ (function () {
      * Checks if content has highlight
      */
     Typewriter.prototype.hasHighlight = function () {
-        return this.context.highlight.map(function (e) { return parseInt(e, 10); }).filter(function (e) { return !isNaN(e); }).length === 2;
+        return this._context.highlight.map(function (e) { return parseInt(e, 10); }).filter(function (e) { return !isNaN(e); }).length === 2;
     };
     /**
      * @description
@@ -331,10 +331,10 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.initializeContent = function (target) {
         var _a;
-        var targetAttribute = this.config.targetAttribute === 'innerHTML' ? 'textContent' : this.config.targetAttribute;
+        var targetAttribute = this._config.targetAttribute === 'innerHTML' ? 'textContent' : this._config.targetAttribute;
         var targetContent = target[targetAttribute];
-        this.context.content = (_a = targetContent === null || targetContent === void 0 ? void 0 : targetContent.split('').map(function (e) { return ({ char: e, props: { classes: [] } }); })) !== null && _a !== void 0 ? _a : [];
-        this.context.index = this.context.content.length;
+        this._context.content = (_a = targetContent === null || targetContent === void 0 ? void 0 : targetContent.split('').map(function (e) { return ({ char: e, props: { classes: [] } }); })) !== null && _a !== void 0 ? _a : [];
+        this._context.index = this._context.content.length;
     };
     return Typewriter;
 }());
