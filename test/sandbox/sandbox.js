@@ -50,8 +50,6 @@ start.addEventListener('click', async () => {
 
     .move(-3)
     .delete('end')
-    .highlight(-3, { delay: 500 })
-    .delete(1)
 
     .start();
 });
