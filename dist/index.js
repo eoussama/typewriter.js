@@ -42,6 +42,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 import { Renderer } from "./utils/renderer.js";
+import { Context } from "./utils/context.js";
 import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
 import { Exec } from "./actions/exec.js";
@@ -66,15 +67,7 @@ var Typewriter = /** @class */ (function () {
      * @param config The global configuration object
      */
     function Typewriter(selector, config) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        // Initializing the events
-        this._events = [];
-        // Initializing the context
-        this._context = {
-            index: 0,
-            content: [],
-            highlight: [null, null]
-        };
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         // Initializing global configurations
         this._config = {
             caret: config === null || config === void 0 ? void 0 : config.caret,
@@ -86,11 +79,15 @@ var Typewriter = /** @class */ (function () {
             parseHTML: (_e = config === null || config === void 0 ? void 0 : config.parseHTML) !== null && _e !== void 0 ? _e : true,
             targetAttribute: (_f = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _f !== void 0 ? _f : 'innerHTML'
         };
+        // Initializing the events
+        this._events = [];
+        // Initializing the context
+        this._context = new Context((_g = this._config) === null || _g === void 0 ? void 0 : _g.targetAttribute);
         // Initializing the content
         var target = document.querySelector(selector);
-        this.initializeContent(target);
+        this._context.initializeContent(target);
         // Initializing the renderer
-        this._renderer = new Renderer(target, (_g = this._config) === null || _g === void 0 ? void 0 : _g.targetAttribute, (_h = this._config) === null || _h === void 0 ? void 0 : _h.parseHTML, this._context, this._config.caret);
+        this._renderer = new Renderer(target, (_h = this._config) === null || _h === void 0 ? void 0 : _h.targetAttribute, (_j = this._config) === null || _j === void 0 ? void 0 : _j.parseHTML, this._context, this._config.caret);
         // Initializing the audio utility
         this._audio = new Audio(this._config.audio);
         // Initializing the queuer
@@ -272,9 +269,7 @@ var Typewriter = /** @class */ (function () {
      * Resets the entire typewriter
      */
     Typewriter.prototype.reset = function () {
-        this._context.index = 0;
-        this._context.content = [];
-        this._context.highlight = [null, null];
+        this._context.reset();
         this._queuer.reset();
         this._renderer.reset();
         this._pauseObservable.emit(false);
@@ -314,27 +309,6 @@ var Typewriter = /** @class */ (function () {
         else {
             this._events[handlerIndex].func = handler;
         }
-    };
-    /**
-     * @description
-     * Checks if content has highlight
-     */
-    Typewriter.prototype.hasHighlight = function () {
-        return this._context.highlight.map(function (e) { return parseInt(e, 10); }).filter(function (e) { return !isNaN(e); }).length === 2;
-    };
-    /**
-     * @description
-     * Initializes the contents, copyies over the target's
-     * contents and adapts the typewriter's context.
-     *
-     * @param target The target element
-     */
-    Typewriter.prototype.initializeContent = function (target) {
-        var _a;
-        var targetAttribute = this._config.targetAttribute === 'innerHTML' ? 'textContent' : this._config.targetAttribute;
-        var targetContent = target[targetAttribute];
-        this._context.content = (_a = targetContent === null || targetContent === void 0 ? void 0 : targetContent.split('').map(function (e) { return ({ char: e, props: { classes: [] } }); })) !== null && _a !== void 0 ? _a : [];
-        this._context.index = this._context.content.length;
     };
     return Typewriter;
 }());

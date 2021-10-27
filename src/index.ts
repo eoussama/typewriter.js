@@ -2,6 +2,7 @@ import { IConfig } from "./types/config.type.js";
 import { IActionConfig, IActionConfigType } from "./types/action-config.type.js";
 
 import { Renderer } from "./utils/renderer.js";
+import { Context } from "./utils/context.js";
 
 import { Type } from "./actions/type.js";
 import { Sleep } from "./actions/sleep.js";
@@ -11,7 +12,6 @@ import { Delete } from "./actions/delete.js";
 import { Highlight } from "./actions/highlight.js";
 import { Tab } from "./actions/tab.js";
 import { Return } from "./actions/return.js";
-import { IContext } from "./types/context.type.js";
 import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
 import { Audio } from "./utils/audio.js";
@@ -62,7 +62,7 @@ export default class Typewriter implements IActions {
 	 * @description
 	 * The typewriter's context
 	 */
-	public readonly _context!: IContext;
+	public readonly _context!: Context;
 
 	/**
 	 * @description
@@ -88,16 +88,6 @@ export default class Typewriter implements IActions {
 	 */
 	constructor(selector: string, config?: IConfig) {
 
-		// Initializing the events
-		this._events = [];
-
-		// Initializing the context
-		this._context = {
-			index: 0,
-			content: [],
-			highlight: [null, null]
-		};
-
 		// Initializing global configurations
 		this._config = {
 			caret: config?.caret,
@@ -110,9 +100,15 @@ export default class Typewriter implements IActions {
 			targetAttribute: config?.targetAttribute ?? 'innerHTML'
 		};
 
+		// Initializing the events
+		this._events = [];
+
+		// Initializing the context
+		this._context = new Context(this._config?.targetAttribute);
+
 		// Initializing the content
 		const target = <HTMLElement>document.querySelector(selector);
-		this.initializeContent(target);
+		this._context.initializeContent(target);
 
 		// Initializing the renderer
 		this._renderer = new Renderer(target, this._config?.targetAttribute, this._config?.parseHTML, this._context, this._config.caret);
@@ -270,10 +266,7 @@ export default class Typewriter implements IActions {
 	 * Resets the entire typewriter
 	 */
 	public reset(): void {
-		this._context.index = 0;
-		this._context.content = [];
-		this._context.highlight = [null, null];
-
+		this._context.reset();
 		this._queuer.reset();
 		this._renderer.reset();
 		this._pauseObservable.emit(false);
@@ -317,28 +310,5 @@ export default class Typewriter implements IActions {
 		} else {
 			this._events[handlerIndex].func = handler;
 		}
-	}
-
-	/**
-	 * @description
-	 * Checks if content has highlight
-	 */
-	public hasHighlight(): boolean {
-		return this._context.highlight.map(e => parseInt(e as any, 10)).filter(e => !isNaN(e)).length === 2
-	}
-
-	/**
-	 * @description
-	 * Initializes the contents, copyies over the target's
-	 * contents and adapts the typewriter's context.
-	 *
-	 * @param target The target element
-	 */
-	private initializeContent(target: HTMLElement): void {
-		const targetAttribute = this._config.targetAttribute === 'innerHTML' ? 'textContent' : this._config.targetAttribute;
-		const targetContent = (target as any)[targetAttribute];
-
-		this._context.content = targetContent?.split('').map((e: string) => ({ char: e, props: { classes: [] } })) ?? [];
-		this._context.index = this._context.content.length;
 	}
 }

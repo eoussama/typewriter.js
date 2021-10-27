@@ -138,9 +138,9 @@ var Type = /** @class */ (function (_super) {
                                     props = { classes: classes };
                                     this.before({ currentIndex: this.parent._context.index });
                                     // Overwriting highlighted content
-                                    if (this.parent.hasHighlight()) {
-                                        start = this.parent._context.highlight[0];
-                                        end = this.parent._context.highlight[1] + 1;
+                                    if (this.parent._context.hasHighlight()) {
+                                        start = Number(this.parent._context.highlight[0]);
+                                        end = Number(this.parent._context.highlight[1]) + 1;
                                         this.parent._context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent._context.content.slice(0, start), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent._context.content.slice(end), true);
                                         // Typing regular content
                                     }

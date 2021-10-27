@@ -77,7 +77,7 @@ export class Delete extends Action {
 					this.before({ currentIndex: this.parent._context.index });
 
 					// Deleting highlighted content
-					if (this.parent.hasHighlight()) {
+					if (this.parent._context.hasHighlight()) {
 						const start = <number>this.parent._context.highlight[0];
 						const end = <number>this.parent._context.highlight[1] + 1;
 

@@ -56,9 +56,9 @@ export class Type extends Action {
 					this.before({ currentIndex: this.parent._context.index });
 
 					// Overwriting highlighted content
-					if (this.parent.hasHighlight()) {
-						const start = <number>this.parent._context.highlight[0];
-						const end = <number>this.parent._context.highlight[1] + 1;
+					if (this.parent._context.hasHighlight()) {
+						const start = Number(this.parent._context.highlight[0]);
+						const end = Number(this.parent._context.highlight[1]) + 1;
 
 						this.parent._context.content = [
 							...this.parent._context.content.slice(0, start),
