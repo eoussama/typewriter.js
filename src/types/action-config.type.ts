@@ -26,6 +26,12 @@ export interface IActionConfig {
 
   /**
    * @description
+   * Looping times
+   */
+  repeat: number;
+
+  /**
+   * @description
    * Resolving callback, called
    * after the action is finished.
    */

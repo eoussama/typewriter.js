@@ -18,9 +18,9 @@ const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-    // .type('Hello, my name is Oussama')
-    // .delete('Oussama'.length, { delay: 500 })
-    // .type('Oussama', { classes: ['style'] })
+    // .type('Hello, my name is John')
+    // .delete('John'.length, { delay: 500 })
+    // .type('John', { classes: ['style'] })
     // .type('!')
 
     // .type('Hello')
@@ -48,8 +48,11 @@ start.addEventListener('click', async () => {
     // .type('}')
     // .highlight(-8)
 
-    .move(-3)
-    .delete('end')
+    // .move(-3)
+    // .delete('end')
+
+    .type('LoremIpsum')
+    .delete(3, { repeat: 2, delay: 1000, speed: 300 })
 
     .start();
 });

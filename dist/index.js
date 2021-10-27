@@ -67,7 +67,7 @@ var Typewriter = /** @class */ (function () {
      * @param config The global configuration object
      */
     function Typewriter(selector, config) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         // Initializing global configurations
         this.config = {
             caret: config === null || config === void 0 ? void 0 : config.caret,
@@ -75,19 +75,20 @@ var Typewriter = /** @class */ (function () {
             step: (_a = config === null || config === void 0 ? void 0 : config.step) !== null && _a !== void 0 ? _a : 1,
             delay: (_b = config === null || config === void 0 ? void 0 : config.delay) !== null && _b !== void 0 ? _b : 0,
             speed: (_c = config === null || config === void 0 ? void 0 : config.speed) !== null && _c !== void 0 ? _c : 300,
-            done: (_d = config === null || config === void 0 ? void 0 : config.done) !== null && _d !== void 0 ? _d : (function () { }),
-            parseHTML: (_e = config === null || config === void 0 ? void 0 : config.parseHTML) !== null && _e !== void 0 ? _e : true,
-            targetAttribute: (_f = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _f !== void 0 ? _f : 'innerHTML'
+            repeat: (_d = config === null || config === void 0 ? void 0 : config.repeat) !== null && _d !== void 0 ? _d : 1,
+            done: (_e = config === null || config === void 0 ? void 0 : config.done) !== null && _e !== void 0 ? _e : (function () { }),
+            parseHTML: (_f = config === null || config === void 0 ? void 0 : config.parseHTML) !== null && _f !== void 0 ? _f : true,
+            targetAttribute: (_g = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _g !== void 0 ? _g : 'innerHTML'
         };
         // Initializing the events
         this.events = [];
         // Initializing the context
-        this.context = new Context((_g = this.config) === null || _g === void 0 ? void 0 : _g.targetAttribute);
+        this.context = new Context((_h = this.config) === null || _h === void 0 ? void 0 : _h.targetAttribute);
         // Initializing the content
         var target = document.querySelector(selector);
         this.context.initializeContent(target);
         // Initializing the renderer
-        this.renderer = new Renderer(target, (_h = this.config) === null || _h === void 0 ? void 0 : _h.targetAttribute, (_j = this.config) === null || _j === void 0 ? void 0 : _j.parseHTML, this.context, this.config.caret);
+        this.renderer = new Renderer(target, (_j = this.config) === null || _j === void 0 ? void 0 : _j.targetAttribute, (_k = this.config) === null || _k === void 0 ? void 0 : _k.parseHTML, this.context, this.config.caret);
         // Initializing the audio utility
         this.audio = new Audio(this.config.audio);
         // Initializing the queuer

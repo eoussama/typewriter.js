@@ -91,16 +91,48 @@ var Type = /** @class */ (function (_super) {
      * Initiates type action
      */
     Type.prototype.start = function () {
+        var e_1, _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
+            var num, _b, _c, _, e_1_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        num = this.getConfig('repeat');
+                        _d.label = 1;
                     case 1:
-                        _a.sent();
+                        _d.trys.push([1, 8, 9, 14]);
+                        _b = __asyncValues(Array(num).fill(0));
+                        _d.label = 2;
+                    case 2: return [4 /*yield*/, _b.next()];
+                    case 3:
+                        if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 7];
+                        _ = _c.value;
+                        return [4 /*yield*/, _super.prototype.start.call(this)];
+                    case 4:
+                        _d.sent();
                         return [4 /*yield*/, this.type()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
+                    case 5:
+                        _d.sent();
+                        _d.label = 6;
+                    case 6: return [3 /*break*/, 2];
+                    case 7: return [3 /*break*/, 14];
+                    case 8:
+                        e_1_1 = _d.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 14];
+                    case 9:
+                        _d.trys.push([9, , 12, 13]);
+                        if (!(_c && !_c.done && (_a = _b.return))) return [3 /*break*/, 11];
+                        return [4 /*yield*/, _a.call(_b)];
+                    case 10:
+                        _d.sent();
+                        _d.label = 11;
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 13: return [7 /*endfinally*/];
+                    case 14: return [2 /*return*/];
                 }
             });
         });
@@ -117,8 +149,8 @@ var Type = /** @class */ (function (_super) {
                 step = Math.max(1, this.getConfig('step'));
                 speed = Math.max(0, this.getConfig('speed'));
                 return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, index, characters, classes, props, start, end, e_1_1, err_1;
-                        var e_1, _c;
+                        var _a, _b, index, characters, classes, props, start, end, e_2_1, err_1;
+                        var e_2, _c;
                         var _d, _e;
                         return __generator(this, function (_f) {
                             switch (_f.label) {
@@ -162,8 +194,8 @@ var Type = /** @class */ (function (_super) {
                                 case 5: return [3 /*break*/, 2];
                                 case 6: return [3 /*break*/, 13];
                                 case 7:
-                                    e_1_1 = _f.sent();
-                                    e_1 = { error: e_1_1 };
+                                    e_2_1 = _f.sent();
+                                    e_2 = { error: e_2_1 };
                                     return [3 /*break*/, 13];
                                 case 8:
                                     _f.trys.push([8, , 11, 12]);
@@ -174,7 +206,7 @@ var Type = /** @class */ (function (_super) {
                                     _f.label = 10;
                                 case 10: return [3 /*break*/, 12];
                                 case 11:
-                                    if (e_1) throw e_1.error;
+                                    if (e_2) throw e_2.error;
                                     return [7 /*endfinally*/];
                                 case 12: return [7 /*endfinally*/];
                                 case 13:

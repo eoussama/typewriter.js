@@ -34,8 +34,12 @@ export class Type extends Action {
 	 * Initiates type action
 	 */
 	public async start(): Promise<void> {
-		await super.start();
-		await this.type();
+		const num = this.getConfig('repeat');
+
+		for await (let _ of Array(num).fill(0)) {
+			await super.start();
+			await this.type();
+		}
 	}
 
 	/**

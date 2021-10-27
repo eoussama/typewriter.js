@@ -95,6 +95,7 @@ export default class Typewriter implements IActions {
 			step: config?.step ?? 1,
 			delay: config?.delay ?? 0,
 			speed: config?.speed ?? 300,
+			repeat: config?.repeat ?? 1,
 			done: config?.done ?? (() => { }),
 			parseHTML: config?.parseHTML ?? true,
 			targetAttribute: config?.targetAttribute ?? 'innerHTML'
