@@ -61,7 +61,7 @@ var Action = /** @class */ (function () {
     Action.prototype.getConfig = function (key, fallback) {
         var _a;
         var localValue = this.config ? this.config[key] : null;
-        var globalValue = this.parent._config ? this.parent._config[key] : null;
+        var globalValue = this.parent.config ? this.parent.config[key] : null;
         return (_a = localValue !== null && localValue !== void 0 ? localValue : globalValue) !== null && _a !== void 0 ? _a : fallback;
     };
     /**
@@ -108,7 +108,7 @@ var Action = /** @class */ (function () {
         var _a;
         if (params === void 0) { params = {}; }
         var name = (_a = this.constructor.name) === null || _a === void 0 ? void 0 : _a.toLowerCase();
-        this.parent._events.filter(function (e) { return e.event === "before:" + name; }).forEach(function (event) { return event.func(params); });
+        this.parent.events.filter(function (e) { return e.event === "before:" + name; }).forEach(function (event) { return event.func(params); });
     };
     /**
      * @description
@@ -118,7 +118,7 @@ var Action = /** @class */ (function () {
         var _a;
         if (params === void 0) { params = {}; }
         var name = (_a = this.constructor.name) === null || _a === void 0 ? void 0 : _a.toLowerCase();
-        this.parent._events.filter(function (e) { return e.event === "after:" + name; }).forEach(function (event) { return event.func(params); });
+        this.parent.events.filter(function (e) { return e.event === "after:" + name; }).forEach(function (event) { return event.func(params); });
     };
     /**
      * @description
@@ -132,8 +132,8 @@ var Action = /** @class */ (function () {
                 delay = this.getConfig('delay');
                 return [2 /*return*/, new Promise(function (resolve) {
                         setTimeout(function () {
-                            _this.parent._pauseObservable.subscribe(function (e) {
-                                if (!e && _this.parent._queuer.isValid(_this)) {
+                            _this.parent.pauseObservable.subscribe(function (e) {
+                                if (!e && _this.parent.queuer.isValid(_this)) {
                                     resolve();
                                 }
                             });

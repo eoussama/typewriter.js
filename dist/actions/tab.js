@@ -114,10 +114,10 @@ var Tab = /** @class */ (function (_super) {
                                 this.before();
                                 char = Array(spaces).fill('&nbsp;').join('');
                                 props = { classes: [] };
-                                this.parent._context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent._context.content.slice(0, this.parent._context.index), true), [{ char: char, props: props }], false), this.parent._context.content.slice(this.parent._context.index), true);
-                                this.parent._context.index += 1;
+                                this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), [{ char: char, props: props }], false), this.parent.context.content.slice(this.parent.context.index), true);
+                                this.parent.context.index += 1;
                                 this.parent.update();
-                                this.parent._audio.play();
+                                this.parent.audio.play();
                                 this.after();
                                 this.resolveAction();
                                 resolve();

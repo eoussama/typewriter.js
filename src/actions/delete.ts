@@ -46,10 +46,10 @@ export class Delete extends Action {
 		const speed = Math.max(0, this.getConfig('speed'));
 
 		// The starting index, the current poisition of the caret
-		const startingIndex = this.parent._context.index;
+		const startingIndex = this.parent.context.index;
 
 		// The starting length of the content
-		const startingLength = this.parent._context.content.length;
+		const startingLength = this.parent.context.content.length;
 
 		// Converting the anchor to a valid number
 		const sanitizedIndex = typeof this.times === 'string'
@@ -74,19 +74,19 @@ export class Delete extends Action {
 				for await (let _ of this.step(absoluteIndex, step)) {
 					let deletedContent = '';
 
-					this.before({ currentIndex: this.parent._context.index });
+					this.before({ currentIndex: this.parent.context.index });
 
 					// Deleting highlighted content
-					if (this.parent._context.hasHighlight()) {
-						const start = <number>this.parent._context.highlight[0];
-						const end = <number>this.parent._context.highlight[1] + 1;
+					if (this.parent.context.hasHighlight()) {
+						const start = <number>this.parent.context.highlight[0];
+						const end = <number>this.parent.context.highlight[1] + 1;
 
 						// Extracting the content that's gonna be deleted
-						deletedContent = this.parent._context.content.slice(0).slice(start, end).map(e => e.char).join('');
+						deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
 
-						this.parent._context.content = [
-							...this.parent._context.content.slice(0, start),
-							...this.parent._context.content.slice(end)
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, start),
+							...this.parent.context.content.slice(end)
 						];
 
 						// Deleting regular content
@@ -103,30 +103,30 @@ export class Delete extends Action {
 						const deletionWidth = Math.min(remainingIndex, step);
 
 						// Deletion bounds
-						const start = this.parent._context.index - (inverseDeletion ? 0 : deletionWidth);
-						const end = this.parent._context.index + (inverseDeletion ? deletionWidth : 0);
+						const start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
+						const end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
 
 						// Extracting the content that's gonna be deleted
-						deletedContent = this.parent._context.content.slice(0).slice(start, end).map(e => e.char).join('');
+						deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
 
 						// Deleting the marked width
-						this.parent._context.content = [
-							...this.parent._context.content.slice(0, start),
-							...this.parent._context.content.slice(end)
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, start),
+							...this.parent.context.content.slice(end)
 						]
 
 						// Updating the caret position
-						this.parent._context.index -= inverseDeletion ? 0 : deletionWidth;
+						this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
 					}
 
-					this.parent._context.highlight = [null, null];
+					this.parent.context.highlight = [null, null];
 
 					this.parent.update();
-					this.parent._audio.play();
+					this.parent.audio.play();
 
 					this.after({
 						characters: deletedContent,
-						currentIndex: this.parent._context.index
+						currentIndex: this.parent.context.index
 					});
 
 					await timeOut(speed);

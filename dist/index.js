@@ -69,7 +69,7 @@ var Typewriter = /** @class */ (function () {
     function Typewriter(selector, config) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         // Initializing global configurations
-        this._config = {
+        this.config = {
             caret: config === null || config === void 0 ? void 0 : config.caret,
             audio: config === null || config === void 0 ? void 0 : config.audio,
             step: (_a = config === null || config === void 0 ? void 0 : config.step) !== null && _a !== void 0 ? _a : 1,
@@ -80,20 +80,20 @@ var Typewriter = /** @class */ (function () {
             targetAttribute: (_f = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _f !== void 0 ? _f : 'innerHTML'
         };
         // Initializing the events
-        this._events = [];
+        this.events = [];
         // Initializing the context
-        this._context = new Context((_g = this._config) === null || _g === void 0 ? void 0 : _g.targetAttribute);
+        this.context = new Context((_g = this.config) === null || _g === void 0 ? void 0 : _g.targetAttribute);
         // Initializing the content
         var target = document.querySelector(selector);
-        this._context.initializeContent(target);
+        this.context.initializeContent(target);
         // Initializing the renderer
-        this._renderer = new Renderer(target, (_h = this._config) === null || _h === void 0 ? void 0 : _h.targetAttribute, (_j = this._config) === null || _j === void 0 ? void 0 : _j.parseHTML, this._context, this._config.caret);
+        this.renderer = new Renderer(target, (_h = this.config) === null || _h === void 0 ? void 0 : _h.targetAttribute, (_j = this.config) === null || _j === void 0 ? void 0 : _j.parseHTML, this.context, this.config.caret);
         // Initializing the audio utility
-        this._audio = new Audio(this._config.audio);
+        this.audio = new Audio(this.config.audio);
         // Initializing the queuer
-        this._queuer = new Queuer();
+        this.queuer = new Queuer();
         // Initializing the pause/resume observable
-        this._pauseObservable = new Observable(false);
+        this.pauseObservable = new Observable(false);
     }
     Object.defineProperty(Typewriter.prototype, "errorHandler", {
         /**
@@ -102,7 +102,7 @@ var Typewriter = /** @class */ (function () {
          */
         get: function () {
             var _a, _b;
-            var handler = (_b = (_a = this._events.find(function (e) { return e.event === 'error'; })) === null || _a === void 0 ? void 0 : _a.func) !== null && _b !== void 0 ? _b : (function () { });
+            var handler = (_b = (_a = this.events.find(function (e) { return e.event === 'error'; })) === null || _a === void 0 ? void 0 : _a.func) !== null && _b !== void 0 ? _b : (function () { });
             return handler;
         },
         enumerable: false,
@@ -120,13 +120,13 @@ var Typewriter = /** @class */ (function () {
                 switch (_d.label) {
                     case 0:
                         _d.trys.push([0, 6, 7, 12]);
-                        _b = __asyncValues(this._queuer.items);
+                        _b = __asyncValues(this.queuer.items);
                         _d.label = 1;
                     case 1: return [4 /*yield*/, _b.next()];
                     case 2:
                         if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 5];
                         action = _c.value;
-                        if (!this._queuer.isValid(action)) {
+                        if (!this.queuer.isValid(action)) {
                             return [3 /*break*/, 4];
                         }
                         return [4 /*yield*/, action.start()];
@@ -164,7 +164,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.sleep = function (time) {
         var action = new Sleep(time, this);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -175,7 +175,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.exec = function (func) {
         var action = new Exec(func, this);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -187,7 +187,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.type = function (input, config) {
         var action = new Type(input, this, config);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -199,7 +199,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.delete = function (times, config) {
         var action = new Delete(times, this, config);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -211,7 +211,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.move = function (index, config) {
         var action = new Move(index, this, config);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -223,7 +223,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.highlight = function (index, config) {
         var action = new Highlight(index, this, config);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -236,7 +236,7 @@ var Typewriter = /** @class */ (function () {
     Typewriter.prototype.tab = function (index, config) {
         if (index === void 0) { index = 4; }
         var action = new Tab(index, this, config);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -247,7 +247,7 @@ var Typewriter = /** @class */ (function () {
      */
     Typewriter.prototype.return = function (config) {
         var action = new Return(this, config);
-        this._queuer.add(action);
+        this.queuer.add(action);
         return this;
     };
     /**
@@ -255,45 +255,45 @@ var Typewriter = /** @class */ (function () {
      * Pauses the execution of the actions
      */
     Typewriter.prototype.pause = function () {
-        this._pauseObservable.emit(true);
+        this.pauseObservable.emit(true);
     };
     /**
      * @description
      * Resumes the execution of the actions
      */
     Typewriter.prototype.resume = function () {
-        this._pauseObservable.emit(false);
+        this.pauseObservable.emit(false);
     };
     /**
      * @description
      * Resets the entire typewriter
      */
     Typewriter.prototype.reset = function () {
-        this._context.reset();
-        this._queuer.reset();
-        this._renderer.reset();
-        this._pauseObservable.emit(false);
+        this.context.reset();
+        this.queuer.reset();
+        this.renderer.reset();
+        this.pauseObservable.emit(false);
     };
     /**
      * @description
      * Subscribes to events
      */
     Typewriter.prototype.before = function (event, func) {
-        this._events.push({ event: "before:" + event, func: func });
+        this.events.push({ event: "before:" + event, func: func });
     };
     /**
      * @description
      * Subscribes to events
      */
     Typewriter.prototype.after = function (event, func) {
-        this._events.push({ event: "after:" + event, func: func });
+        this.events.push({ event: "after:" + event, func: func });
     };
     /**
      * @description
      * The update callback, called from inside every action
      */
     Typewriter.prototype.update = function () {
-        this._renderer.render();
+        this.renderer.render();
     };
     /**
      * @description
@@ -302,12 +302,12 @@ var Typewriter = /** @class */ (function () {
      * @param handler The event handler
      */
     Typewriter.prototype.catch = function (handler) {
-        var handlerIndex = this._events.findIndex(function (e) { return e.event === 'error'; });
+        var handlerIndex = this.events.findIndex(function (e) { return e.event === 'error'; });
         if (handlerIndex === -1) {
-            this._events.push({ event: "error", func: handler });
+            this.events.push({ event: "error", func: handler });
         }
         else {
-            this._events[handlerIndex].func = handler;
+            this.events[handlerIndex].func = handler;
         }
     };
     return Typewriter;

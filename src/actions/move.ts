@@ -47,8 +47,8 @@ export class Move extends Action {
 		const step = Math.max(1, this.getConfig('step'));
 		const speed = Math.max(0, this.getConfig('speed'));
 
-		const currentIndex = this.parent._context.index;
-		const currentLength = this.parent._context.content?.length;
+		const currentIndex = this.parent.context.index;
+		const currentLength = this.parent.context.content?.length;
 		const absoluteIndex = typeof this.index === 'number'
 			? this.index
 			: this.index === 'start'
@@ -64,20 +64,20 @@ export class Move extends Action {
 		return new Promise(async resolve => {
 			try {
 				for await (let _ of this.step(Math.abs(index), step)) {
-					this.before({ currentIndex: this.parent._context.index });
+					this.before({ currentIndex: this.parent.context.index });
 
 					const iteration = (_ / step);
 					const iterPart = iteration * step;
 					const remIndex = index - iterPart;
 					const sanitizedStep = Math.min(remIndex, step);
 
-					this.parent._context.highlight = [null, null];
-					this.parent._context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
+					this.parent.context.highlight = [null, null];
+					this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
 
 					this.parent.update();
-					this.parent._audio.play();
+					this.parent.audio.play();
 
-					this.after({ currentIndex: this.parent._context.index });
+					this.after({ currentIndex: this.parent.context.index });
 					await timeOut(speed);
 				}
 

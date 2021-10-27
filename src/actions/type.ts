@@ -53,37 +53,37 @@ export class Type extends Action {
 					const classes = (this.config as IActionConfigType)?.classes ?? [];
 					const props = { classes };
 
-					this.before({ currentIndex: this.parent._context.index });
+					this.before({ currentIndex: this.parent.context.index });
 
 					// Overwriting highlighted content
-					if (this.parent._context.hasHighlight()) {
-						const start = Number(this.parent._context.highlight[0]);
-						const end = Number(this.parent._context.highlight[1]) + 1;
+					if (this.parent.context.hasHighlight()) {
+						const start = Number(this.parent.context.highlight[0]);
+						const end = Number(this.parent.context.highlight[1]) + 1;
 
-						this.parent._context.content = [
-							...this.parent._context.content.slice(0, start),
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, start),
 							...characters.split('').map(char => ({ char, props })),
-							...this.parent._context.content.slice(end)
+							...this.parent.context.content.slice(end)
 						];
 
 						// Typing regular content
 					} else {
-						this.parent._context.content = [
-							...this.parent._context.content.slice(0, this.parent._context.index),
+						this.parent.context.content = [
+							...this.parent.context.content.slice(0, this.parent.context.index),
 							...characters.split('').map(char => ({ char, props })),
-							...this.parent._context.content.slice(this.parent._context.index)
+							...this.parent.context.content.slice(this.parent.context.index)
 						];
 					}
 
-					this.parent._context.index += characters.length;
-					this.parent._context.highlight = [null, null];
+					this.parent.context.index += characters.length;
+					this.parent.context.highlight = [null, null];
 
 					this.parent.update();
-					this.parent._audio.play();
+					this.parent.audio.play();
 
 					this.after({
 						character: characters,
-						currentIndex: this.parent._context.index,
+						currentIndex: this.parent.context.index,
 					});
 
 					await timeOut(speed);

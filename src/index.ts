@@ -29,53 +29,53 @@ export default class Typewriter implements IActions {
 	 * The renderer responsible on rendering
 	 * the typewriter's output
 	 */
-	private readonly _renderer!: Renderer;
+	private readonly renderer!: Renderer;
 
 	/**
 	 * @description
 	 * Event list
 	 */
-	public _events!: Array<{ event: string, func: Func<any> }>;
+	public events!: Array<{ event: string, func: Func<any> }>;
 
 	/**
 	 * @description
 	 * The queuer responsible for
 	 * organizing the actions
 	 */
-	public readonly _queuer!: Queuer;
+	public readonly queuer!: Queuer;
 
 	/**
 	 * @description
 	 * The audio utility responsible
 	 * for playing SFX
 	 */
-	public readonly _audio!: Audio;
+	public readonly audio!: Audio;
 
 	/**
 	 * @description
 	 * The pause observable, handles updates
 	 * for pause/resume operations
 	 */
-	public readonly _pauseObservable!: Observable<boolean>;
+	public readonly pauseObservable!: Observable<boolean>;
 
 	/**
 	 * @description
 	 * The typewriter's context
 	 */
-	public readonly _context!: Context;
+	public readonly context!: Context;
 
 	/**
 	 * @description
 	 * Global configuration
 	 */
-	public _config!: IConfig;
+	public config!: IConfig;
 
 	/**
 	 * @description
 	 * Returns the event handler
 	 */
 	get errorHandler() {
-		const handler = this._events.find(e => e.event === 'error')?.func ?? (() => { })
+		const handler = this.events.find(e => e.event === 'error')?.func ?? (() => { })
 		return handler;
 	}
 
@@ -89,7 +89,7 @@ export default class Typewriter implements IActions {
 	constructor(selector: string, config?: IConfig) {
 
 		// Initializing global configurations
-		this._config = {
+		this.config = {
 			caret: config?.caret,
 			audio: config?.audio,
 			step: config?.step ?? 1,
@@ -101,26 +101,26 @@ export default class Typewriter implements IActions {
 		};
 
 		// Initializing the events
-		this._events = [];
+		this.events = [];
 
 		// Initializing the context
-		this._context = new Context(this._config?.targetAttribute);
+		this.context = new Context(this.config?.targetAttribute);
 
 		// Initializing the content
 		const target = <HTMLElement>document.querySelector(selector);
-		this._context.initializeContent(target);
+		this.context.initializeContent(target);
 
 		// Initializing the renderer
-		this._renderer = new Renderer(target, this._config?.targetAttribute, this._config?.parseHTML, this._context, this._config.caret);
+		this.renderer = new Renderer(target, this.config?.targetAttribute, this.config?.parseHTML, this.context, this.config.caret);
 
 		// Initializing the audio utility
-		this._audio = new Audio(this._config.audio);
+		this.audio = new Audio(this.config.audio);
 
 		// Initializing the queuer
-		this._queuer = new Queuer();
+		this.queuer = new Queuer();
 
 		// Initializing the pause/resume observable
-		this._pauseObservable = new Observable<boolean>(false);
+		this.pauseObservable = new Observable<boolean>(false);
 	}
 
 	/**
@@ -128,8 +128,8 @@ export default class Typewriter implements IActions {
 	 * Starts the actions queue
 	 */
 	public async start(): Promise<void> {
-		for await (let action of this._queuer.items) {
-			if (!this._queuer.isValid(action)) {
+		for await (let action of this.queuer.items) {
+			if (!this.queuer.isValid(action)) {
 				continue;
 			}
 
@@ -145,7 +145,7 @@ export default class Typewriter implements IActions {
 	 */
 	public sleep(time: number): Typewriter {
 		const action = new Sleep(time, this);
-		this._queuer.add(action);
+		this.queuer.add(action);
 		return this;
 	}
 
@@ -157,7 +157,7 @@ export default class Typewriter implements IActions {
 	 */
 	public exec(func: Promise<void>): Typewriter {
 		const action = new Exec(func, this);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -171,7 +171,7 @@ export default class Typewriter implements IActions {
 	 */
 	public type(input: string, config?: IActionConfigType): Typewriter {
 		const action = new Type(input, this, config);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -185,7 +185,7 @@ export default class Typewriter implements IActions {
 	 */
 	public delete(times: number, config?: IActionConfig): Typewriter {
 		const action = new Delete(times, this, config);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -199,7 +199,7 @@ export default class Typewriter implements IActions {
 	 */
 	public move(index: number, config?: IActionConfig): Typewriter {
 		const action = new Move(index, this, config);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -213,7 +213,7 @@ export default class Typewriter implements IActions {
 	 */
 	public highlight(index: number, config?: IActionConfig): Typewriter {
 		const action = new Highlight(index, this, config);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -227,7 +227,7 @@ export default class Typewriter implements IActions {
 	 */
 	public tab(index: number = 4, config?: IActionConfig): Typewriter {
 		const action = new Tab(index, this, config);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -240,7 +240,7 @@ export default class Typewriter implements IActions {
 	 */
 	public return(config?: IActionConfig): Typewriter {
 		const action = new Return(this, config);
-		this._queuer.add(action);
+		this.queuer.add(action);
 
 		return this;
 	}
@@ -250,7 +250,7 @@ export default class Typewriter implements IActions {
 	 * Pauses the execution of the actions
 	 */
 	public pause(): void {
-		this._pauseObservable.emit(true);
+		this.pauseObservable.emit(true);
 	}
 
 	/**
@@ -258,7 +258,7 @@ export default class Typewriter implements IActions {
 	 * Resumes the execution of the actions
 	 */
 	public resume(): void {
-		this._pauseObservable.emit(false);
+		this.pauseObservable.emit(false);
 	}
 
 	/**
@@ -266,10 +266,10 @@ export default class Typewriter implements IActions {
 	 * Resets the entire typewriter
 	 */
 	public reset(): void {
-		this._context.reset();
-		this._queuer.reset();
-		this._renderer.reset();
-		this._pauseObservable.emit(false);
+		this.context.reset();
+		this.queuer.reset();
+		this.renderer.reset();
+		this.pauseObservable.emit(false);
 	}
 
 	/**
@@ -277,7 +277,7 @@ export default class Typewriter implements IActions {
 	 * Subscribes to events
 	 */
 	public before<T>(event: keyof IActions, func: Func<T>): void {
-		this._events.push({ event: `before:${event}`, func });
+		this.events.push({ event: `before:${event}`, func });
 	}
 
 	/**
@@ -285,7 +285,7 @@ export default class Typewriter implements IActions {
 	 * Subscribes to events
 	 */
 	public after<T>(event: keyof IActions, func: Func<T>): void {
-		this._events.push({ event: `after:${event}`, func });
+		this.events.push({ event: `after:${event}`, func });
 	}
 
 	/**
@@ -293,7 +293,7 @@ export default class Typewriter implements IActions {
 	 * The update callback, called from inside every action
 	 */
 	public update(): void {
-		this._renderer.render();
+		this.renderer.render();
 	}
 
 	/**
@@ -303,12 +303,12 @@ export default class Typewriter implements IActions {
 	 * @param handler The event handler
 	 */
 	public catch<T>(handler: Func<T>): void {
-		const handlerIndex = this._events.findIndex(e => e.event === 'error');
+		const handlerIndex = this.events.findIndex(e => e.event === 'error');
 
 		if (handlerIndex === -1) {
-			this._events.push({ event: `error`, func: handler });
+			this.events.push({ event: `error`, func: handler });
 		} else {
-			this._events[handlerIndex].func = handler;
+			this.events[handlerIndex].func = handler;
 		}
 	}
 }

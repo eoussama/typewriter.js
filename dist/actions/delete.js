@@ -116,8 +116,8 @@ var Delete = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 step = Math.max(1, this.getConfig('step'));
                 speed = Math.max(0, this.getConfig('speed'));
-                startingIndex = this.parent._context.index;
-                startingLength = this.parent._context.content.length;
+                startingIndex = this.parent.context.index;
+                startingLength = this.parent.context.content.length;
                 sanitizedIndex = typeof this.times === 'string'
                     ? this.times === 'start'
                         ? startingIndex
@@ -145,14 +145,14 @@ var Delete = /** @class */ (function (_super) {
                                     if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
                                     _ = _b.value;
                                     deletedContent = '';
-                                    this.before({ currentIndex: this.parent._context.index });
+                                    this.before({ currentIndex: this.parent.context.index });
                                     // Deleting highlighted content
-                                    if (this.parent._context.hasHighlight()) {
-                                        start = this.parent._context.highlight[0];
-                                        end = this.parent._context.highlight[1] + 1;
+                                    if (this.parent.context.hasHighlight()) {
+                                        start = this.parent.context.highlight[0];
+                                        end = this.parent.context.highlight[1] + 1;
                                         // Extracting the content that's gonna be deleted
-                                        deletedContent = this.parent._context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
-                                        this.parent._context.content = __spreadArray(__spreadArray([], this.parent._context.content.slice(0, start), true), this.parent._context.content.slice(end), true);
+                                        deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
+                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
                                         // Deleting regular content
                                     }
                                     else {
@@ -160,21 +160,21 @@ var Delete = /** @class */ (function (_super) {
                                         iterPart = iteration * step;
                                         remainingIndex = absoluteIndex - iterPart;
                                         deletionWidth = Math.min(remainingIndex, step);
-                                        start = this.parent._context.index - (inverseDeletion ? 0 : deletionWidth);
-                                        end = this.parent._context.index + (inverseDeletion ? deletionWidth : 0);
+                                        start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
+                                        end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
                                         // Extracting the content that's gonna be deleted
-                                        deletedContent = this.parent._context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
+                                        deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
                                         // Deleting the marked width
-                                        this.parent._context.content = __spreadArray(__spreadArray([], this.parent._context.content.slice(0, start), true), this.parent._context.content.slice(end), true);
+                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
                                         // Updating the caret position
-                                        this.parent._context.index -= inverseDeletion ? 0 : deletionWidth;
+                                        this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
                                     }
-                                    this.parent._context.highlight = [null, null];
+                                    this.parent.context.highlight = [null, null];
                                     this.parent.update();
-                                    this.parent._audio.play();
+                                    this.parent.audio.play();
                                     this.after({
                                         characters: deletedContent,
-                                        currentIndex: this.parent._context.index
+                                        currentIndex: this.parent.context.index
                                     });
                                     return [4 /*yield*/, timeOut(speed)];
                                 case 4:

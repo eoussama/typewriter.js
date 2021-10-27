@@ -41,16 +41,16 @@ export class Return extends Action {
         const char = '<br />';
         const props = { classes: [] };
 
-        this.parent._context.content = [
-          ...this.parent._context.content.slice(0, this.parent._context.index),
+        this.parent.context.content = [
+          ...this.parent.context.content.slice(0, this.parent.context.index),
           ...[{ char, props }],
-          ...this.parent._context.content.slice(this.parent._context.index)
+          ...this.parent.context.content.slice(this.parent.context.index)
         ];
 
-        this.parent._context.index += 1;
+        this.parent.context.index += 1;
 
         this.parent.update();
-        this.parent._audio.play();
+        this.parent.audio.play();
 
         this.after();
 
