@@ -30,18 +30,9 @@ export class Tab extends Action {
 
   /**
    * @description
-   * Initiates tabulation action
-   */
-  public async start(): Promise<void> {
-    await super.start();
-    await this.tab();
-  }
-
-  /**
-   * @description
    * Adds a tabulation character
    */
-  private async tab(): Promise<void> {
+   protected run(): Promise<void> {
     const spaces = Math.max(Math.abs(this.spaces), 1);
 
     return new Promise(async resolve => {
@@ -64,7 +55,6 @@ export class Tab extends Action {
 
         this.after();
 
-        this.resolveAction();
         resolve();
       } catch (err) {
         this.parent.errorHandler(err);

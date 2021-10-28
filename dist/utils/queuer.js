@@ -29,7 +29,6 @@ var Queuer = /** @class */ (function () {
      * @param action The action to add
      */
     Queuer.prototype.add = function (action) {
-        action.queueId = this.id;
         this.queue.push(action);
     };
     /**
@@ -37,17 +36,7 @@ var Queuer = /** @class */ (function () {
      * Clears the action list
      */
     Queuer.prototype.reset = function () {
-        this.id = new Date().getTime().toString(32);
         this.queue = [];
-    };
-    /**
-     * @description
-     * Checks if the action belongs to the queue
-     *
-     * @param action The target action
-     */
-    Queuer.prototype.isValid = function (action) {
-        return action.queueId === this.id;
     };
     return Queuer;
 }());

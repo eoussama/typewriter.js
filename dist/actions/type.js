@@ -88,141 +88,84 @@ var Type = /** @class */ (function (_super) {
     }
     /**
      * @description
-     * Initiates type action
-     */
-    Type.prototype.start = function () {
-        var e_1, _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var num, _b, _c, _, e_1_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0:
-                        num = this.getConfig('repeat');
-                        _d.label = 1;
-                    case 1:
-                        _d.trys.push([1, 8, 9, 14]);
-                        _b = __asyncValues(Array(num).fill(0));
-                        _d.label = 2;
-                    case 2: return [4 /*yield*/, _b.next()];
-                    case 3:
-                        if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 7];
-                        _ = _c.value;
-                        return [4 /*yield*/, _super.prototype.start.call(this)];
-                    case 4:
-                        _d.sent();
-                        return [4 /*yield*/, this.type()];
-                    case 5:
-                        _d.sent();
-                        _d.label = 6;
-                    case 6: return [3 /*break*/, 2];
-                    case 7: return [3 /*break*/, 14];
-                    case 8:
-                        e_1_1 = _d.sent();
-                        e_1 = { error: e_1_1 };
-                        return [3 /*break*/, 14];
-                    case 9:
-                        _d.trys.push([9, , 12, 13]);
-                        if (!(_c && !_c.done && (_a = _b.return))) return [3 /*break*/, 11];
-                        return [4 /*yield*/, _a.call(_b)];
-                    case 10:
-                        _d.sent();
-                        _d.label = 11;
-                    case 11: return [3 /*break*/, 13];
-                    case 12:
-                        if (e_1) throw e_1.error;
-                        return [7 /*endfinally*/];
-                    case 13: return [7 /*endfinally*/];
-                    case 14: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * @description
      * Types a target input
      */
-    Type.prototype.type = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var step, speed;
-            var _this = this;
-            return __generator(this, function (_a) {
-                step = Math.max(1, this.getConfig('step'));
-                speed = Math.max(0, this.getConfig('speed'));
-                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, index, characters, classes, props, start, end, e_2_1, err_1;
-                        var e_2, _c;
-                        var _d, _e;
-                        return __generator(this, function (_f) {
-                            switch (_f.label) {
-                                case 0:
-                                    _f.trys.push([0, 14, , 15]);
-                                    _f.label = 1;
-                                case 1:
-                                    _f.trys.push([1, 7, 8, 13]);
-                                    _a = __asyncValues(this.step(this.input.length, step));
-                                    _f.label = 2;
-                                case 2: return [4 /*yield*/, _a.next()];
-                                case 3:
-                                    if (!(_b = _f.sent(), !_b.done)) return [3 /*break*/, 6];
-                                    index = _b.value;
-                                    characters = this.input.substr(index, step);
-                                    classes = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.classes) !== null && _e !== void 0 ? _e : [];
-                                    props = { classes: classes };
-                                    this.before({ currentIndex: this.parent.context.index });
-                                    // Overwriting highlighted content
-                                    if (this.parent.context.hasHighlight()) {
-                                        start = Number(this.parent.context.highlight[0]);
-                                        end = Number(this.parent.context.highlight[1]) + 1;
-                                        this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(end), true);
-                                        // Typing regular content
-                                    }
-                                    else {
-                                        this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(this.parent.context.index), true);
-                                    }
-                                    this.parent.context.index += characters.length;
-                                    this.parent.context.highlight = [null, null];
-                                    this.parent.update();
-                                    this.parent.audio.play();
-                                    this.after({
-                                        character: characters,
-                                        currentIndex: this.parent.context.index,
-                                    });
-                                    return [4 /*yield*/, timeOut(speed)];
-                                case 4:
-                                    _f.sent();
-                                    _f.label = 5;
-                                case 5: return [3 /*break*/, 2];
-                                case 6: return [3 /*break*/, 13];
-                                case 7:
-                                    e_2_1 = _f.sent();
-                                    e_2 = { error: e_2_1 };
-                                    return [3 /*break*/, 13];
-                                case 8:
-                                    _f.trys.push([8, , 11, 12]);
-                                    if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
-                                    return [4 /*yield*/, _c.call(_a)];
-                                case 9:
-                                    _f.sent();
-                                    _f.label = 10;
-                                case 10: return [3 /*break*/, 12];
-                                case 11:
-                                    if (e_2) throw e_2.error;
-                                    return [7 /*endfinally*/];
-                                case 12: return [7 /*endfinally*/];
-                                case 13:
-                                    this.resolveAction();
-                                    resolve();
-                                    return [3 /*break*/, 15];
-                                case 14:
-                                    err_1 = _f.sent();
-                                    this.parent.errorHandler(err_1);
-                                    return [3 /*break*/, 15];
-                                case 15: return [2 /*return*/];
-                            }
+    Type.prototype.run = function () {
+        var _this = this;
+        var step = Math.max(1, this.getConfig('step'));
+        var speed = Math.max(0, this.getConfig('speed'));
+        return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b, index, characters, classes, props, start, end, e_1_1, err_1;
+            var e_1, _c;
+            var _d, _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 14, , 15]);
+                        _f.label = 1;
+                    case 1:
+                        _f.trys.push([1, 7, 8, 13]);
+                        _a = __asyncValues(this.step(this.input.length, step));
+                        _f.label = 2;
+                    case 2: return [4 /*yield*/, _a.next()];
+                    case 3:
+                        if (!(_b = _f.sent(), !_b.done)) return [3 /*break*/, 6];
+                        index = _b.value;
+                        characters = this.input.substr(index, step);
+                        classes = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.classes) !== null && _e !== void 0 ? _e : [];
+                        props = { classes: classes };
+                        this.before({ currentIndex: this.parent.context.index });
+                        // Overwriting highlighted content
+                        if (this.parent.context.hasHighlight()) {
+                            start = Number(this.parent.context.highlight[0]);
+                            end = Number(this.parent.context.highlight[1]) + 1;
+                            this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(end), true);
+                            // Typing regular content
+                        }
+                        else {
+                            this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), characters.split('').map(function (char) { return ({ char: char, props: props }); }), true), this.parent.context.content.slice(this.parent.context.index), true);
+                        }
+                        this.parent.context.index += characters.length;
+                        this.parent.context.highlight = [null, null];
+                        this.parent.update();
+                        this.parent.audio.play();
+                        this.after({
+                            character: characters,
+                            currentIndex: this.parent.context.index,
                         });
-                    }); })];
+                        return [4 /*yield*/, timeOut(speed)];
+                    case 4:
+                        _f.sent();
+                        _f.label = 5;
+                    case 5: return [3 /*break*/, 2];
+                    case 6: return [3 /*break*/, 13];
+                    case 7:
+                        e_1_1 = _f.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 13];
+                    case 8:
+                        _f.trys.push([8, , 11, 12]);
+                        if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
+                        return [4 /*yield*/, _c.call(_a)];
+                    case 9:
+                        _f.sent();
+                        _f.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 12: return [7 /*endfinally*/];
+                    case 13:
+                        resolve();
+                        return [3 /*break*/, 15];
+                    case 14:
+                        err_1 = _f.sent();
+                        this.parent.errorHandler(err_1);
+                        return [3 /*break*/, 15];
+                    case 15: return [2 /*return*/];
+                }
             });
-        });
+        }); });
     };
     return Type;
 }(Action));

@@ -73,57 +73,32 @@ var Sleep = /** @class */ (function (_super) {
     }
     /**
      * @description
-     * Initiates the sleep action
-     */
-    Sleep.prototype.start = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.sleep()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * @description
      * Times-out the action queue
      */
-    Sleep.prototype.sleep = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var time;
-            var _this = this;
+    Sleep.prototype.run = function () {
+        var _this = this;
+        var time = Math.max(0, this.time);
+        return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+            var err_1;
             return __generator(this, function (_a) {
-                time = Math.max(0, this.time);
-                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var err_1;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    _a.trys.push([0, 2, , 3]);
-                                    this.before();
-                                    return [4 /*yield*/, timeOut(time)];
-                                case 1:
-                                    _a.sent();
-                                    this.after();
-                                    this.resolveAction();
-                                    resolve();
-                                    return [3 /*break*/, 3];
-                                case 2:
-                                    err_1 = _a.sent();
-                                    this.parent.errorHandler(err_1);
-                                    return [3 /*break*/, 3];
-                                case 3: return [2 /*return*/];
-                            }
-                        });
-                    }); })];
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        this.before();
+                        return [4 /*yield*/, timeOut(time)];
+                    case 1:
+                        _a.sent();
+                        this.after();
+                        resolve();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        this.parent.errorHandler(err_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
             });
-        });
+        }); });
     };
     return Sleep;
 }(Action));

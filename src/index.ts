@@ -52,13 +52,6 @@ export default class Typewriter {
 
 	/**
 	 * @description
-	 * The pause observable, handles updates
-	 * for pause/resume operations
-	 */
-	public readonly pauseObservable!: Observable<boolean>;
-
-	/**
-	 * @description
 	 * The typewriter's context
 	 */
 	public readonly context!: Context;
@@ -118,9 +111,6 @@ export default class Typewriter {
 
 		// Initializing the queuer
 		this.queuer = new Queuer();
-
-		// Initializing the pause/resume observable
-		this.pauseObservable = new Observable<boolean>(false);
 	}
 
 	/**
@@ -129,10 +119,6 @@ export default class Typewriter {
 	 */
 	public async start(): Promise<void> {
 		for await (let action of this.queuer.items) {
-			if (!this.queuer.isValid(action)) {
-				continue;
-			}
-
 			await action.start();
 		}
 	}
@@ -247,29 +233,12 @@ export default class Typewriter {
 
 	/**
 	 * @description
-	 * Pauses the execution of the actions
-	 */
-	public pause(): void {
-		this.pauseObservable.emit(true);
-	}
-
-	/**
-	 * @description
-	 * Resumes the execution of the actions
-	 */
-	public resume(): void {
-		this.pauseObservable.emit(false);
-	}
-
-	/**
-	 * @description
 	 * Resets the entire typewriter
 	 */
 	public reset(): void {
 		this.context.reset();
 		this.queuer.reset();
 		this.renderer.reset();
-		this.pauseObservable.emit(false);
 	}
 
 	/**

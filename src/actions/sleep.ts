@@ -31,18 +31,9 @@ export class Sleep extends Action {
 
 	/**
 	 * @description
-	 * Initiates the sleep action
-	 */
-	public async start(): Promise<void> {
-		await super.start();
-		await this.sleep();
-	}
-
-	/**
-	 * @description
 	 * Times-out the action queue
 	 */
-	private async sleep(): Promise<void> {
+	protected run(): Promise<void> {
 		const time = Math.max(0, this.time);
 
 		return new Promise(async resolve => {
@@ -51,7 +42,6 @@ export class Sleep extends Action {
 				await timeOut(time);
 				this.after();
 
-				this.resolveAction();
 				resolve();
 			} catch (err) {
 				this.parent.errorHandler(err);

@@ -88,130 +88,111 @@ var Delete = /** @class */ (function (_super) {
     }
     /**
      * @description
-     * Initiates delete action
-     */
-    Delete.prototype.start = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.delete()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * @description
      * Deletes content
      */
-    Delete.prototype.delete = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var step, speed, startingIndex, startingLength, sanitizedIndex, inverseDeletion, normalizedIndex, absoluteIndex;
-            var _this = this;
-            return __generator(this, function (_a) {
-                step = Math.max(1, this.getConfig('step'));
-                speed = Math.max(0, this.getConfig('speed'));
-                startingIndex = this.parent.context.index;
-                startingLength = this.parent.context.content.length;
-                sanitizedIndex = typeof this.times === 'string'
-                    ? this.times === 'start'
-                        ? startingIndex
-                        : startingIndex - startingLength
-                    : this.times;
-                inverseDeletion = sanitizedIndex < 0;
-                normalizedIndex = inverseDeletion
-                    ? Math.min(startingLength - startingIndex, Math.abs(sanitizedIndex))
-                    : Math.min(startingIndex, sanitizedIndex);
-                absoluteIndex = Math.abs(normalizedIndex);
-                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, deletedContent, start, end, iteration, iterPart, remainingIndex, deletionWidth, start, end, e_1_1, err_1;
-                        var e_1, _c;
-                        return __generator(this, function (_d) {
-                            switch (_d.label) {
-                                case 0:
-                                    _d.trys.push([0, 14, , 15]);
-                                    _d.label = 1;
-                                case 1:
-                                    _d.trys.push([1, 7, 8, 13]);
-                                    _a = __asyncValues(this.step(absoluteIndex, step));
-                                    _d.label = 2;
-                                case 2: return [4 /*yield*/, _a.next()];
-                                case 3:
-                                    if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
-                                    _ = _b.value;
-                                    deletedContent = '';
-                                    this.before({ currentIndex: this.parent.context.index });
-                                    // Deleting highlighted content
-                                    if (this.parent.context.hasHighlight()) {
-                                        start = this.parent.context.highlight[0];
-                                        end = this.parent.context.highlight[1] + 1;
-                                        // Extracting the content that's gonna be deleted
-                                        deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
-                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
-                                        // Deleting regular content
-                                    }
-                                    else {
-                                        iteration = (_ / step);
-                                        iterPart = iteration * step;
-                                        remainingIndex = absoluteIndex - iterPart;
-                                        deletionWidth = Math.min(remainingIndex, step);
-                                        start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
-                                        end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
-                                        // Extracting the content that's gonna be deleted
-                                        deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
-                                        // Deleting the marked width
-                                        this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
-                                        // Updating the caret position
-                                        this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
-                                    }
-                                    this.parent.context.highlight = [null, null];
-                                    this.parent.update();
-                                    this.parent.audio.play();
-                                    this.after({
-                                        characters: deletedContent,
-                                        currentIndex: this.parent.context.index
-                                    });
-                                    return [4 /*yield*/, timeOut(speed)];
-                                case 4:
-                                    _d.sent();
-                                    _d.label = 5;
-                                case 5: return [3 /*break*/, 2];
-                                case 6: return [3 /*break*/, 13];
-                                case 7:
-                                    e_1_1 = _d.sent();
-                                    e_1 = { error: e_1_1 };
-                                    return [3 /*break*/, 13];
-                                case 8:
-                                    _d.trys.push([8, , 11, 12]);
-                                    if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
-                                    return [4 /*yield*/, _c.call(_a)];
-                                case 9:
-                                    _d.sent();
-                                    _d.label = 10;
-                                case 10: return [3 /*break*/, 12];
-                                case 11:
-                                    if (e_1) throw e_1.error;
-                                    return [7 /*endfinally*/];
-                                case 12: return [7 /*endfinally*/];
-                                case 13:
-                                    this.resolveAction();
-                                    resolve();
-                                    return [3 /*break*/, 15];
-                                case 14:
-                                    err_1 = _d.sent();
-                                    this.parent.errorHandler(err_1);
-                                    return [3 /*break*/, 15];
-                                case 15: return [2 /*return*/];
-                            }
+    Delete.prototype.run = function () {
+        var _this = this;
+        var step = Math.max(1, this.getConfig('step'));
+        var speed = Math.max(0, this.getConfig('speed'));
+        // The starting index, the current poisition of the caret
+        var startingIndex = this.parent.context.index;
+        // The starting length of the content
+        var startingLength = this.parent.context.content.length;
+        // Converting the anchor to a valid number
+        var sanitizedIndex = typeof this.times === 'string'
+            ? this.times === 'start'
+                ? startingIndex
+                : startingIndex - startingLength
+            : this.times;
+        // If the deletion mode is inverted
+        var inverseDeletion = sanitizedIndex < 0;
+        // Comparing bounds to prevent overflowing index
+        var normalizedIndex = inverseDeletion
+            ? Math.min(startingLength - startingIndex, Math.abs(sanitizedIndex))
+            : Math.min(startingIndex, sanitizedIndex);
+        // Positive value of the index
+        var absoluteIndex = Math.abs(normalizedIndex);
+        return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b, _, deletedContent, start, end, iteration, iterPart, remainingIndex, deletionWidth, start, end, e_1_1, err_1;
+            var e_1, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _d.trys.push([0, 14, , 15]);
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 7, 8, 13]);
+                        _a = __asyncValues(this.step(absoluteIndex, step));
+                        _d.label = 2;
+                    case 2: return [4 /*yield*/, _a.next()];
+                    case 3:
+                        if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
+                        _ = _b.value;
+                        deletedContent = '';
+                        this.before({ currentIndex: this.parent.context.index });
+                        // Deleting highlighted content
+                        if (this.parent.context.hasHighlight()) {
+                            start = this.parent.context.highlight[0];
+                            end = this.parent.context.highlight[1] + 1;
+                            // Extracting the content that's gonna be deleted
+                            deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
+                            this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
+                            // Deleting regular content
+                        }
+                        else {
+                            iteration = (_ / step);
+                            iterPart = iteration * step;
+                            remainingIndex = absoluteIndex - iterPart;
+                            deletionWidth = Math.min(remainingIndex, step);
+                            start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
+                            end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
+                            // Extracting the content that's gonna be deleted
+                            deletedContent = this.parent.context.content.slice(0).slice(start, end).map(function (e) { return e.char; }).join('');
+                            // Deleting the marked width
+                            this.parent.context.content = __spreadArray(__spreadArray([], this.parent.context.content.slice(0, start), true), this.parent.context.content.slice(end), true);
+                            // Updating the caret position
+                            this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
+                        }
+                        this.parent.context.highlight = [null, null];
+                        this.parent.update();
+                        this.parent.audio.play();
+                        this.after({
+                            characters: deletedContent,
+                            currentIndex: this.parent.context.index
                         });
-                    }); })];
+                        return [4 /*yield*/, timeOut(speed)];
+                    case 4:
+                        _d.sent();
+                        _d.label = 5;
+                    case 5: return [3 /*break*/, 2];
+                    case 6: return [3 /*break*/, 13];
+                    case 7:
+                        e_1_1 = _d.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 13];
+                    case 8:
+                        _d.trys.push([8, , 11, 12]);
+                        if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
+                        return [4 /*yield*/, _c.call(_a)];
+                    case 9:
+                        _d.sent();
+                        _d.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 12: return [7 /*endfinally*/];
+                    case 13:
+                        resolve();
+                        return [3 /*break*/, 15];
+                    case 14:
+                        err_1 = _d.sent();
+                        this.parent.errorHandler(err_1);
+                        return [3 /*break*/, 15];
+                    case 15: return [2 /*return*/];
+                }
             });
-        });
+        }); });
     };
     return Delete;
 }(Action));

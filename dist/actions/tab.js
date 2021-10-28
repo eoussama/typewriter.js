@@ -80,56 +80,31 @@ var Tab = /** @class */ (function (_super) {
     }
     /**
      * @description
-     * Initiates tabulation action
-     */
-    Tab.prototype.start = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.tab()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * @description
      * Adds a tabulation character
      */
-    Tab.prototype.tab = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var spaces;
-            var _this = this;
+    Tab.prototype.run = function () {
+        var _this = this;
+        var spaces = Math.max(Math.abs(this.spaces), 1);
+        return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+            var char, props;
             return __generator(this, function (_a) {
-                spaces = Math.max(Math.abs(this.spaces), 1);
-                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var char, props;
-                        return __generator(this, function (_a) {
-                            try {
-                                this.before();
-                                char = Array(spaces).fill('&nbsp;').join('');
-                                props = { classes: [] };
-                                this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), [{ char: char, props: props }], false), this.parent.context.content.slice(this.parent.context.index), true);
-                                this.parent.context.index += 1;
-                                this.parent.update();
-                                this.parent.audio.play();
-                                this.after();
-                                this.resolveAction();
-                                resolve();
-                            }
-                            catch (err) {
-                                this.parent.errorHandler(err);
-                            }
-                            return [2 /*return*/];
-                        });
-                    }); })];
+                try {
+                    this.before();
+                    char = Array(spaces).fill('&nbsp;').join('');
+                    props = { classes: [] };
+                    this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), [{ char: char, props: props }], false), this.parent.context.content.slice(this.parent.context.index), true);
+                    this.parent.context.index += 1;
+                    this.parent.update();
+                    this.parent.audio.play();
+                    this.after();
+                    resolve();
+                }
+                catch (err) {
+                    this.parent.errorHandler(err);
+                }
+                return [2 /*return*/];
             });
-        });
+        }); });
     };
     return Tab;
 }(Action));

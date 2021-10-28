@@ -1,5 +1,7 @@
 import Typewriter from "../index.js";
+
 import { IActionConfig } from "../types/action-config.type.js";
+import { timeOut } from "../utils/timeout.js";
 
 /**
  * @description
@@ -11,19 +13,13 @@ export class Action {
 	 * @description
 	 * The action configuration object
 	 */
-	protected config!: IActionConfig;
+	protected readonly config!: IActionConfig;
 
 	/**
 	 * @description
 	 * The parent typewriter object
 	 */
 	protected readonly parent!: Typewriter;
-
-	/**
-	 * @description
-	 * The containing queue ID
-	 */
-	public queueId!: string;
 
 	/**
 	 * @description
@@ -35,44 +31,6 @@ export class Action {
 	constructor(parent: Typewriter, config?: IActionConfig) {
 		this.parent = parent;
 		this.config = config as any;
-	}
-
-	/**
-	 * @description
-	 * Returns the target key value,
-	 * used to check both global and local configuration.
-	 *
-	 * @param key The config key
-	 * @param fallback An optional fallback value
-	 */
-	protected getConfig(key: keyof IActionConfig, fallback?: any) {
-		const localValue = this.config ? this.config[key] : null;
-		const globalValue = this.parent.config ? this.parent.config[key] : null;
-
-		return localValue ?? globalValue ?? fallback;
-	}
-
-	/**
-	 * @description
-	 * Calls the resolving user-defined callback
-	 */
-	protected resolveAction() {
-		this.getConfig('done')();
-	}
-
-	/**
-	 * @description
-	 * Defines required steps to resolve the action
-	 *
-	 * @param length The length of the steps
-	 * @param step The step of every iteration
-	 */
-	protected * step(length: number, step: number = 1) {
-		const max = Math.abs(length);
-
-		for (let i = 0; i < max; i += step) {
-			yield i;
-		}
 	}
 
 	/**
@@ -98,16 +56,61 @@ export class Action {
 	 * Initiates the action
 	 */
 	public async start(): Promise<void> {
-		const delay = this.getConfig('delay');
+		const repeat = this.getConfig('repeat');
 
-		return new Promise(resolve => {
-			setTimeout(() => {
-				this.parent.pauseObservable.subscribe((e) => {
-					if (!e && this.parent.queuer.isValid(this)) {
-						resolve();
-					}
-				});
-			}, delay);
-		});
+		for await (let _ of Array(repeat).fill(0)) {
+			const delay = this.getConfig('delay');
+
+			await timeOut(delay);
+			await this.run();
+			await this.done();
+		}
+	}
+
+	/**
+	 * @override
+	 * @description
+	 * Runs the action's instructions
+	 */
+	protected run(): Promise<any> {
+		return Promise.resolve();
+	}
+
+	/**
+	 * @description
+	 * Returns the target key value,
+	 * used to check both global and local configuration.
+	 *
+	 * @param key The config key
+	 * @param fallback An optional fallback value
+	 */
+	protected getConfig(key: keyof IActionConfig, fallback?: any) {
+		const localValue = this.config ? this.config[key] : null;
+		const globalValue = this.parent.config ? this.parent.config[key] : null;
+
+		return localValue ?? globalValue ?? fallback;
+	}
+
+	/**
+	 * @description
+	 * Defines required steps to resolve the action
+	 *
+	 * @param length The length of the steps
+	 * @param step The step of every iteration
+	 */
+	protected * step(length: number, step: number = 1) {
+		const max = Math.abs(length);
+
+		for (let i = 0; i < max; i += step) {
+			yield i;
+		}
+	}
+
+	/**
+	 * @description
+	 * Calls the resolving user-defined callback
+	 */
+	private done(): Promise<any> {
+		return this.getConfig('done')();
 	}
 }

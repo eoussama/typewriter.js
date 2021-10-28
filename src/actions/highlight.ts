@@ -33,18 +33,9 @@ export class Highlight extends Action {
 
   /**
    * @description
-   * Initiates the sleep action
-   */
-  public async start(): Promise<void> {
-    await super.start();
-    await this.highlight();
-  }
-
-  /**
-   * @description
    * Highlights content
    */
-  private async highlight(): Promise<void> {
+   protected run(): Promise<void> {
     const step = Math.max(1, this.getConfig('step'));
     const speed = Math.max(0, this.getConfig('speed'));
 
@@ -98,7 +89,6 @@ export class Highlight extends Action {
           this.parent.update();
         }
 
-        this.resolveAction();
         resolve();
       } catch (err) {
         this.parent.errorHandler(err);

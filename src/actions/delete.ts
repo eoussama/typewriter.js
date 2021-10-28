@@ -13,7 +13,7 @@ export class Delete extends Action {
 	 * @description
 	 * Number of deletions
 	 */
-	private times!: number | 'start';
+	private times!: number | 'start' | 'end';
 
 	/**
 	 * @description
@@ -30,18 +30,9 @@ export class Delete extends Action {
 
 	/**
 	 * @description
-	 * Initiates delete action
-	 */
-	public async start(): Promise<void> {
-		await super.start();
-		await this.delete();
-	}
-
-	/**
-	 * @description
 	 * Deletes content
 	 */
-	private async delete(): Promise<void> {
+	protected run(): Promise<void> {
 		const step = Math.max(1, this.getConfig('step'));
 		const speed = Math.max(0, this.getConfig('speed'));
 
@@ -132,7 +123,6 @@ export class Delete extends Action {
 					await timeOut(speed);
 				}
 
-				this.resolveAction();
 				resolve();
 			} catch (err) {
 				this.parent.errorHandler(err);

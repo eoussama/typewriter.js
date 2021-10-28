@@ -31,22 +31,9 @@ export class Type extends Action {
 
 	/**
 	 * @description
-	 * Initiates type action
-	 */
-	public async start(): Promise<void> {
-		const num = this.getConfig('repeat');
-
-		for await (let _ of Array(num).fill(0)) {
-			await super.start();
-			await this.type();
-		}
-	}
-
-	/**
-	 * @description
 	 * Types a target input
 	 */
-	private async type(): Promise<void> {
+	protected run(): Promise<void> {
 		const step = Math.max(1, this.getConfig('step'))
 		const speed = Math.max(0, this.getConfig('speed'));
 
@@ -93,7 +80,6 @@ export class Type extends Action {
 					await timeOut(speed);
 				}
 
-				this.resolveAction();
 				resolve();
 			} catch (err) {
 				this.parent.errorHandler(err);

@@ -80,123 +80,98 @@ var Highlight = /** @class */ (function (_super) {
     }
     /**
      * @description
-     * Initiates the sleep action
-     */
-    Highlight.prototype.start = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _super.prototype.start.call(this)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.highlight()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * @description
      * Highlights content
      */
-    Highlight.prototype.highlight = function () {
+    Highlight.prototype.run = function () {
+        var _this = this;
         var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var step, speed, currentIndex, currentLength, absoluteIndex, limitedIndex, index;
-            var _this = this;
-            return __generator(this, function (_b) {
-                step = Math.max(1, this.getConfig('step'));
-                speed = Math.max(0, this.getConfig('speed'));
-                currentIndex = this.parent.context.index;
-                currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
-                absoluteIndex = typeof this.index === 'number'
-                    ? this.index
-                    : this.index === 'start'
-                        ? -currentIndex
-                        : currentLength - currentIndex;
-                limitedIndex = absoluteIndex < 0
-                    ? Math.max(currentIndex * -1, absoluteIndex)
-                    : Math.min(currentLength - currentIndex, absoluteIndex);
-                index = Math.abs(limitedIndex);
-                return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, _b, _, iteration, iterPart, remIndex, sanitizedStep, e_1_1, err_1;
-                        var e_1, _c;
-                        return __generator(this, function (_d) {
-                            switch (_d.label) {
-                                case 0:
-                                    _d.trys.push([0, 16, , 17]);
-                                    if (!(index !== 0)) return [3 /*break*/, 14];
-                                    _d.label = 1;
-                                case 1:
-                                    _d.trys.push([1, 7, 8, 13]);
-                                    _a = __asyncValues(this.step(Math.abs(index), step));
-                                    _d.label = 2;
-                                case 2: return [4 /*yield*/, _a.next()];
-                                case 3:
-                                    if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
-                                    _ = _b.value;
-                                    this.before({
-                                        currentIndex: this.parent.context.index,
-                                        currentRange: this.parent.context.highlight.slice(0)
-                                    });
-                                    iteration = (_ / step);
-                                    iterPart = iteration * step;
-                                    remIndex = index - iterPart;
-                                    sanitizedStep = Math.min(remIndex, step);
-                                    this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
-                                    this.parent.context.highlight = [
-                                        absoluteIndex < 0 ? this.parent.context.index : currentIndex,
-                                        absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
-                                    ];
-                                    this.parent.update();
-                                    this.parent.audio.play();
-                                    this.after({
-                                        currentIndex: this.parent.context.index,
-                                        currentRange: this.parent.context.highlight.slice(0)
-                                    });
-                                    return [4 /*yield*/, timeOut(speed)];
-                                case 4:
-                                    _d.sent();
-                                    _d.label = 5;
-                                case 5: return [3 /*break*/, 2];
-                                case 6: return [3 /*break*/, 13];
-                                case 7:
-                                    e_1_1 = _d.sent();
-                                    e_1 = { error: e_1_1 };
-                                    return [3 /*break*/, 13];
-                                case 8:
-                                    _d.trys.push([8, , 11, 12]);
-                                    if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
-                                    return [4 /*yield*/, _c.call(_a)];
-                                case 9:
-                                    _d.sent();
-                                    _d.label = 10;
-                                case 10: return [3 /*break*/, 12];
-                                case 11:
-                                    if (e_1) throw e_1.error;
-                                    return [7 /*endfinally*/];
-                                case 12: return [7 /*endfinally*/];
-                                case 13: return [3 /*break*/, 15];
-                                case 14:
-                                    this.parent.context.highlight = [null, null];
-                                    this.parent.update();
-                                    _d.label = 15;
-                                case 15:
-                                    this.resolveAction();
-                                    resolve();
-                                    return [3 /*break*/, 17];
-                                case 16:
-                                    err_1 = _d.sent();
-                                    this.parent.errorHandler(err_1);
-                                    return [3 /*break*/, 17];
-                                case 17: return [2 /*return*/];
-                            }
+        var step = Math.max(1, this.getConfig('step'));
+        var speed = Math.max(0, this.getConfig('speed'));
+        var currentIndex = this.parent.context.index;
+        var currentLength = (_a = this.parent.context.content) === null || _a === void 0 ? void 0 : _a.length;
+        var absoluteIndex = typeof this.index === 'number'
+            ? this.index
+            : this.index === 'start'
+                ? -currentIndex
+                : currentLength - currentIndex;
+        var limitedIndex = absoluteIndex < 0
+            ? Math.max(currentIndex * -1, absoluteIndex)
+            : Math.min(currentLength - currentIndex, absoluteIndex);
+        var index = Math.abs(limitedIndex);
+        return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b, _, iteration, iterPart, remIndex, sanitizedStep, e_1_1, err_1;
+            var e_1, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _d.trys.push([0, 16, , 17]);
+                        if (!(index !== 0)) return [3 /*break*/, 14];
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 7, 8, 13]);
+                        _a = __asyncValues(this.step(Math.abs(index), step));
+                        _d.label = 2;
+                    case 2: return [4 /*yield*/, _a.next()];
+                    case 3:
+                        if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
+                        _ = _b.value;
+                        this.before({
+                            currentIndex: this.parent.context.index,
+                            currentRange: this.parent.context.highlight.slice(0)
                         });
-                    }); })];
+                        iteration = (_ / step);
+                        iterPart = iteration * step;
+                        remIndex = index - iterPart;
+                        sanitizedStep = Math.min(remIndex, step);
+                        this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
+                        this.parent.context.highlight = [
+                            absoluteIndex < 0 ? this.parent.context.index : currentIndex,
+                            absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
+                        ];
+                        this.parent.update();
+                        this.parent.audio.play();
+                        this.after({
+                            currentIndex: this.parent.context.index,
+                            currentRange: this.parent.context.highlight.slice(0)
+                        });
+                        return [4 /*yield*/, timeOut(speed)];
+                    case 4:
+                        _d.sent();
+                        _d.label = 5;
+                    case 5: return [3 /*break*/, 2];
+                    case 6: return [3 /*break*/, 13];
+                    case 7:
+                        e_1_1 = _d.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 13];
+                    case 8:
+                        _d.trys.push([8, , 11, 12]);
+                        if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
+                        return [4 /*yield*/, _c.call(_a)];
+                    case 9:
+                        _d.sent();
+                        _d.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 12: return [7 /*endfinally*/];
+                    case 13: return [3 /*break*/, 15];
+                    case 14:
+                        this.parent.context.highlight = [null, null];
+                        this.parent.update();
+                        _d.label = 15;
+                    case 15:
+                        resolve();
+                        return [3 /*break*/, 17];
+                    case 16:
+                        err_1 = _d.sent();
+                        this.parent.errorHandler(err_1);
+                        return [3 /*break*/, 17];
+                    case 17: return [2 /*return*/];
+                }
             });
-        });
+        }); });
     };
     return Highlight;
 }(Action));

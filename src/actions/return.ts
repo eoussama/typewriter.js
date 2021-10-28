@@ -22,18 +22,9 @@ export class Return extends Action {
 
   /**
    * @description
-   * Initiates a carriage return action
-   */
-  public async start(): Promise<void> {
-    await super.start();
-    await this.return();
-  }
-
-  /**
-   * @description
    * Adds a carriage return character
    */
-  private async return(): Promise<void> {
+   protected run(): Promise<void> {
     return new Promise(async resolve => {
       try {
         this.before();
@@ -54,7 +45,6 @@ export class Return extends Action {
 
         this.after();
 
-        this.resolveAction();
         resolve();
       } catch (err) {
         this.parent.errorHandler(err);

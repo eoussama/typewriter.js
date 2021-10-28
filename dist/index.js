@@ -52,7 +52,6 @@ import { Highlight } from "./actions/highlight.js";
 import { Tab } from "./actions/tab.js";
 import { Return } from "./actions/return.js";
 import { Queuer } from "./utils/queuer.js";
-import { Observable } from "./utils/observable.js";
 import { Audio } from "./utils/audio.js";
 /**
  * @description
@@ -93,8 +92,6 @@ var Typewriter = /** @class */ (function () {
         this.audio = new Audio(this.config.audio);
         // Initializing the queuer
         this.queuer = new Queuer();
-        // Initializing the pause/resume observable
-        this.pauseObservable = new Observable(false);
     }
     Object.defineProperty(Typewriter.prototype, "errorHandler", {
         /**
@@ -127,9 +124,6 @@ var Typewriter = /** @class */ (function () {
                     case 2:
                         if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 5];
                         action = _c.value;
-                        if (!this.queuer.isValid(action)) {
-                            return [3 /*break*/, 4];
-                        }
                         return [4 /*yield*/, action.start()];
                     case 3:
                         _d.sent();
@@ -253,27 +247,12 @@ var Typewriter = /** @class */ (function () {
     };
     /**
      * @description
-     * Pauses the execution of the actions
-     */
-    Typewriter.prototype.pause = function () {
-        this.pauseObservable.emit(true);
-    };
-    /**
-     * @description
-     * Resumes the execution of the actions
-     */
-    Typewriter.prototype.resume = function () {
-        this.pauseObservable.emit(false);
-    };
-    /**
-     * @description
      * Resets the entire typewriter
      */
     Typewriter.prototype.reset = function () {
         this.context.reset();
         this.queuer.reset();
         this.renderer.reset();
-        this.pauseObservable.emit(false);
     };
     /**
      * @description

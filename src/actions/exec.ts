@@ -30,25 +30,15 @@ export class Exec extends Action {
 
   /**
    * @description
-   * Initiates the exec action
-   */
-  public async start(): Promise<void> {
-    await super.start();
-    await this.exec();
-  }
-
-  /**
-   * @description
    * Executes user defined function
    */
-  private async exec(): Promise<void> {
+   protected run(): Promise<void> {
     return new Promise(async resolve => {
       try {
         this.before();
         await this.func();
         this.after();
 
-        this.resolveAction();
         resolve();
       } catch (err) {
         this.parent.errorHandler(err);

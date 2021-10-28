@@ -9,18 +9,16 @@ const options = {
   caret: { enable: true, content: '|' }
 };
 
+const start = document.getElementById('start');
 const tw = new Typewriter('#target', options);
 tw.catch(console.log);
 
-const start = document.getElementById('start');
-const pause = document.getElementById('pause');
-const resume = document.getElementById('resume');
 
 start.addEventListener('click', async () => {
   tw
-    // .type('Hello, my name is John')
-    // .delete('John'.length, { delay: 500 })
-    // .type('John', { classes: ['style'] })
+    // .type('Hello, my name is Oussama')
+    // .delete('Oussama'.length, { delay: 500 })
+    // .type('Oussama', { classes: ['style'] })
     // .type('!')
 
     // .type('Hello')
@@ -52,17 +50,7 @@ start.addEventListener('click', async () => {
     // .delete('end')
 
     .type('LoremIpsum')
-    .delete(3, { repeat: 2, delay: 1000, speed: 300 })
+    .delete(3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
 
     .start();
 });
-
-pause.addEventListener('click', () => {
-  tw.pause();
-});
-
-resume.addEventListener('click', () => {
-  tw.resume();
-});
-
-console.log({ tw });
