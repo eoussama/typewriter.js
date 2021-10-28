@@ -16,13 +16,12 @@ import { Queuer } from "./utils/queuer.js";
 import { Observable } from "./utils/observable.js";
 import { Audio } from "./utils/audio.js";
 import { Func } from "./types/function.type.js";
-import { IActions } from "./types/actions.type.js";
 
 /**
  * @description
  * Typewriter
  */
-export default class Typewriter implements IActions {
+export default class Typewriter {
 
 	/**
 	 * @description
@@ -276,16 +275,22 @@ export default class Typewriter implements IActions {
 	/**
 	 * @description
 	 * Subscribes to events
+	 *
+	 * @param event The event name
+	 * @param func Callback
 	 */
-	public before<T>(event: keyof IActions, func: Func<T>): void {
+	public before<T>(event: string, func: Func<T>): void {
 		this.events.push({ event: `before:${event}`, func });
 	}
 
 	/**
 	 * @description
 	 * Subscribes to events
+	 *
+	 * @param event The event name
+	 * @param func Callback
 	 */
-	public after<T>(event: keyof IActions, func: Func<T>): void {
+	public after<T>(event: string, func: Func<T>): void {
 		this.events.push({ event: `after:${event}`, func });
 	}
 

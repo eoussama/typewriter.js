@@ -278,6 +278,9 @@ var Typewriter = /** @class */ (function () {
     /**
      * @description
      * Subscribes to events
+     *
+     * @param event The event name
+     * @param func Callback
      */
     Typewriter.prototype.before = function (event, func) {
         this.events.push({ event: "before:" + event, func: func });
@@ -285,6 +288,9 @@ var Typewriter = /** @class */ (function () {
     /**
      * @description
      * Subscribes to events
+     *
+     * @param event The event name
+     * @param func Callback
      */
     Typewriter.prototype.after = function (event, func) {
         this.events.push({ event: "after:" + event, func: func });
