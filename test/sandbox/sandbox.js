@@ -49,7 +49,7 @@ start.addEventListener('click', async () => {
     // .move(-3)
     // .delete('end')
 
-    .type('LoremIpsum')
+    .type('LoremIpsum', { props: { classes: ['italic'], style: { color: 'red' } } })
     .delete(3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
 
     .start();
