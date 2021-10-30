@@ -52,15 +52,21 @@ var Context = /** @class */ (function () {
      * @param content The target content
      */
     Context.prototype.extractProps = function (content) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d;
+        // Extracting props
+        var props = (_a = content === null || content === void 0 ? void 0 : content.props) !== null && _a !== void 0 ? _a : {};
         // Extracting classes
-        var classes = Array.isArray((_a = content === null || content === void 0 ? void 0 : content.props) === null || _a === void 0 ? void 0 : _a.class) ? (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.class : [];
+        var classes = Array.isArray(props === null || props === void 0 ? void 0 : props.class) ? props === null || props === void 0 ? void 0 : props.class : [];
         // Extracting styles
-        var styles = (_d = (_c = content === null || content === void 0 ? void 0 : content.props) === null || _c === void 0 ? void 0 : _c.style) !== null && _d !== void 0 ? _d : {};
+        var styles = (_b = props === null || props === void 0 ? void 0 : props.style) !== null && _b !== void 0 ? _b : {};
         var styleEntries = Object.entries(styles);
         var styleString = styleEntries === null || styleEntries === void 0 ? void 0 : styleEntries.map(function (e) { return e[0] + ": " + e[1]; }).join(';');
+        // Extracting attributes
+        var attributeKeys = (_c = Object.keys(props)) === null || _c === void 0 ? void 0 : _c.filter(function (e) { return ['style', 'class'].indexOf(e) === -1; });
+        var attributes = attributeKeys.map(function (e) { return e + "=\"" + props[e] + "\""; }).join(' ');
         return {
-            class: (_e = classes === null || classes === void 0 ? void 0 : classes.join('')) !== null && _e !== void 0 ? _e : '',
+            attributes: attributes,
+            class: (_d = classes === null || classes === void 0 ? void 0 : classes.join('')) !== null && _d !== void 0 ? _d : '',
             style: styleString !== null && styleString !== void 0 ? styleString : ''
         };
     };

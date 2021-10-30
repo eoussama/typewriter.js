@@ -49,7 +49,7 @@ start.addEventListener('click', async () => {
     // .move(-3)
     // .delete('end')
 
-    .type('LoremIpsum', { props: { class: ['italic'], style: { color: 'red', 'font-weight': 'bold' } } })
+    .type('LoremIpsum', { props: { title: 'Is this working?', class: ['italic'], style: { color: 'red', 'font-weight': 'bold' } } })
     .highlight(-3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
 
     .start();

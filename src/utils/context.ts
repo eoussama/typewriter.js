@@ -84,15 +84,24 @@ export class Context {
    * @param content The target content
    */
   public extractProps(content: IContent) {
+
+    // Extracting props
+    const props = content?.props ?? {};
+
     // Extracting classes
-    const classes = Array.isArray(content?.props?.class) ? content?.props?.class : [];
+    const classes = Array.isArray(props?.class) ? props?.class : [];
 
     // Extracting styles
-    const styles = content?.props?.style ?? {};
+    const styles = props?.style ?? {};
     const styleEntries = Object.entries(styles);
     const styleString = styleEntries?.map(e => `${e[0]}: ${e[1]}`).join(';');
 
+    // Extracting attributes
+    const attributeKeys = Object.keys(props)?.filter(e => ['style', 'class'].indexOf(e) === -1);
+    const attributes = attributeKeys.map(e => `${e}="${props[e]}"`).join(' ');
+
     return {
+      attributes,
       class: classes?.join('') ?? '',
       style: styleString ?? ''
     };
