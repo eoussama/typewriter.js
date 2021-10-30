@@ -30,7 +30,7 @@ export interface IContext {
  * @description
  * Content array
  */
-interface IContent {
+export interface IContent {
 
   /**
    * @description
@@ -42,18 +42,5 @@ interface IContent {
    * @description
    * Properties of character
    */
-  props?: Partial<IProps>;
-}
-
-/**
- * @description
- * Content character properties
- */
-interface IProps {
-
-  /**
-   * @description
-   * CSS Classes
-   */
-  classes: Array<string>;
+  props?: { [key: string]: any };
 }

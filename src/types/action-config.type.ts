@@ -48,12 +48,5 @@ export interface IActionConfigType extends IActionConfig {
    * @description
    * Properties
    */
-  props: {
-
-    /**
-     * @description
-     * CSS Classes
-     */
-    classes: Array<string>;
-  }
+  props: { [key: string]: any };
 }

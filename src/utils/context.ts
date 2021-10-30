@@ -1,3 +1,4 @@
+import { IContent } from "../types/context.type";
 import { Nullable } from "../types/nullable.type";
 
 /**
@@ -16,7 +17,7 @@ export class Context {
    * @description
    * Encoded content list
    */
-  public content: Array<{ char: string, props?: { classes: Array<string> } }>;
+  public content: Array<IContent>;
 
   /**
    * @description
@@ -74,5 +75,23 @@ export class Context {
 
     this.content = targetContent?.split('').map((e: string) => ({ char: e, props: { classes: [] } })) ?? [];
     this.index = this.content.length;
+  }
+
+  /**
+   * @description
+   * Extracts properties for a given target
+   *
+   * @param content The target content
+   */
+  public extractProps(content: IContent) {
+    // Extracting classes
+    const classes = Array.isArray(content?.props?.class) ? content?.props?.class : [];
+
+    // Extracting styles
+    // const styles = content?.props?.style ?? {};
+    // console.log({ styles });
+    return {
+      class: classes?.join('') ?? ''
+    };
   }
 }

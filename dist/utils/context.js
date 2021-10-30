@@ -45,6 +45,23 @@ var Context = /** @class */ (function () {
         this.content = (_c = targetContent === null || targetContent === void 0 ? void 0 : targetContent.split('').map(function (e) { return ({ char: e, props: { classes: [] } }); })) !== null && _c !== void 0 ? _c : [];
         this.index = this.content.length;
     };
+    /**
+     * @description
+     * Extracts properties for a given target
+     *
+     * @param content The target content
+     */
+    Context.prototype.extractProps = function (content) {
+        var _a, _b, _c;
+        // Extracting classes
+        var classes = Array.isArray((_a = content === null || content === void 0 ? void 0 : content.props) === null || _a === void 0 ? void 0 : _a.class) ? (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.class : [];
+        // Extracting styles
+        // const styles = content?.props?.style ?? {};
+        // console.log({ styles });
+        return {
+            class: (_c = classes === null || classes === void 0 ? void 0 : classes.join('')) !== null && _c !== void 0 ? _c : ''
+        };
+    };
     return Context;
 }());
 export { Context };

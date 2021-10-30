@@ -41,8 +41,7 @@ export class Type extends Action {
 			try {
 				for await (let index of this.step(this.input.length, step)) {
 					const characters = this.input.substr(index, step);
-					const classes = (this.config as IActionConfigType)?.props?.classes ?? [];
-					const props = { classes };
+					const props = (this.config as IActionConfigType)?.props ?? {};
 
 					this.before({ currentIndex: this.parent.context.index });
 

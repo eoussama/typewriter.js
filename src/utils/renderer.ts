@@ -1,5 +1,5 @@
 import { Nullable } from "../types/nullable.type.js";
-import { IContext } from "../types/context.type.js";
+import { Context } from "./context.js";
 import { IRendererConfig } from "../types/renderer-config.type.js";
 
 /**
@@ -38,7 +38,7 @@ export class Renderer {
    * @description
    * The typewriter's context
    */
-  private context!: IContext;
+  private context!: Context;
 
   /**
    * @description
@@ -50,7 +50,7 @@ export class Renderer {
    * @param context The typewriter context
    * @param config The renderer configuration
    */
-  constructor(target: HTMLElement, targetAttribute: string, parseHTML: boolean, context: any, config?: IRendererConfig) {
+  constructor(target: HTMLElement, targetAttribute: string, parseHTML: boolean, context: Context, config?: IRendererConfig) {
     this.context = context;
     this.target = target;
     this.parseHTML = parseHTML ?? true;
@@ -122,8 +122,13 @@ export class Renderer {
           output += '<mark class="tw_highlight">';
         }
 
+        // Extracting properties
+        const props = this.context.extractProps(content);
+        console.log({props});
+
         // Render character
-        output += `<span class="tw_char ${content?.props?.classes?.join('')}">${content.char}</span>`;
+        output += `<span class="tw_char ${props.class}">${content.char}</span>`;
+
         // Opening the highlighter tag
         if (this.canHighlight() && this.context.highlight[1] === i) {
           output += '</mark>';

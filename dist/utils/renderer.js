@@ -72,7 +72,7 @@ var Renderer = /** @class */ (function () {
         var output = '';
         if (this.context.content.length > 0) {
             this.context.content.forEach(function (content, i) {
-                var _a, _b, _c, _d;
+                var _a, _b;
                 // Render caret at the begining of the content
                 if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0) {
                     output += _this.renderedCaret();
@@ -81,14 +81,17 @@ var Renderer = /** @class */ (function () {
                 if (_this.canHighlight() && _this.context.highlight[0] === i) {
                     output += '<mark class="tw_highlight">';
                 }
+                // Extracting properties
+                var props = _this.context.extractProps(content);
+                console.log({ props: props });
                 // Render character
-                output += "<span class=\"tw_char " + ((_c = (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.classes) === null || _c === void 0 ? void 0 : _c.join('')) + "\">" + content.char + "</span>";
+                output += "<span class=\"tw_char " + props.class + "\">" + content.char + "</span>";
                 // Opening the highlighter tag
                 if (_this.canHighlight() && _this.context.highlight[1] === i) {
                     output += '</mark>';
                 }
                 // Render caret after character
-                if (((_d = _this.config) === null || _d === void 0 ? void 0 : _d.enable) && i + 1 === _this.context.index) {
+                if (((_b = _this.config) === null || _b === void 0 ? void 0 : _b.enable) && i + 1 === _this.context.index) {
                     output += _this.renderedCaret();
                 }
             });
