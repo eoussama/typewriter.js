@@ -85,7 +85,7 @@ var Renderer = /** @class */ (function () {
                 var props = _this.context.extractProps(content);
                 console.log({ props: props });
                 // Render character
-                output += "<span class=\"tw_char " + props.class + "\">" + content.char + "</span>";
+                output += "<span style=\"" + props.style + "\" class=\"tw_char " + props.class + "\">" + content.char + "</span>";
                 // Opening the highlighter tag
                 if (_this.canHighlight() && _this.context.highlight[1] === i) {
                     output += '</mark>';

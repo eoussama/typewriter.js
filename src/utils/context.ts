@@ -88,10 +88,13 @@ export class Context {
     const classes = Array.isArray(content?.props?.class) ? content?.props?.class : [];
 
     // Extracting styles
-    // const styles = content?.props?.style ?? {};
-    // console.log({ styles });
+    const styles = content?.props?.style ?? {};
+    const styleEntries = Object.entries(styles);
+    const styleString = styleEntries?.map(e => `${e[0]}: ${e[1]}`).join(';');
+
     return {
-      class: classes?.join('') ?? ''
+      class: classes?.join('') ?? '',
+      style: styleString ?? ''
     };
   }
 }

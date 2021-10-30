@@ -52,14 +52,16 @@ var Context = /** @class */ (function () {
      * @param content The target content
      */
     Context.prototype.extractProps = function (content) {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         // Extracting classes
         var classes = Array.isArray((_a = content === null || content === void 0 ? void 0 : content.props) === null || _a === void 0 ? void 0 : _a.class) ? (_b = content === null || content === void 0 ? void 0 : content.props) === null || _b === void 0 ? void 0 : _b.class : [];
         // Extracting styles
-        // const styles = content?.props?.style ?? {};
-        // console.log({ styles });
+        var styles = (_d = (_c = content === null || content === void 0 ? void 0 : content.props) === null || _c === void 0 ? void 0 : _c.style) !== null && _d !== void 0 ? _d : {};
+        var styleEntries = Object.entries(styles);
+        var styleString = styleEntries === null || styleEntries === void 0 ? void 0 : styleEntries.map(function (e) { return e[0] + ": " + e[1]; }).join(';');
         return {
-            class: (_c = classes === null || classes === void 0 ? void 0 : classes.join('')) !== null && _c !== void 0 ? _c : ''
+            class: (_e = classes === null || classes === void 0 ? void 0 : classes.join('')) !== null && _e !== void 0 ? _e : '',
+            style: styleString !== null && styleString !== void 0 ? styleString : ''
         };
     };
     return Context;

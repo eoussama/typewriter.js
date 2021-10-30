@@ -127,7 +127,7 @@ export class Renderer {
         console.log({props});
 
         // Render character
-        output += `<span class="tw_char ${props.class}">${content.char}</span>`;
+        output += `<span style="${props.style}" class="tw_char ${props.class}">${content.char}</span>`;
 
         // Opening the highlighter tag
         if (this.canHighlight() && this.context.highlight[1] === i) {
