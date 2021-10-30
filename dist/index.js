@@ -93,6 +93,42 @@ var Typewriter = /** @class */ (function () {
         // Initializing the queuer
         this.queuer = new Queuer();
     }
+    Object.defineProperty(Typewriter.prototype, "getText", {
+        /**
+         * @description
+         * Returns raw text content
+         */
+        get: function () {
+            return this.renderer.parseContent(false);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Typewriter.prototype, "getHtml", {
+        /**
+         * @description
+         * Returns HTML text content
+         */
+        get: function () {
+            return this.renderer.parseContent(true);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Typewriter.prototype, "getHighlight", {
+        /**
+         * @description
+         * Returns the highlighted content
+         */
+        get: function () {
+            var _a, _b, _c, _d, _e;
+            var start = (_a = this.context.highlight[0]) !== null && _a !== void 0 ? _a : 0;
+            var end = ((_b = this.context.highlight[1]) !== null && _b !== void 0 ? _b : 0) + 1;
+            return (_e = (_d = (_c = this.context.content.slice(start, end)) === null || _c === void 0 ? void 0 : _c.map(function (e) { return e.char; })) === null || _d === void 0 ? void 0 : _d.join('')) !== null && _e !== void 0 ? _e : '';
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Typewriter.prototype, "errorHandler", {
         /**
          * @description

@@ -72,40 +72,7 @@ export class Renderer {
    */
   public render(): void {
     if (this.target) {
-      let output = '';
-
-      if (this.context.content.length > 0) {
-        this.context.content.forEach((content, i) => {
-
-          // Render caret at the begining of the content
-          if (this.config?.enable && i === 0 && this.context.index === 0) {
-            output += this.renderedCaret();
-          }
-
-          // Opening the highlighter tag
-          if (this.canHighlight() && this.context.highlight[0] === i) {
-            output += '<mark class="tw_highlight">';
-          }
-
-          // Render character
-          output += `<span class="tw_char ${content?.props?.classes?.join('')}">${content.char}</span>`;
-          // Opening the highlighter tag
-          if (this.canHighlight() && this.context.highlight[1] === i) {
-            output += '</mark>';
-          }
-
-          // Render caret after character
-          if (this.config?.enable && i + 1 === this.context.index) {
-            output += this.renderedCaret();
-          }
-        });
-      } else if (this.config?.enable) {
-        output += this.renderedCaret();
-      }
-
-      (this.target as any)[this.targetAttribute] = this.parseHTML
-        ? output
-        : this.stripHTML(output);
+      (this.target as any)[this.targetAttribute] = this.parseContent(this.parseHTML);
     }
   }
 
@@ -126,10 +93,52 @@ export class Renderer {
    * @param input The HTML input to sanitize
    * @returns 
    */
-  private stripHTML(input: string): string {
+  public stripHTML(input: string): string {
     const element = document.createElement('div');
     element.innerHTML = input;
+
     return element.textContent ?? '';
+  }
+
+  /**
+   * @description
+   * Returns the parse content
+   *
+   * @param allowHtml Whether or not to return content as HTML or raw text
+   */
+  public parseContent(allowHtml: boolean = true): string {
+    let output = '';
+
+    if (this.context.content.length > 0) {
+      this.context.content.forEach((content, i) => {
+
+        // Render caret at the begining of the content
+        if (this.config?.enable && i === 0 && this.context.index === 0) {
+          output += this.renderedCaret();
+        }
+
+        // Opening the highlighter tag
+        if (this.canHighlight() && this.context.highlight[0] === i) {
+          output += '<mark class="tw_highlight">';
+        }
+
+        // Render character
+        output += `<span class="tw_char ${content?.props?.classes?.join('')}">${content.char}</span>`;
+        // Opening the highlighter tag
+        if (this.canHighlight() && this.context.highlight[1] === i) {
+          output += '</mark>';
+        }
+
+        // Render caret after character
+        if (this.config?.enable && i + 1 === this.context.index) {
+          output += this.renderedCaret();
+        }
+      });
+    } else if (this.config?.enable) {
+      output += this.renderedCaret();
+    }
+
+    return allowHtml ? output : this.stripHTML(output);
   }
 
   /**

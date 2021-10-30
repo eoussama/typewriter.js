@@ -64,6 +64,33 @@ export default class Typewriter {
 
 	/**
 	 * @description
+	 * Returns raw text content
+	 */
+	get getText() {
+		return this.renderer.parseContent(false);
+	}
+
+	/**
+	 * @description
+	 * Returns HTML text content
+	 */
+	get getHtml() {
+		return this.renderer.parseContent(true);
+	}
+
+	/**
+	 * @description
+	 * Returns the highlighted content
+	 */
+	get getHighlight() {
+		const start = this.context.highlight[0] ?? 0;
+		const end = (this.context.highlight[1] ?? 0) + 1;
+
+		return this.context.content.slice(start, end)?.map(e => e.char)?.join('') ?? '';
+	}
+
+	/**
+	 * @description
 	 * Returns the event handler
 	 */
 	get errorHandler() {

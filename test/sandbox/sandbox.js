@@ -50,7 +50,9 @@ start.addEventListener('click', async () => {
     // .delete('end')
 
     .type('LoremIpsum', { props: { classes: ['italic'], style: { color: 'red' } } })
-    .delete(3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
+    .highlight(-3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
 
     .start();
 });
+
+tw.after('highlight', () => console.log(tw.getHighlight));
