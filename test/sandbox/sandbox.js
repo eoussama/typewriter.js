@@ -52,10 +52,14 @@ start.addEventListener('click', async () => {
     // .type('LoremIpsum', { props: { title: 'Is this working?', class: ['italic'], style: { color: 'red', 'font-weight': 'bold' } } })
     // .highlight(-3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
 
-    .type('hello, ')
-    .exec(() => {
-      console.log('exec');
-      return Promise.resolve();
+    .type('hi')
+    .exec(e => {
+      console.log({ e });
+
+      e.type(' there!')
+        .highlight(-3);
+
+      return Promise.resolve(e);
     }, { delay: 1000 })
 
     .start();

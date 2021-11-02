@@ -32,13 +32,16 @@ export class Exec extends Action {
    * @description
    * Executes user defined function
    */
-   protected run(): Promise<void> {
+  protected run(): Promise<void> {
     return new Promise(async resolve => {
       try {
         this.before();
-        await this.func();
-        this.after();
 
+        const clone = new Typewriter('#target');
+        const result = await this.func(clone);
+        console.log({ result });
+
+        this.after();
         resolve();
       } catch (err) {
         this.parent.errorHandler(err);
