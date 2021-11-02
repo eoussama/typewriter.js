@@ -113,7 +113,7 @@ export class Renderer {
       this.context.content.forEach((content, i) => {
 
         // Render caret at the begining of the content
-        if (this.config?.enable && i === 0 && this.context.index === 0) {
+        if (this.config?.enable && i === 0 && this.context.index === 0 && allowHtml) {
           output += this.renderedCaret();
         }
 
@@ -134,11 +134,11 @@ export class Renderer {
         }
 
         // Render caret after character
-        if (this.config?.enable && i + 1 === this.context.index) {
+        if (this.config?.enable && i + 1 === this.context.index && allowHtml) {
           output += this.renderedCaret();
         }
       });
-    } else if (this.config?.enable) {
+    } else if (this.config?.enable && allowHtml) {
       output += this.renderedCaret();
     }
 

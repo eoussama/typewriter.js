@@ -74,7 +74,7 @@ var Renderer = /** @class */ (function () {
             this.context.content.forEach(function (content, i) {
                 var _a, _b;
                 // Render caret at the begining of the content
-                if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0) {
+                if (((_a = _this.config) === null || _a === void 0 ? void 0 : _a.enable) && i === 0 && _this.context.index === 0 && allowHtml) {
                     output += _this.renderedCaret();
                 }
                 // Opening the highlighter tag
@@ -90,12 +90,12 @@ var Renderer = /** @class */ (function () {
                     output += '</mark>';
                 }
                 // Render caret after character
-                if (((_b = _this.config) === null || _b === void 0 ? void 0 : _b.enable) && i + 1 === _this.context.index) {
+                if (((_b = _this.config) === null || _b === void 0 ? void 0 : _b.enable) && i + 1 === _this.context.index && allowHtml) {
                     output += _this.renderedCaret();
                 }
             });
         }
-        else if ((_a = this.config) === null || _a === void 0 ? void 0 : _a.enable) {
+        else if (((_a = this.config) === null || _a === void 0 ? void 0 : _a.enable) && allowHtml) {
             output += this.renderedCaret();
         }
         return allowHtml ? output : this.stripHTML(output);
