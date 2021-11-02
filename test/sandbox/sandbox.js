@@ -55,7 +55,7 @@ start.addEventListener('click', async () => {
     .type('hello, ')
     .exec(() => {
       console.log('exec');
-      return new Promise();
+      return Promise.resolve();
     }, { delay: 1000 })
 
     .start();
