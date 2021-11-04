@@ -61,72 +61,68 @@ export class Delete extends Action {
 		const absoluteIndex = Math.abs(normalizedIndex);
 
 		return new Promise(async resolve => {
-			try {
-				for await (let _ of this.step(absoluteIndex, step)) {
-					let deletedContent = '';
+			for await (let _ of this.step(absoluteIndex, step)) {
+				let deletedContent = '';
 
-					this.before({ currentIndex: this.parent.context.index });
+				this.before({ currentIndex: this.parent.context.index });
 
-					// Deleting highlighted content
-					if (this.parent.context.hasHighlight()) {
-						const start = <number>this.parent.context.highlight[0];
-						const end = <number>this.parent.context.highlight[1] + 1;
+				// Deleting highlighted content
+				if (this.parent.context.hasHighlight()) {
+					const start = <number>this.parent.context.highlight[0];
+					const end = <number>this.parent.context.highlight[1] + 1;
 
-						// Extracting the content that's gonna be deleted
-						deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
+					// Extracting the content that's gonna be deleted
+					deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
 
-						this.parent.context.content = [
-							...this.parent.context.content.slice(0, start),
-							...this.parent.context.content.slice(end)
-						];
+					this.parent.context.content = [
+						...this.parent.context.content.slice(0, start),
+						...this.parent.context.content.slice(end)
+					];
 
-						// Deleting regular content
-					} else {
+					// Deleting regular content
+				} else {
 
-						// The current iteration
-						const iteration = (_ / step);
+					// The current iteration
+					const iteration = (_ / step);
 
-						// The remaining deletion index
-						const iterPart = iteration * step;
-						const remainingIndex = absoluteIndex - iterPart;
+					// The remaining deletion index
+					const iterPart = iteration * step;
+					const remainingIndex = absoluteIndex - iterPart;
 
-						// Deleting width accounting for the counding step
-						const deletionWidth = Math.min(remainingIndex, step);
+					// Deleting width accounting for the counding step
+					const deletionWidth = Math.min(remainingIndex, step);
 
-						// Deletion bounds
-						const start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
-						const end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
+					// Deletion bounds
+					const start = this.parent.context.index - (inverseDeletion ? 0 : deletionWidth);
+					const end = this.parent.context.index + (inverseDeletion ? deletionWidth : 0);
 
-						// Extracting the content that's gonna be deleted
-						deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
+					// Extracting the content that's gonna be deleted
+					deletedContent = this.parent.context.content.slice(0).slice(start, end).map(e => e.char).join('');
 
-						// Deleting the marked width
-						this.parent.context.content = [
-							...this.parent.context.content.slice(0, start),
-							...this.parent.context.content.slice(end)
-						]
+					// Deleting the marked width
+					this.parent.context.content = [
+						...this.parent.context.content.slice(0, start),
+						...this.parent.context.content.slice(end)
+					]
 
-						// Updating the caret position
-						this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
-					}
-
-					this.parent.context.highlight = [null, null];
-
-					this.parent.update();
-					this.parent.audio.play();
-
-					this.after({
-						characters: deletedContent,
-						currentIndex: this.parent.context.index
-					});
-
-					await timeOut(speed);
+					// Updating the caret position
+					this.parent.context.index -= inverseDeletion ? 0 : deletionWidth;
 				}
 
-				resolve();
-			} catch (err) {
-				this.parent.errorHandler(err);
+				this.parent.context.highlight = [null, null];
+
+				this.parent.update();
+				this.parent.audio.play();
+
+				this.after({
+					characters: deletedContent,
+					currentIndex: this.parent.context.index
+				});
+
+				await timeOut(speed);
 			}
+
+			resolve();
 		});
 	}
 }

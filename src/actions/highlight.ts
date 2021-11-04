@@ -35,7 +35,7 @@ export class Highlight extends Action {
    * @description
    * Highlights content
    */
-   protected run(): Promise<void> {
+  protected run(): Promise<void> {
     const step = Math.max(1, this.getConfig('step'));
     const speed = Math.max(0, this.getConfig('speed'));
 
@@ -54,45 +54,41 @@ export class Highlight extends Action {
     const index = Math.abs(limitedIndex);
 
     return new Promise(async resolve => {
-      try {
-        if (index !== 0) {
-          for await (let _ of this.step(Math.abs(index), step)) {
+      if (index !== 0) {
+        for await (let _ of this.step(Math.abs(index), step)) {
 
-            this.before({
-              currentIndex: this.parent.context.index,
-              currentRange: this.parent.context.highlight.slice(0)
-            });
+          this.before({
+            currentIndex: this.parent.context.index,
+            currentRange: this.parent.context.highlight.slice(0)
+          });
 
-            const iteration = (_ / step);
-            const iterPart = iteration * step;
-            const remIndex = index - iterPart;
-            const sanitizedStep = Math.min(remIndex, step);
+          const iteration = (_ / step);
+          const iterPart = iteration * step;
+          const remIndex = index - iterPart;
+          const sanitizedStep = Math.min(remIndex, step);
 
-            this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
-            this.parent.context.highlight = [
-              absoluteIndex < 0 ? this.parent.context.index : currentIndex,
-              absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
-            ];
+          this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
+          this.parent.context.highlight = [
+            absoluteIndex < 0 ? this.parent.context.index : currentIndex,
+            absoluteIndex < 0 ? currentIndex - 1 : this.parent.context.index - 1
+          ];
 
-            this.parent.update();
-            this.parent.audio.play();
-
-            this.after({
-              currentIndex: this.parent.context.index,
-              currentRange: this.parent.context.highlight.slice(0)
-            });
-
-            await timeOut(speed);
-          }
-        } else {
-          this.parent.context.highlight = [null, null];
           this.parent.update();
-        }
+          this.parent.audio.play();
 
-        resolve();
-      } catch (err) {
-        this.parent.errorHandler(err);
+          this.after({
+            currentIndex: this.parent.context.index,
+            currentRange: this.parent.context.highlight.slice(0)
+          });
+
+          await timeOut(speed);
+        }
+      } else {
+        this.parent.context.highlight = [null, null];
+        this.parent.update();
       }
+
+      resolve();
     });
   }
 };

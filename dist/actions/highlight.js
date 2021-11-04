@@ -99,12 +99,11 @@ var Highlight = /** @class */ (function (_super) {
             : Math.min(currentLength - currentIndex, absoluteIndex);
         var index = Math.abs(limitedIndex);
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, _b, _, iteration, iterPart, remIndex, sanitizedStep, e_1_1, err_1;
+            var _a, _b, _, iteration, iterPart, remIndex, sanitizedStep, e_1_1;
             var e_1, _c;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
-                        _d.trys.push([0, 16, , 17]);
                         if (!(index !== 0)) return [3 /*break*/, 14];
                         _d.label = 1;
                     case 1:
@@ -163,12 +162,7 @@ var Highlight = /** @class */ (function (_super) {
                         _d.label = 15;
                     case 15:
                         resolve();
-                        return [3 /*break*/, 17];
-                    case 16:
-                        err_1 = _d.sent();
-                        this.parent.errorHandler(err_1);
-                        return [3 /*break*/, 17];
-                    case 17: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         }); });

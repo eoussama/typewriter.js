@@ -32,33 +32,29 @@ export class Tab extends Action {
    * @description
    * Adds a tabulation character
    */
-   protected run(): Promise<void> {
+  protected run(): Promise<void> {
     const spaces = Math.max(Math.abs(this.spaces), 1);
 
     return new Promise(async resolve => {
-      try {
-        this.before();
+      this.before();
 
-        const char = Array(spaces).fill('&nbsp;').join('');
-        const props = { classes: [] };
+      const char = Array(spaces).fill('&nbsp;').join('');
+      const props = { classes: [] };
 
-        this.parent.context.content = [
-          ...this.parent.context.content.slice(0, this.parent.context.index),
-          ...[{ char, props }],
-          ...this.parent.context.content.slice(this.parent.context.index)
-        ];
+      this.parent.context.content = [
+        ...this.parent.context.content.slice(0, this.parent.context.index),
+        ...[{ char, props }],
+        ...this.parent.context.content.slice(this.parent.context.index)
+      ];
 
-        this.parent.context.index += 1;
+      this.parent.context.index += 1;
 
-        this.parent.update();
-        this.parent.audio.play();
+      this.parent.update();
+      this.parent.audio.play();
 
-        this.after();
+      this.after();
 
-        resolve();
-      } catch (err) {
-        this.parent.errorHandler(err);
-      }
+      resolve();
     });
   }
 }

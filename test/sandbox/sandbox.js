@@ -11,7 +11,7 @@ const options = {
 
 const start = document.getElementById('start');
 const tw = new Typewriter('#target', options);
-tw.catch(console.log);
+tw.catch(console.error);
 
 
 start.addEventListener('click', async () => {
@@ -49,8 +49,18 @@ start.addEventListener('click', async () => {
     // .move(-3)
     // .delete('end')
 
-    .type('LoremIpsum', { props: { title: 'Is this working?', class: ['italic'], style: { color: 'red', 'font-weight': 'bold' } } })
-    .highlight(-3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
+    // .type('LoremIpsum', { props: { title: 'Is this working?', class: ['italic'], style: { color: 'red', 'font-weight': 'bold' } } })
+    // .highlight(-3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
+
+    .type('hi')
+    .exec(e => {
+      console.log({ e });
+      throw 'ddd';
+      e.type(' there!')
+        .highlight(-3);
+
+      return Promise.resolve(e);
+    }, { delay: 1000 })
 
     .start();
 });

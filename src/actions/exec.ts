@@ -34,15 +34,14 @@ export class Exec extends Action {
    */
    protected run(): Promise<void> {
     return new Promise(async resolve => {
-      try {
-        this.before();
-        await this.func();
-        this.after();
+      this.before();
 
-        resolve();
-      } catch (err) {
-        this.parent.errorHandler(err);
-      }
+      const clone = new Typewriter('#target');
+      const result = await this.func(clone);
+      console.log({ result });
+
+      this.after();
+      resolve();
     });
   }
 }

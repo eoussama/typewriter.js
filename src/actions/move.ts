@@ -34,7 +34,7 @@ export class Move extends Action {
 	 * @description
 	 * Moves the caret around
 	 */
-	 protected run(): Promise<void> {
+	protected run(): Promise<void> {
 		const step = Math.max(1, this.getConfig('step'));
 		const speed = Math.max(0, this.getConfig('speed'));
 
@@ -53,29 +53,25 @@ export class Move extends Action {
 		const index = Math.abs(limitedIndex);
 
 		return new Promise(async resolve => {
-			try {
-				for await (let _ of this.step(Math.abs(index), step)) {
-					this.before({ currentIndex: this.parent.context.index });
+			for await (let _ of this.step(Math.abs(index), step)) {
+				this.before({ currentIndex: this.parent.context.index });
 
-					const iteration = (_ / step);
-					const iterPart = iteration * step;
-					const remIndex = index - iterPart;
-					const sanitizedStep = Math.min(remIndex, step);
+				const iteration = (_ / step);
+				const iterPart = iteration * step;
+				const remIndex = index - iterPart;
+				const sanitizedStep = Math.min(remIndex, step);
 
-					this.parent.context.highlight = [null, null];
-					this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
+				this.parent.context.highlight = [null, null];
+				this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
 
-					this.parent.update();
-					this.parent.audio.play();
+				this.parent.update();
+				this.parent.audio.play();
 
-					this.after({ currentIndex: this.parent.context.index });
-					await timeOut(speed);
-				}
-
-				resolve();
-			} catch (err) {
-				this.parent.errorHandler(err);
+				this.after({ currentIndex: this.parent.context.index });
+				await timeOut(speed);
 			}
+
+			resolve();
 		});
 	}
 };

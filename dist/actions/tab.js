@@ -88,20 +88,15 @@ var Tab = /** @class */ (function (_super) {
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
             var char, props;
             return __generator(this, function (_a) {
-                try {
-                    this.before();
-                    char = Array(spaces).fill('&nbsp;').join('');
-                    props = { classes: [] };
-                    this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), [{ char: char, props: props }], false), this.parent.context.content.slice(this.parent.context.index), true);
-                    this.parent.context.index += 1;
-                    this.parent.update();
-                    this.parent.audio.play();
-                    this.after();
-                    resolve();
-                }
-                catch (err) {
-                    this.parent.errorHandler(err);
-                }
+                this.before();
+                char = Array(spaces).fill('&nbsp;').join('');
+                props = { classes: [] };
+                this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), [{ char: char, props: props }], false), this.parent.context.content.slice(this.parent.context.index), true);
+                this.parent.context.index += 1;
+                this.parent.update();
+                this.parent.audio.play();
+                this.after();
+                resolve();
                 return [2 /*return*/];
             });
         }); });

@@ -24,31 +24,27 @@ export class Return extends Action {
    * @description
    * Adds a carriage return character
    */
-   protected run(): Promise<void> {
+  protected run(): Promise<void> {
     return new Promise(async resolve => {
-      try {
-        this.before();
+      this.before();
 
-        const char = '<br />';
-        const props = { classes: [] };
+      const char = '<br />';
+      const props = { classes: [] };
 
-        this.parent.context.content = [
-          ...this.parent.context.content.slice(0, this.parent.context.index),
-          ...[{ char, props }],
-          ...this.parent.context.content.slice(this.parent.context.index)
-        ];
+      this.parent.context.content = [
+        ...this.parent.context.content.slice(0, this.parent.context.index),
+        ...[{ char, props }],
+        ...this.parent.context.content.slice(this.parent.context.index)
+      ];
 
-        this.parent.context.index += 1;
+      this.parent.context.index += 1;
 
-        this.parent.update();
-        this.parent.audio.play();
+      this.parent.update();
+      this.parent.audio.play();
 
-        this.after();
+      this.after();
 
-        resolve();
-      } catch (err) {
-        this.parent.errorHandler(err);
-      }
+      resolve();
     });
   }
 }
