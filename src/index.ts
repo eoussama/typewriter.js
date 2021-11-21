@@ -20,7 +20,7 @@ export default class Typewriter implements IActions {
 	 * The renderer responsible on rendering
 	 * the typewriter's output
 	 */
-	private readonly renderer!: Renderer;
+	private renderer!: Renderer;
 
 	/**
 	 * @description

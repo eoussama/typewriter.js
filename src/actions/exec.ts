@@ -1,7 +1,6 @@
 import Action from './action.js';
 import Typewriter from '../index.js';
 import { IActionConfig } from '../types/action-config.type.js';
-import ActionManager from '../utils/action-manager.js';
 
 /**
  * @description
@@ -42,7 +41,8 @@ export default class Exec extends Action {
         const dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
 
         const result = await this.func(dummyTypewriter);
-        // this.parent.actionManager.queue.stack(result.actionManager.queue.items);
+        this.parent.actionManager.queue.stack(result.actionManager.queue.items);
+        // Transform dummy queue to current queue (re-initialize the actions to include the current renderer)
         console.log(result.actionManager.queue.items);
 
         this.after();

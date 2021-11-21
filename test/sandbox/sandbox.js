@@ -2,7 +2,7 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 100,
+  speed: 1000,
   // targetAttribute: 'placeholder',
   // parseHTML: false,
   audio: { enable: true, src: SFX },
