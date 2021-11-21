@@ -17,16 +17,16 @@ export default class Typewriter implements IActions {
 
 	/**
 	 * @description
-	 * Action manager
-	 */
-	private actionManager!: ActionInvoker;
-
-	/**
-	 * @description
 	 * The renderer responsible on rendering
 	 * the typewriter's output
 	 */
 	private readonly renderer!: Renderer;
+
+	/**
+	 * @description
+	 * Action manager
+	 */
+	public actionManager!: ActionInvoker;
 
 	/**
 	 * @description

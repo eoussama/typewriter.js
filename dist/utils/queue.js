@@ -1,3 +1,12 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 /**
  * @description
  * Queue utility
@@ -20,6 +29,26 @@ var Queue = /** @class */ (function () {
         configurable: true
     });
     ;
+    Object.defineProperty(Queue.prototype, "items", {
+        /**
+         * @description
+         * Returns a snapshot of the items
+         */
+        get: function () { return this._items.slice(0); },
+        enumerable: false,
+        configurable: true
+    });
+    ;
+    /**
+     * @description
+     * Insert an element at the head of the queue,
+     * I know it makes no sense to have in a queue
+     * but sircumstances call for it.
+     */
+    Queue.prototype.stack = function (item) {
+        var items = Array.isArray(item) ? item : [item];
+        this._items = __spreadArray(__spreadArray([], items, true), this._items, true);
+    };
     /**
      * @description
      * Queues the target item in

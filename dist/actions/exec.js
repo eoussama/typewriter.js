@@ -51,7 +51,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import Action from './action.js';
 import Typewriter from '../index.js';
-import ActionManager from '../utils/action-manager.js';
 /**
  * @description
  * Typewriter exec action,
@@ -79,30 +78,28 @@ var Exec = /** @class */ (function (_super) {
     Exec.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-            var dummyElement, dummyTypewriter, actionManager, result, err_1;
+            var dummyElement, dummyTypewriter, result, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 2, , 3]);
                         this.before();
                         dummyElement = document.createElement('div');
-                        dummyTypewriter = new Typewriter(dummyElement);
-                        actionManager = new ActionManager(dummyTypewriter);
+                        dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
                         return [4 /*yield*/, this.func(dummyTypewriter)];
                     case 1:
                         result = _a.sent();
-                        return [4 /*yield*/, dummyTypewriter.start()];
-                    case 2:
-                        _a.sent();
-                        console.log({ result: result });
+                        this.parent.actionManager.queue.stack(result.actionManager.queue.items);
+                        // Transform dummy queue to current queue (re-initialize the actions to include the current renderer)
+                        console.log(result.actionManager.queue.items);
                         this.after();
                         resolve();
-                        return [3 /*break*/, 4];
-                    case 3:
+                        return [3 /*break*/, 3];
+                    case 2:
                         err_1 = _a.sent();
                         this.parent.errorHandler(err_1);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         }); });

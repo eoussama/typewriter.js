@@ -39,13 +39,11 @@ export default class Exec extends Action {
         this.before();
 
         const dummyElement = document.createElement('div');
-        const dummyTypewriter = new Typewriter(dummyElement);
+        const dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
 
-        const actionManager = new ActionManager(dummyTypewriter);
         const result = await this.func(dummyTypewriter);
-
-        await dummyTypewriter.start();
-        console.log({ result });
+        // this.parent.actionManager.queue.stack(result.actionManager.queue.items);
+        console.log(result.actionManager.queue.items);
 
         this.after();
         resolve();

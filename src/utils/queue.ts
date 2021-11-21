@@ -16,7 +16,13 @@ export default class Queue<T> {
    * @description
    * The number of items inside the queue
    */
-  get length() { return this._items.length };
+  get length() { return this._items.length; };
+
+  /**
+   * @description
+   * Returns a snapshot of the items
+   */
+  get items() { return this._items.slice(0); };
 
   /**
    * @description
@@ -24,6 +30,17 @@ export default class Queue<T> {
    */
   constructor() {
     this._items = [];
+  }
+
+  /**
+   * @description
+   * Insert an element at the head of the queue,
+   * I know it makes no sense to have in a queue
+   * but sircumstances call for it.
+   */
+  stack(item: T | Array<T>): void {
+    const items = Array.isArray(item) ? item : [item];
+    this._items = [...items, ...this._items];
   }
 
   /**
