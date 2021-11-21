@@ -49,8 +49,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Action } from "./action.js";
-import { timeOut } from "../utils/timeout.js";
+import Action from './action.js';
+import timeOut from '../utils/timeout.js';
 /**
  * @description
  * Typewriter sleep action
@@ -102,4 +102,4 @@ var Sleep = /** @class */ (function (_super) {
     };
     return Sleep;
 }(Action));
-export { Sleep };
+export default Sleep;

@@ -1,13 +1,14 @@
-import Typewriter from "../index.js";
-import { IActionConfig } from "../types/action-config.type.js";
-import { Action } from "./action.js";
+import Action from './action.js';
+import Typewriter from '../index.js';
+import { IActionConfig } from '../types/action-config.type.js';
+import ActionManager from '../utils/action-manager.js';
 
 /**
  * @description
  * Typewriter exec action,
  * used for user-defined actions
  */
-export class Exec extends Action {
+export default class Exec extends Action {
 
   /**
    * @description
@@ -37,8 +38,13 @@ export class Exec extends Action {
       try {
         this.before();
 
-        const clone = new Typewriter('#target');
-        const result = await this.func(clone);
+        const dummyElement = document.createElement('div');
+        const dummyTypewriter = new Typewriter(dummyElement);
+
+        const actionManager = new ActionManager(dummyTypewriter);
+        const result = await this.func(dummyTypewriter);
+
+        await dummyTypewriter.start();
         console.log({ result });
 
         this.after();

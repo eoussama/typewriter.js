@@ -1,14 +1,14 @@
-import Typewriter from "../index.js";
+import Typewriter from '../index.js';
 
-import { timeOut } from "../utils/timeout.js";
-import { Action } from "./action.js";
-import { IActionConfigType } from "../types/action-config.type.js";
+import Action from './action.js';
+import timeOut from '../utils/timeout.js';
+import { IActionConfigType } from '../types/action-config.type.js';
 
 /**
  * @description
  * Typewriter type action
  */
-export class Type extends Action {
+export default class Type extends Action {
 
 	/**
 	 * @description

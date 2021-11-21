@@ -1,27 +1,25 @@
-import { IConfig } from "./types/config.type.js";
-import { IActionConfig, IActionConfigType } from "./types/action-config.type.js";
+import IActions from './types/actions.type';
+import IConfig from './types/config.type.js';
+import { IActionConfig, IActionConfigType } from './types/action-config.type.js';
 
-import { Renderer } from "./utils/renderer.js";
-import { Context } from "./utils/context.js";
+import Context from "./utils/context.js";
+import Renderer from './utils/renderer.js';
 
-import { Type } from "./actions/type.js";
-import { Sleep } from "./actions/sleep.js";
-import { Exec } from "./actions/exec.js";
-import { Move } from "./actions/move.js";
-import { Delete } from "./actions/delete.js";
-import { Highlight } from "./actions/highlight.js";
-import { Tab } from "./actions/tab.js";
-import { Return } from "./actions/return.js";
-import { Queuer } from "./utils/queuer.js";
-import { Observable } from "./utils/observable.js";
-import { Audio } from "./utils/audio.js";
-import { Func } from "./types/function.type.js";
+import Audio from './utils/audio.js';
+import { Func } from './types/function.type.js';
+import ActionInvoker from './utils/action-manager.js';
 
 /**
  * @description
  * Typewriter
  */
-export default class Typewriter {
+export default class Typewriter implements IActions {
+
+	/**
+	 * @description
+	 * Action manager
+	 */
+	private actionManager!: ActionInvoker;
 
 	/**
 	 * @description
@@ -35,13 +33,6 @@ export default class Typewriter {
 	 * Event list
 	 */
 	public events!: Array<{ event: string, func: Func<any> }>;
-
-	/**
-	 * @description
-	 * The queuer responsible for
-	 * organizing the actions
-	 */
-	public readonly queuer!: Queuer;
 
 	/**
 	 * @description
@@ -102,10 +93,10 @@ export default class Typewriter {
 	 * @description
 	 * Instantiates the typewriter
 	 *
-	 * @param selector The target selector
+	 * @param element The target element or selector
 	 * @param config The global configuration object
 	 */
-	constructor(selector: string, config?: IConfig) {
+	constructor(element: string | HTMLElement, config?: IConfig) {
 
 		// Initializing global configurations
 		this.config = {
@@ -127,7 +118,7 @@ export default class Typewriter {
 		this.context = new Context(this.config?.targetAttribute);
 
 		// Initializing the content
-		const target = <HTMLElement>document.querySelector(selector);
+		const target = typeof element === 'string' ? <HTMLElement>document.querySelector(element) : element;
 		this.context.initializeContent(target);
 
 		// Initializing the renderer
@@ -136,8 +127,8 @@ export default class Typewriter {
 		// Initializing the audio utility
 		this.audio = new Audio(this.config.audio);
 
-		// Initializing the queuer
-		this.queuer = new Queuer();
+		// Initializing the action manager
+		this.actionManager = new ActionInvoker(this);
 	}
 
 	/**
@@ -145,8 +136,8 @@ export default class Typewriter {
 	 * Starts the actions queue
 	 */
 	public async start(): Promise<void> {
-		for await (let action of this.queuer.items) {
-			await action.start();
+		for await (let action of this.actionManager.next()) {
+			await action?.start();
 		}
 	}
 
@@ -157,9 +148,7 @@ export default class Typewriter {
 	 * @param time The timeout time in milliseconds
 	 */
 	public sleep(time: number): Typewriter {
-		const action = new Sleep(time, this);
-		this.queuer.add(action);
-		return this;
+		return this.actionManager.sleep(time);
 	}
 
 	/**
@@ -169,10 +158,7 @@ export default class Typewriter {
 	 * @param func The user-defined action
 	 */
 	public exec(func: Promise<void>): Typewriter {
-		const action = new Exec(func, this);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.exec(func);
 	}
 
 	/**
@@ -183,10 +169,7 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public type(input: string, config?: IActionConfigType): Typewriter {
-		const action = new Type(input, this, config);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.type(input, config);
 	}
 
 	/**
@@ -197,10 +180,7 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public delete(times: number, config?: IActionConfig): Typewriter {
-		const action = new Delete(times, this, config);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.delete(times, config);
 	}
 
 	/**
@@ -211,10 +191,7 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public move(index: number, config?: IActionConfig): Typewriter {
-		const action = new Move(index, this, config);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.move(index, config);
 	}
 
 	/**
@@ -225,10 +202,7 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public highlight(index: number, config?: IActionConfig): Typewriter {
-		const action = new Highlight(index, this, config);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.highlight(index);
 	}
 
 	/**
@@ -239,10 +213,7 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public tab(index: number = 4, config?: IActionConfig): Typewriter {
-		const action = new Tab(index, this, config);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.tab(index, config);
 	}
 
 	/**
@@ -252,10 +223,7 @@ export default class Typewriter {
 	 * @param config The action configuration
 	 */
 	public return(config?: IActionConfig): Typewriter {
-		const action = new Return(this, config);
-		this.queuer.add(action);
-
-		return this;
+		return this.actionManager.return(config);
 	}
 
 	/**
@@ -264,8 +232,8 @@ export default class Typewriter {
 	 */
 	public reset(): void {
 		this.context.reset();
-		this.queuer.reset();
 		this.renderer.reset();
+		this.actionManager.reset();
 	}
 
 	/**

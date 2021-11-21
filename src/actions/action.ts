@@ -1,13 +1,12 @@
-import Typewriter from "../index.js";
-
-import { IActionConfig } from "../types/action-config.type.js";
-import { timeOut } from "../utils/timeout.js";
+import Typewriter from '../index.js';
+import timeOut from '../utils/timeout.js';
+import { IActionConfig } from '../types/action-config.type.js';
 
 /**
  * @description
  * Base typewriter action
  */
-export class Action {
+export default class Action {
 
 	/**
 	 * @description
@@ -30,7 +29,7 @@ export class Action {
 	 */
 	constructor(parent: Typewriter, config?: IActionConfig) {
 		this.parent = parent;
-		this.config = config as any;
+		this.config = config as any ?? {};
 	}
 
 	/**

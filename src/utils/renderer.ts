@@ -1,13 +1,13 @@
-import { Nullable } from "../types/nullable.type.js";
-import { Context } from "./context.js";
-import { IRendererConfig } from "../types/renderer-config.type.js";
+import Context from './context.js';
+import { Nullable } from '../types/nullable.type.js';
+import IRendererConfig from '../types/renderer-config.type.js';
 
 /**
  * @description
  * The renderer responsible for rendering
  * the typewriter's output
  */
-export class Renderer {
+export default class Renderer {
 
   /**
    * @description

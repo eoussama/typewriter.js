@@ -58,7 +58,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { Action } from "./action.js";
+import Action from './action.js';
 /**
  * @description
  * Typewriter tabulation action
@@ -108,4 +108,4 @@ var Tab = /** @class */ (function (_super) {
     };
     return Tab;
 }(Action));
-export { Tab };
+export default Tab;

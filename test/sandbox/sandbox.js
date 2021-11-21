@@ -2,7 +2,7 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 80,
+  speed: 100,
   // targetAttribute: 'placeholder',
   // parseHTML: false,
   audio: { enable: true, src: SFX },
@@ -61,6 +61,7 @@ start.addEventListener('click', async () => {
 
       return Promise.resolve(e);
     }, { delay: 1000 })
+    .type('bop')
 
     .start();
 });

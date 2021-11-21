@@ -1,13 +1,12 @@
-import Typewriter from "../index.js";
-
-import { Action } from "./action.js";
-import { IActionConfig } from "../types/action-config.type.js";
+import Action from './action.js';
+import Typewriter from '../index.js';
+import { IActionConfig } from '../types/action-config.type.js';
 
 /**
  * @description
  * Typewriter tabulation action
  */
-export class Tab extends Action {
+export default class Tab extends Action {
 
   /**
    * @description

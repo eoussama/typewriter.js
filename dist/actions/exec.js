@@ -49,8 +49,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import Typewriter from "../index.js";
-import { Action } from "./action.js";
+import Action from './action.js';
+import Typewriter from '../index.js';
+import ActionManager from '../utils/action-manager.js';
 /**
  * @description
  * Typewriter exec action,
@@ -78,29 +79,34 @@ var Exec = /** @class */ (function (_super) {
     Exec.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-            var clone, result, err_1;
+            var dummyElement, dummyTypewriter, actionManager, result, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _a.trys.push([0, 3, , 4]);
                         this.before();
-                        clone = new Typewriter('#target');
-                        return [4 /*yield*/, this.func(clone)];
+                        dummyElement = document.createElement('div');
+                        dummyTypewriter = new Typewriter(dummyElement);
+                        actionManager = new ActionManager(dummyTypewriter);
+                        return [4 /*yield*/, this.func(dummyTypewriter)];
                     case 1:
                         result = _a.sent();
+                        return [4 /*yield*/, dummyTypewriter.start()];
+                    case 2:
+                        _a.sent();
                         console.log({ result: result });
                         this.after();
                         resolve();
-                        return [3 /*break*/, 3];
-                    case 2:
+                        return [3 /*break*/, 4];
+                    case 3:
                         err_1 = _a.sent();
                         this.parent.errorHandler(err_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         }); });
     };
     return Exec;
 }(Action));
-export { Exec };
+export default Exec;

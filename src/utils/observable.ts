@@ -4,7 +4,7 @@ import { Func } from "../types/function.type.js";
  * @description
  * Observable definition
  */
-export class Observable<T> {
+export default class Observable<T> {
 
   /**
    * @description

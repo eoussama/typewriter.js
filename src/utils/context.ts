@@ -5,7 +5,7 @@ import { Nullable } from "../types/nullable.type";
  * @description
  * Caret context
  */
-export class Context {
+export default class Context {
 
   /**
    * @description

@@ -2,7 +2,7 @@
  * @description
  * Audio configuration object
  */
-export interface IAudioConfig {
+export default interface IAudioConfig {
 
   /**
    * @description

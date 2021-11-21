@@ -2,7 +2,7 @@
    * @description
    * Caret configuration
    */
-export interface IRendererConfig {
+export default interface IRendererConfig {
 
   /**
    * @description

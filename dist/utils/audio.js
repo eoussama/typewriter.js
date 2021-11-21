@@ -35,4 +35,4 @@ var Audio = /** @class */ (function () {
     };
     return Audio;
 }());
-export { Audio };
+export default Audio;
