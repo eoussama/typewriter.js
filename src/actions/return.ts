@@ -1,13 +1,12 @@
-import Typewriter from "../index.js";
-
-import { Action } from "./action.js";
-import { IActionConfig } from "../types/action-config.type.js";
+import Action from './action.js';
+import Typewriter from '../index.js';
+import { IActionConfig } from '../types/action-config.type.js';
 
 /**
  * @description
  * Typewriter carriage return action
  */
-export class Return extends Action {
+export default class Return extends Action {
 
   /**
    * @description

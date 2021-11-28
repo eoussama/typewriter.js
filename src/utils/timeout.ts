@@ -5,7 +5,7 @@
  * @param time The time in milliseconds
  * @returns 
  */
-export function timeOut(time: number): Promise<void> {
+export default function timeOut(time: number): Promise<void> {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();

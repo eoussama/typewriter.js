@@ -1,13 +1,12 @@
-import Typewriter from "../index.js";
-
-import { IActionConfig } from "../types/action-config.type.js";
-import { timeOut } from "../utils/timeout.js";
+import Typewriter from '../index.js';
+import timeOut from '../utils/timeout.js';
+import { IActionConfig } from '../types/action-config.type.js';
 
 /**
  * @description
  * Base typewriter action
  */
-export class Action {
+export default class Action {
 
 	/**
 	 * @description
@@ -19,7 +18,7 @@ export class Action {
 	 * @description
 	 * The parent typewriter object
 	 */
-	protected readonly parent!: Typewriter;
+	protected parent!: Typewriter;
 
 	/**
 	 * @description
@@ -30,7 +29,19 @@ export class Action {
 	 */
 	constructor(parent: Typewriter, config?: IActionConfig) {
 		this.parent = parent;
-		this.config = config as any;
+		this.config = config as any ?? {};
+	}
+
+	/**
+	 * @description
+	 * Overrides the current action parent
+	 *
+	 * @param parent The input parent
+	 */
+	public setParent(parent: Typewriter): void {
+		if (parent instanceof Typewriter) {
+			this.parent = parent;
+		}
 	}
 
 	/**

@@ -58,7 +58,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { Action } from "./action.js";
+import Action from './action.js';
 /**
  * @description
  * Typewriter carriage return action
@@ -99,4 +99,4 @@ var Return = /** @class */ (function (_super) {
     };
     return Return;
 }(Action));
-export { Return };
+export default Return;

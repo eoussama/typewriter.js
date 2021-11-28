@@ -65,8 +65,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { timeOut } from "../utils/timeout.js";
-import { Action } from "./action.js";
+import Action from './action.js';
+import timeOut from '../utils/timeout.js';
 /**
  * @description
  * Typewriter type action
@@ -160,4 +160,4 @@ var Type = /** @class */ (function (_super) {
     };
     return Type;
 }(Action));
-export { Type };
+export default Type;

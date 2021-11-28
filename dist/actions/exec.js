@@ -49,8 +49,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import Typewriter from "../index.js";
-import { Action } from "./action.js";
+
+import Action from './action.js';
+import Typewriter from '../index.js';
 /**
  * @description
  * Typewriter exec action,
@@ -78,16 +79,26 @@ var Exec = /** @class */ (function (_super) {
     Exec.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-            var clone, result;
+
+            var dummyElement, dummyTypewriter, result, actions, err_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.before();
-                        clone = new Typewriter('#target');
-                        return [4 /*yield*/, this.func(clone)];
+                        dummyElement = document.createElement('div');
+                        dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
+                        return [4 /*yield*/, this.func(dummyTypewriter)];
                     case 1:
                         result = _a.sent();
-                        console.log({ result: result });
+                        if (result instanceof Typewriter) {
+                            actions = result.actionManager.queue.items.map(function (e) {
+                                e.setParent(_this.parent);
+                                return e;
+                            });
+                            this.parent.actionManager.queue.stack(actions);
+                        }
+
                         this.after();
                         resolve();
                         return [2 /*return*/];
@@ -97,4 +108,4 @@ var Exec = /** @class */ (function (_super) {
     };
     return Exec;
 }(Action));
-export { Exec };
+export default Exec;

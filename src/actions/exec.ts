@@ -1,13 +1,13 @@
-import Typewriter from "../index.js";
-import { IActionConfig } from "../types/action-config.type.js";
-import { Action } from "./action.js";
+import Action from './action.js';
+import Typewriter from '../index.js';
+import { IActionConfig } from '../types/action-config.type.js';
 
 /**
  * @description
  * Typewriter exec action,
  * used for user-defined actions
  */
-export class Exec extends Action {
+export default class Exec extends Action {
 
   /**
    * @description
@@ -32,16 +32,30 @@ export class Exec extends Action {
    * @description
    * Executes user defined function
    */
-   protected run(): Promise<void> {
+  protected run(): Promise<void> {
     return new Promise(async resolve => {
-      this.before();
+      try {
+        this.before();
 
-      const clone = new Typewriter('#target');
-      const result = await this.func(clone);
-      console.log({ result });
+        const dummyElement = document.createElement('div');
+        const dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
 
-      this.after();
-      resolve();
+        const result = await this.func(dummyTypewriter);
+
+        if (result instanceof Typewriter) {
+          const actions = result.actionManager.queue.items.map(e => {
+            e.setParent(this.parent);
+            return e;
+          });
+
+          this.parent.actionManager.queue.stack(actions);
+        }
+
+        this.after();
+        resolve();
+      } catch (err) {
+        this.parent.errorHandler(err);
+      }
     });
   }
 }

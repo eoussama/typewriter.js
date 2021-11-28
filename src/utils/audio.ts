@@ -1,10 +1,10 @@
-import { IAudioConfig } from "../types/audio-config.type.js";
+import IAudioConfig from '../types/audio-config.type.js';
 
 /**
  * @description
  * Audio management utility
  */
-export class Audio {
+export default class Audio {
 
   /**
    * @description
@@ -38,9 +38,9 @@ export class Audio {
       const audio = new window.Audio(sfx);
 
       audio.volume = this.config.volume;
-      
+
       if (document?.hasFocus()) {
-        audio.play().catch(err => {});
+        audio.play().catch(err => { });
       }
     }
   }

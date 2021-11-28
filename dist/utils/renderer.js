@@ -131,4 +131,4 @@ var Renderer = /** @class */ (function () {
     };
     return Renderer;
 }());
-export { Renderer };
+export default Renderer;

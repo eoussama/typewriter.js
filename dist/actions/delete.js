@@ -65,8 +65,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { Action } from "./action.js";
-import { timeOut } from "../utils/timeout.js";
+import Action from './action.js';
+import timeOut from '../utils/timeout.js';
 /**
  * @description
  * Typewriter delete action
@@ -188,4 +188,4 @@ var Delete = /** @class */ (function (_super) {
     };
     return Delete;
 }(Action));
-export { Delete };
+export default Delete;

@@ -1,15 +1,13 @@
+import Action from "./action.js";
 import Typewriter from "../index.js";
-
+import timeOut from "../utils/timeout.js";
 import { IActionConfig } from "../types/action-config.type.js";
-import { timeOut } from "../utils/timeout.js";
-import { Action } from "./action.js";
-import { Move } from "./move.js";
 
 /**
  * @description
  * Typewriter move action
  */
-export class Highlight extends Action {
+export default class Highlight extends Action {
 
   /**
    * @description

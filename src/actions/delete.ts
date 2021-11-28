@@ -1,13 +1,13 @@
-import Typewriter from "../index.js";
-import { Action } from "./action.js";
-import { IActionConfig } from "../types/action-config.type.js";
-import { timeOut } from "../utils/timeout.js";
+import Action from './action.js';
+import Typewriter from '../index.js';
+import timeOut from '../utils/timeout.js';
+import { IActionConfig } from '../types/action-config.type.js';
 
 /**
  * @description
  * Typewriter delete action
  */
-export class Delete extends Action {
+export default class Delete extends Action {
 
 	/**
 	 * @description

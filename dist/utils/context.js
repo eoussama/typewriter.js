@@ -72,4 +72,4 @@ var Context = /** @class */ (function () {
     };
     return Context;
 }());
-export { Context };
+export default Context;

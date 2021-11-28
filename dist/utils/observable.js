@@ -38,4 +38,4 @@ var Observable = /** @class */ (function () {
     };
     return Observable;
 }());
-export { Observable };
+export default Observable;
