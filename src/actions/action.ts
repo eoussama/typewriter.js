@@ -18,7 +18,7 @@ export default class Action {
 	 * @description
 	 * The parent typewriter object
 	 */
-	protected readonly parent!: Typewriter;
+	protected parent!: Typewriter;
 
 	/**
 	 * @description
@@ -30,6 +30,18 @@ export default class Action {
 	constructor(parent: Typewriter, config?: IActionConfig) {
 		this.parent = parent;
 		this.config = config as any ?? {};
+	}
+
+	/**
+	 * @description
+	 * Overrides the current action parent
+	 *
+	 * @param parent The input parent
+	 */
+	public setParent(parent: Typewriter): void {
+		if (parent instanceof Typewriter) {
+			this.parent = parent;
+		}
 	}
 
 	/**

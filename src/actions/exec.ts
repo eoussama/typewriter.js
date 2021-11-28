@@ -41,9 +41,15 @@ export default class Exec extends Action {
         const dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
 
         const result = await this.func(dummyTypewriter);
-        this.parent.actionManager.queue.stack(result.actionManager.queue.items);
-        // Transform dummy queue to current queue (re-initialize the actions to include the current renderer)
-        console.log(result.actionManager.queue.items);
+
+        if (result instanceof Typewriter) {
+          const actions = result.actionManager.queue.items.map(e => {
+            e.setParent(this.parent);
+            return e;
+          });
+
+          this.parent.actionManager.queue.stack(actions);
+        }
 
         this.after();
         resolve();

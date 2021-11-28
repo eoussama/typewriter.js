@@ -78,7 +78,8 @@ var Exec = /** @class */ (function (_super) {
     Exec.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-            var dummyElement, dummyTypewriter, result, err_1;
+            var dummyElement, dummyTypewriter, result, actions, err_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -89,9 +90,13 @@ var Exec = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.func(dummyTypewriter)];
                     case 1:
                         result = _a.sent();
-                        this.parent.actionManager.queue.stack(result.actionManager.queue.items);
-                        // Transform dummy queue to current queue (re-initialize the actions to include the current renderer)
-                        console.log(result.actionManager.queue.items);
+                        if (result instanceof Typewriter) {
+                            actions = result.actionManager.queue.items.map(function (e) {
+                                e.setParent(_this.parent);
+                                return e;
+                            });
+                            this.parent.actionManager.queue.stack(actions);
+                        }
                         this.after();
                         resolve();
                         return [3 /*break*/, 3];

@@ -41,6 +41,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
+import Typewriter from '../index.js';
 import timeOut from '../utils/timeout.js';
 /**
  * @description
@@ -59,6 +60,17 @@ var Action = /** @class */ (function () {
         this.parent = parent;
         this.config = (_a = config) !== null && _a !== void 0 ? _a : {};
     }
+    /**
+     * @description
+     * Overrides the current action parent
+     *
+     * @param parent The input parent
+     */
+    Action.prototype.setParent = function (parent) {
+        if (parent instanceof Typewriter) {
+            this.parent = parent;
+        }
+    };
     /**
      * @description
      * Fires before events
