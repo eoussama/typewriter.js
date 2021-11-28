@@ -11,7 +11,7 @@ const options = {
 
 const start = document.getElementById('start');
 const tw = new Typewriter('#target', options);
-tw.catch(console.log);
+tw.catch(console.error);
 
 
 start.addEventListener('click', async () => {

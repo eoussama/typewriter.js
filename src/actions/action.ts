@@ -72,9 +72,13 @@ export default class Action {
 		for await (let _ of Array(repeat).fill(0)) {
 			const delay = this.getConfig('delay');
 
-			await timeOut(delay);
-			await this.run();
-			await this.done();
+			try {
+				await timeOut(delay);
+				await this.run();
+				await this.done();
+			} catch (err) {
+				this.parent.errorHandler(err);
+			}
 		}
 	}
 

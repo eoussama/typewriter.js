@@ -95,21 +95,18 @@ var Type = /** @class */ (function (_super) {
         var step = Math.max(1, this.getConfig('step'));
         var speed = Math.max(0, this.getConfig('speed'));
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, _b, index, characters, props, start, end, e_1_1, err_1;
+            var _a, _b, index, characters, props, start, end, e_1_1;
             var e_1, _c;
             var _d, _e;
             return __generator(this, function (_f) {
                 switch (_f.label) {
                     case 0:
-                        _f.trys.push([0, 14, , 15]);
-                        _f.label = 1;
-                    case 1:
-                        _f.trys.push([1, 7, 8, 13]);
+                        _f.trys.push([0, 6, 7, 12]);
                         _a = __asyncValues(this.step(this.input.length, step));
-                        _f.label = 2;
-                    case 2: return [4 /*yield*/, _a.next()];
-                    case 3:
-                        if (!(_b = _f.sent(), !_b.done)) return [3 /*break*/, 6];
+                        _f.label = 1;
+                    case 1: return [4 /*yield*/, _a.next()];
+                    case 2:
+                        if (!(_b = _f.sent(), !_b.done)) return [3 /*break*/, 5];
                         index = _b.value;
                         characters = this.input.substr(index, step);
                         props = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.props) !== null && _e !== void 0 ? _e : {};
@@ -133,35 +130,30 @@ var Type = /** @class */ (function (_super) {
                             currentIndex: this.parent.context.index,
                         });
                         return [4 /*yield*/, timeOut(speed)];
-                    case 4:
+                    case 3:
                         _f.sent();
-                        _f.label = 5;
-                    case 5: return [3 /*break*/, 2];
-                    case 6: return [3 /*break*/, 13];
-                    case 7:
+                        _f.label = 4;
+                    case 4: return [3 /*break*/, 1];
+                    case 5: return [3 /*break*/, 12];
+                    case 6:
                         e_1_1 = _f.sent();
                         e_1 = { error: e_1_1 };
-                        return [3 /*break*/, 13];
-                    case 8:
-                        _f.trys.push([8, , 11, 12]);
-                        if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 10];
+                        return [3 /*break*/, 12];
+                    case 7:
+                        _f.trys.push([7, , 10, 11]);
+                        if (!(_b && !_b.done && (_c = _a.return))) return [3 /*break*/, 9];
                         return [4 /*yield*/, _c.call(_a)];
-                    case 9:
+                    case 8:
                         _f.sent();
-                        _f.label = 10;
-                    case 10: return [3 /*break*/, 12];
-                    case 11:
+                        _f.label = 9;
+                    case 9: return [3 /*break*/, 11];
+                    case 10:
                         if (e_1) throw e_1.error;
                         return [7 /*endfinally*/];
-                    case 12: return [7 /*endfinally*/];
-                    case 13:
+                    case 11: return [7 /*endfinally*/];
+                    case 12:
                         resolve();
-                        return [3 /*break*/, 15];
-                    case 14:
-                        err_1 = _f.sent();
-                        this.parent.errorHandler(err_1);
-                        return [3 /*break*/, 15];
-                    case 15: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         }); });

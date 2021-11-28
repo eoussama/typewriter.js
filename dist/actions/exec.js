@@ -49,6 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+
 import Action from './action.js';
 import Typewriter from '../index.js';
 /**
@@ -78,12 +79,12 @@ var Exec = /** @class */ (function (_super) {
     Exec.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+
             var dummyElement, dummyTypewriter, result, actions, err_1;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
                         this.before();
                         dummyElement = document.createElement('div');
                         dummyTypewriter = new Typewriter(dummyElement, this.parent.config);
@@ -97,14 +98,10 @@ var Exec = /** @class */ (function (_super) {
                             });
                             this.parent.actionManager.queue.stack(actions);
                         }
+
                         this.after();
                         resolve();
-                        return [3 /*break*/, 3];
-                    case 2:
-                        err_1 = _a.sent();
-                        this.parent.errorHandler(err_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         }); });

@@ -37,15 +37,11 @@ export default class Sleep extends Action {
 		const time = Math.max(0, this.time);
 
 		return new Promise(async resolve => {
-			try {
-				this.before();
-				await timeOut(time);
-				this.after();
+			this.before();
+			await timeOut(time);
+			this.after();
 
-				resolve();
-			} catch (err) {
-				this.parent.errorHandler(err);
-			}
+			resolve();
 		});
 	}
 }
