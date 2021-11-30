@@ -64,7 +64,7 @@ export default class Move extends Action {
 				this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
 
 				this.parent.update();
-				this.parent.audio.play();
+				this.parent.audio.play(this.parent.config.audio);
 
 				this.after({ currentIndex: this.parent.context.index });
 				await timeOut(speed);

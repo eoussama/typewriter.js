@@ -263,7 +263,7 @@ export default class Typewriter implements IActions {
 	 * The update callback, called from inside every action
 	 */
 	public update(): void {
-		this.renderer.render();
+		this.renderer.render(this.config.caret);
 	}
 
 	/**

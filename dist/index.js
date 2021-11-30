@@ -291,7 +291,7 @@ var Typewriter = /** @class */ (function () {
      * The update callback, called from inside every action
      */
     Typewriter.prototype.update = function () {
-        this.renderer.render();
+        this.renderer.render(this.config.caret);
     };
     /**
      * @description

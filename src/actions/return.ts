@@ -39,7 +39,7 @@ export default class Return extends Action {
       this.parent.context.index += 1;
 
       this.parent.update();
-      this.parent.audio.play();
+      this.parent.audio.play(this.parent.config.audio);
 
       this.after();
 

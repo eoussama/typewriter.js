@@ -94,7 +94,7 @@ var Tab = /** @class */ (function (_super) {
                 this.parent.context.content = __spreadArray(__spreadArray(__spreadArray([], this.parent.context.content.slice(0, this.parent.context.index), true), [{ char: char, props: props }], false), this.parent.context.content.slice(this.parent.context.index), true);
                 this.parent.context.index += 1;
                 this.parent.update();
-                this.parent.audio.play();
+                this.parent.audio.play(this.parent.config.audio);
                 this.after();
                 resolve();
                 return [2 /*return*/];

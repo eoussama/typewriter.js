@@ -119,7 +119,7 @@ var Move = /** @class */ (function (_super) {
                         this.parent.context.highlight = [null, null];
                         this.parent.context.index += absoluteIndex < 0 ? -sanitizedStep : sanitizedStep;
                         this.parent.update();
-                        this.parent.audio.play();
+                        this.parent.audio.play(this.parent.config.audio);
                         this.after({ currentIndex: this.parent.context.index });
                         return [4 /*yield*/, timeOut(speed)];
                     case 3:

@@ -30,8 +30,19 @@ export default class Audio {
    * @description
    * Plays a random sound from
    * the imported source array
+   *
+   * @param config Optional updated configuration
    */
-  play(): void {
+  play(config?: IAudioConfig): void {
+
+    // Overrides the configuration object
+    if (config) {
+      this.config = {
+        ...this.config,
+        ...config
+      };
+    }
+
     if (this.config.enable) {
       const index = Math.floor((Math.random()) * (this.config.src.length - 1));
       const sfx = this.config.src[index];

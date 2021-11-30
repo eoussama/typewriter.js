@@ -69,8 +69,19 @@ export default class Renderer {
   /**
    * @description
    * Renders the context inside of the target HTML element
+   *
+   * @param config Optional updated configuration
    */
-  public render(): void {
+  public render(config?: IRendererConfig): void {
+
+    // Overrides the configuration object
+    if (config) {
+      this.config = {
+        ...this.config,
+        ...config
+      };
+    }
+
     if (this.target) {
       (this.target as any)[this.targetAttribute] = this.parseContent(this.parseHTML);
     }

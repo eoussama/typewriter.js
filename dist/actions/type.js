@@ -124,7 +124,7 @@ var Type = /** @class */ (function (_super) {
                         this.parent.context.index += characters.length;
                         this.parent.context.highlight = [null, null];
                         this.parent.update();
-                        this.parent.audio.play();
+                        this.parent.audio.play(this.parent.config.audio);
                         this.after({
                             character: characters,
                             currentIndex: this.parent.context.index,

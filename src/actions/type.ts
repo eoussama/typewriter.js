@@ -68,7 +68,7 @@ export default class Type extends Action {
 				this.parent.context.highlight = [null, null];
 
 				this.parent.update();
-				this.parent.audio.play();
+				this.parent.audio.play(this.parent.config.audio);
 
 				this.after({
 					character: characters,

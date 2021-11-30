@@ -2,7 +2,7 @@ import Typewriter from "./../../dist/index.js";
 import SFX from "./../../dist/assets/audio.js";
 
 const options = {
-  speed: 200,
+  speed: 100,
   // targetAttribute: 'placeholder',
   // parseHTML: false,
   audio: { enable: true, src: SFX },
@@ -52,16 +52,26 @@ start.addEventListener('click', async () => {
     // .type('LoremIpsum', { props: { title: 'Is this working?', class: ['italic'], style: { color: 'red', 'font-weight': 'bold' } } })
     // .highlight(-3, { repeat: 2, delay: 1000, speed: 300, done: () => console.log('done') })
 
-    .type('hi')
+    // .type('hi')
+    // .exec(e => {
+    //   console.log({ exec: e });
+
+    //   e.type(' there!')
+    //     .highlight(-3);
+
+    //   return Promise.resolve(e);
+    // }, { delay: 0 })
+    // .type('bop')
+
+
+    .type('Hello, ')
     .exec(e => {
-      console.log({ exec: e });
-
-      e.type(' there!')
-        .highlight(-3);
-
-      return Promise.resolve(e);
-    }, { delay: 0 })
-    .type('bop')
+      e.config.caret.content = '_';
+      e.config.audio.enable = false;
+      e.config.speed = 1000;
+      return e;
+    })
+    .type('World!')
 
     .start();
 });

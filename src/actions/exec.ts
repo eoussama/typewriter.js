@@ -48,6 +48,7 @@ export default class Exec extends Action {
             return e;
           });
 
+          this.parent.config = result.config;
           this.parent.actionManager.queue.stack(actions);
         }
 
