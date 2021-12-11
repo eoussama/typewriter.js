@@ -8,6 +8,7 @@
 		"sandbox": "npx http-server -o ./test/sandbox/sandbox.html",
 		"docs": "npx typedoc src/index.ts",
 		"build:dev": "npx tsc --watch",
+		"test": "npx jest",
 		"build": "npx tsc"
 	},
 	"repository": {
@@ -32,6 +33,7 @@
 	},
 	"devDependencies": {
 		"http-server": "^13.0.2",
+		"jest": "^27.4.4",
 		"typedoc": "^0.22.10",
 		"typescript": "^4.4.3"
 	}
