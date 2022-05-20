@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -41,120 +52,48 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-import Context from "./utils/context.js";
-import Renderer from './utils/renderer.js';
-import Audio from './utils/audio.js';
-import ActionInvoker from './utils/action-manager.js';
+import timeout from "./utils/timeout.util.js";
 /**
  * @description
  * Typewriter
  */
 var Typewriter = /** @class */ (function () {
-    /**
-     * @description
-     * Instantiates the typewriter
-     *
-     * @param element The target element or selector
-     * @param config The global configuration object
-     */
-    function Typewriter(element, config) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-        // Initializing global configurations
-        this.config = {
-            caret: config === null || config === void 0 ? void 0 : config.caret,
-            audio: config === null || config === void 0 ? void 0 : config.audio,
-            step: (_a = config === null || config === void 0 ? void 0 : config.step) !== null && _a !== void 0 ? _a : 1,
-            delay: (_b = config === null || config === void 0 ? void 0 : config.delay) !== null && _b !== void 0 ? _b : 0,
-            speed: (_c = config === null || config === void 0 ? void 0 : config.speed) !== null && _c !== void 0 ? _c : 300,
-            repeat: (_d = config === null || config === void 0 ? void 0 : config.repeat) !== null && _d !== void 0 ? _d : 1,
-            done: (_e = config === null || config === void 0 ? void 0 : config.done) !== null && _e !== void 0 ? _e : (function () { }),
-            parseHTML: (_f = config === null || config === void 0 ? void 0 : config.parseHTML) !== null && _f !== void 0 ? _f : true,
-            targetAttribute: (_g = config === null || config === void 0 ? void 0 : config.targetAttribute) !== null && _g !== void 0 ? _g : 'innerHTML'
-        };
-        // Initializing the events
-        this.events = [];
-        // Initializing the context
-        this.context = new Context((_h = this.config) === null || _h === void 0 ? void 0 : _h.targetAttribute);
-        // Initializing the content
-        var target = typeof element === 'string' ? document.querySelector(element) : element;
-        this.context.initializeContent(target);
-        // Initializing the renderer
-        this.renderer = new Renderer(target, (_j = this.config) === null || _j === void 0 ? void 0 : _j.targetAttribute, (_k = this.config) === null || _k === void 0 ? void 0 : _k.parseHTML, this.context, this.config.caret);
-        // Initializing the audio utility
-        this.audio = new Audio(this.config.audio);
-        // Initializing the action manager
-        this.actionManager = new ActionInvoker(this);
+    function Typewriter() {
+        this.cursor = 0;
+        this.ticks = [];
+        this.ticks.push(new Tick('', 0));
     }
-    Object.defineProperty(Typewriter.prototype, "getText", {
-        /**
-         * @description
-         * Returns raw text content
-         */
-        get: function () {
-            return this.renderer.parseContent(false);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Typewriter.prototype, "getHtml", {
-        /**
-         * @description
-         * Returns HTML text content
-         */
-        get: function () {
-            return this.renderer.parseContent(true);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Typewriter.prototype, "getHighlight", {
-        /**
-         * @description
-         * Returns the highlighted content
-         */
-        get: function () {
-            var _a, _b, _c, _d, _e;
-            var start = (_a = this.context.highlight[0]) !== null && _a !== void 0 ? _a : 0;
-            var end = ((_b = this.context.highlight[1]) !== null && _b !== void 0 ? _b : 0) + 1;
-            return (_e = (_d = (_c = this.context.content.slice(start, end)) === null || _c === void 0 ? void 0 : _c.map(function (e) { return e.char; })) === null || _d === void 0 ? void 0 : _d.join('')) !== null && _e !== void 0 ? _e : '';
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Typewriter.prototype, "errorHandler", {
-        /**
-         * @description
-         * Returns the event handler
-         */
-        get: function () {
-            var _a, _b;
-            var handler = (_b = (_a = this.events.find(function (e) { return e.event === 'error'; })) === null || _a === void 0 ? void 0 : _a.func) !== null && _b !== void 0 ? _b : (function () { });
-            return handler;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * @description
-     * Starts the actions queue
-     */
+    Typewriter.prototype.type = function (input) {
+        for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
+            var char = input_1[_i];
+            this.write(char);
+        }
+    };
+    Typewriter.prototype.delete = function (chars) {
+        var range = Array(chars).fill(0);
+        for (var _i = 0, range_1 = range; _i < range_1.length; _i++) {
+            var _ = range_1[_i];
+            this.remove(1);
+        }
+    };
     Typewriter.prototype.start = function () {
         var e_1, _a;
         return __awaiter(this, void 0, void 0, function () {
-            var _b, _c, action, e_1_1;
+            var _b, _c, tick, e_1_1;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
                         _d.trys.push([0, 6, 7, 12]);
-                        _b = __asyncValues(this.actionManager.next());
+                        _b = __asyncValues(this.ticks);
                         _d.label = 1;
                     case 1: return [4 /*yield*/, _b.next()];
                     case 2:
                         if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 5];
-                        action = _c.value;
-                        return [4 /*yield*/, (action === null || action === void 0 ? void 0 : action.start())];
+                        tick = _c.value;
+                        return [4 /*yield*/, timeout(tick.delay)];
                     case 3:
                         _d.sent();
+                        console.log(tick.content);
                         _d.label = 4;
                     case 4: return [3 /*break*/, 1];
                     case 5: return [3 /*break*/, 12];
@@ -179,135 +118,38 @@ var Typewriter = /** @class */ (function () {
             });
         });
     };
-    /**
-     * @description
-     * Initiates a sleep action
-     *
-     * @param time The timeout time in milliseconds
-     */
-    Typewriter.prototype.sleep = function (time) {
-        return this.actionManager.sleep(time);
+    Typewriter.prototype.write = function (character, delay) {
+        if (delay === void 0) { delay = 0; }
+        var currentTick = this.getTick();
+        var content = currentTick.content + character;
+        var index = currentTick.index + 1;
+        this.update(content, index, delay);
     };
-    /**
-     * @description
-     * Initiates anb exec action
-     *
-     * @param func The user-defined action
-     */
-    Typewriter.prototype.exec = function (func) {
-        return this.actionManager.exec(func);
+    Typewriter.prototype.remove = function (char, delay) {
+        if (delay === void 0) { delay = 1000; }
+        var currentTick = this.getTick();
+        var content = currentTick.content.substring(0, char) + currentTick.content.substring(char + 1);
+        var index = currentTick.index - 1;
+        this.update(content, index, delay);
     };
-    /**
-     * @description
-     * Initiates a type action
-     *
-     * @param input The target input
-     * @param config The action configuration
-     */
-    Typewriter.prototype.type = function (input, config) {
-        return this.actionManager.type(input, config);
+    Typewriter.prototype.update = function (content, index, delay) {
+        if (delay === void 0) { delay = 0; }
+        var tick = new Tick(content, index, delay);
+        this.ticks.push(tick);
+        this.cursor++;
     };
-    /**
-     * @description
-     * Initiates a delete action
-     *
-     * @param times Number of deletions
-     * @param config The action configuration
-     */
-    Typewriter.prototype.delete = function (times, config) {
-        return this.actionManager.delete(times, config);
-    };
-    /**
-     * @description
-     * Initiates a move action
-     *
-     * @param index The target index
-     * @param config The action configuration
-     */
-    Typewriter.prototype.move = function (index, config) {
-        return this.actionManager.move(index, config);
-    };
-    /**
-     * @description
-     * Highlights content
-     *
-     * @param index The target index
-     * @param config The action configuration
-     */
-    Typewriter.prototype.highlight = function (index, config) {
-        return this.actionManager.highlight(index);
-    };
-    /**
-     * @description
-     * Inserts tabulation
-     *
-     * @param spaces Number of spaces that make the tabulation
-     * @param config The action configuration
-     */
-    Typewriter.prototype.tab = function (index, config) {
-        if (index === void 0) { index = 4; }
-        return this.actionManager.tab(index, config);
-    };
-    /**
-     * @description
-     * Inserts carriage return
-     *
-     * @param config The action configuration
-     */
-    Typewriter.prototype.return = function (config) {
-        return this.actionManager.return(config);
-    };
-    /**
-     * @description
-     * Resets the entire typewriter
-     */
-    Typewriter.prototype.reset = function () {
-        this.context.reset();
-        this.renderer.reset();
-        this.actionManager.reset();
-    };
-    /**
-     * @description
-     * Subscribes to events
-     *
-     * @param event The event name
-     * @param func Callback
-     */
-    Typewriter.prototype.before = function (event, func) {
-        this.events.push({ event: "before:" + event, func: func });
-    };
-    /**
-     * @description
-     * Subscribes to events
-     *
-     * @param event The event name
-     * @param func Callback
-     */
-    Typewriter.prototype.after = function (event, func) {
-        this.events.push({ event: "after:" + event, func: func });
-    };
-    /**
-     * @description
-     * The update callback, called from inside every action
-     */
-    Typewriter.prototype.update = function () {
-        this.renderer.render(this.config.caret);
-    };
-    /**
-     * @description
-     * Hooks the event handler
-     *
-     * @param handler The event handler
-     */
-    Typewriter.prototype.catch = function (handler) {
-        var handlerIndex = this.events.findIndex(function (e) { return e.event === 'error'; });
-        if (handlerIndex === -1) {
-            this.events.push({ event: "error", func: handler });
-        }
-        else {
-            this.events[handlerIndex].func = handler;
-        }
+    Typewriter.prototype.getTick = function () {
+        return __assign({}, this.ticks[this.cursor]);
     };
     return Typewriter;
 }());
 export default Typewriter;
+var Tick = /** @class */ (function () {
+    function Tick(content, index, delay) {
+        if (delay === void 0) { delay = 0; }
+        this.delay = delay;
+        this.index = index;
+        this.content = content;
+    }
+    return Tick;
+}());
