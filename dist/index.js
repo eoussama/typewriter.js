@@ -52,7 +52,9 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-import timeout from "./utils/timeout.util.js";
+import Tick from './models/tick.model.js';
+import Renderer from './utils/renderer.util.js';
+import timeout from './utils/timeout.util.js';
 /**
  * @description
  * Typewriter
@@ -61,7 +63,7 @@ var Typewriter = /** @class */ (function () {
     function Typewriter(target) {
         this.cursor = 0;
         this.ticks = [];
-        this.target = target;
+        this.renderer = new Renderer(target);
         this.ticks.push(new Tick('', 0));
     }
     Typewriter.prototype.type = function (input) {
@@ -94,7 +96,7 @@ var Typewriter = /** @class */ (function () {
                         return [4 /*yield*/, timeout(tick.delay)];
                     case 3:
                         _d.sent();
-                        this.render(tick);
+                        this.renderer.render(tick);
                         _d.label = 4;
                     case 4: return [3 /*break*/, 1];
                     case 5: return [3 /*break*/, 12];
@@ -123,15 +125,15 @@ var Typewriter = /** @class */ (function () {
         if (delay === void 0) { delay = 0; }
         var currentTick = this.getTick();
         var content = currentTick.content + character;
-        var index = currentTick.index + 1;
+        var index = currentTick.index + (content.length === 1 ? 0 : 1);
         this.update(content, index, delay);
     };
     Typewriter.prototype.remove = function (char, delay) {
         if (delay === void 0) { delay = 1000; }
         var currentTick = this.getTick();
-        var start = char + currentTick.index - 1;
+        var start = char + currentTick.index;
         var content = currentTick.content.substring(0, start - 1) + currentTick.content.substring(start);
-        var index = currentTick.index - 1;
+        var index = Math.max(currentTick.index - 1, 0);
         this.update(content, index, delay);
     };
     Typewriter.prototype.update = function (content, index, delay) {
@@ -143,24 +145,6 @@ var Typewriter = /** @class */ (function () {
     Typewriter.prototype.getTick = function () {
         return __assign({}, this.ticks[this.cursor]);
     };
-    Typewriter.prototype.render = function (tick) {
-        this.target.innerHTML = tick.content.split('').map(function (e, i) {
-            var output = "<span class=\"tw__char\">" + e + "</span>";
-            if (i === tick.index - 1) {
-                output += '<span class="tw__caret">|</span>';
-            }
-            return output;
-        }).join('');
-    };
     return Typewriter;
 }());
 export default Typewriter;
-var Tick = /** @class */ (function () {
-    function Tick(content, index, delay) {
-        if (delay === void 0) { delay = 0; }
-        this.delay = delay;
-        this.index = index;
-        this.content = content;
-    }
-    return Tick;
-}());
