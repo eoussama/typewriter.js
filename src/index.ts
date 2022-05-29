@@ -47,7 +47,7 @@ export default class Typewriter {
 	}
 
 	async start() {
-		for await (let tick of this.timeline.ticks) {
+		for await (let tick of this.timeline.getTicks()) {
 			await timeout(tick.delay);
 			this.renderer.render(tick);
 		}

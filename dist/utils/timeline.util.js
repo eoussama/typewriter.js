@@ -42,6 +42,13 @@ var Timeline = /** @class */ (function () {
     Timeline.prototype.getTick = function () {
         return __assign({}, this.ticks[this.cursor]);
     };
+    /**
+     * @description
+     * Returns the list of ticks
+     */
+    Timeline.prototype.getTicks = function () {
+        return this.ticks.slice(0);
+    };
     return Timeline;
 }());
 export default Timeline;

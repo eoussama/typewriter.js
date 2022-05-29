@@ -81,7 +81,7 @@ var Typewriter = /** @class */ (function () {
                 switch (_d.label) {
                     case 0:
                         _d.trys.push([0, 6, 7, 12]);
-                        _b = __asyncValues(this.timeline.ticks);
+                        _b = __asyncValues(this.timeline.getTicks());
                         _d.label = 1;
                     case 1: return [4 /*yield*/, _b.next()];
                     case 2:

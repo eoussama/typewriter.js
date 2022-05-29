@@ -13,7 +13,7 @@ export default class Timeline {
    * @description
    * List of ticks
    */
-  ticks: Array<Tick>;
+  private readonly ticks: Array<Tick>;
 
   /**
    * @description
@@ -47,5 +47,13 @@ export default class Timeline {
    */
   public getTick() {
     return { ...this.ticks[this.cursor] };
+  }
+
+  /**
+   * @description
+   * Returns the list of ticks
+   */
+  public getTicks() {
+    return this.ticks.slice(0);
   }
 }
