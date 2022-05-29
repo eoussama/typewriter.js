@@ -3,8 +3,9 @@ import Renderer from './utils/renderer.util.js';
 import timeout from './utils/timeout.util.js';
 
 /**
+ * @class
  * @description
- * Typewriter
+ * Virtual typewriter
  */
 export default class Typewriter {
 
@@ -12,8 +13,18 @@ export default class Typewriter {
 
 	private cursor: number;
 
+	/**
+	 * @description
+	 * Rendering manager
+	 */
 	private renderer: Renderer;
 
+	/**
+	 * @description
+	 * Creates a typewriter instance
+	 *
+	 * @param target DOM element instance that recieves updates
+	 */
 	constructor(target: HTMLElement) {
 		this.cursor = 0;
 		this.ticks = [];

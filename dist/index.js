@@ -56,10 +56,17 @@ import Tick from './models/tick.model.js';
 import Renderer from './utils/renderer.util.js';
 import timeout from './utils/timeout.util.js';
 /**
+ * @class
  * @description
- * Typewriter
+ * Virtual typewriter
  */
 var Typewriter = /** @class */ (function () {
+    /**
+     * @description
+     * Creates a typewriter instance
+     *
+     * @param target DOM element instance that recieves updates
+     */
     function Typewriter(target) {
         this.cursor = 0;
         this.ticks = [];

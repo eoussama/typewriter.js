@@ -19,7 +19,7 @@ export default class Renderer {
    * @param target HTML element instance
    */
   constructor(target: HTMLElement) {
-    this.target = target;
+      this.target = target;
   }
 
   /**
@@ -45,7 +45,7 @@ export default class Renderer {
 
     this.updateDOM(output);
   }
-  
+
   /**
    * @description
    * Updates thhe target DOM element
