@@ -1,6 +1,7 @@
 import Tick from '../models/tick.model';
 
 /**
+ * @util
  * @description
  * Rnder manager, manages DOM updates
  */

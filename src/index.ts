@@ -1,5 +1,5 @@
-import Tick from './models/tick.model.js';
 import Renderer from './utils/renderer.util.js';
+import Timeline from './utils/timeline.util.js';
 import timeout from './utils/timeout.util.js';
 
 /**
@@ -9,9 +9,11 @@ import timeout from './utils/timeout.util.js';
  */
 export default class Typewriter {
 
-	private ticks: Array<Tick>;
-
-	private cursor: number;
+	/**
+	 * @description
+	 * Rendering manager
+	 */
+	private timeline: Timeline;
 
 	/**
 	 * @description
@@ -26,11 +28,8 @@ export default class Typewriter {
 	 * @param target DOM element instance that recieves updates
 	 */
 	constructor(target: HTMLElement) {
-		this.cursor = 0;
-		this.ticks = [];
 		this.renderer = new Renderer(target);
-
-		this.ticks.push(new Tick('', 0));
+		this.timeline = new Timeline();
 	}
 
 	type(input: string) {
@@ -48,37 +47,26 @@ export default class Typewriter {
 	}
 
 	async start() {
-		for await (let tick of this.ticks) {
+		for await (let tick of this.timeline.ticks) {
 			await timeout(tick.delay);
 			this.renderer.render(tick);
 		}
 	}
 
 	private write(character: string, delay = 0) {
-		const currentTick = this.getTick();
+		const currentTick = this.timeline.getTick();
 		const content = currentTick.content + character;
 		const index = currentTick.index + (content.length === 1 ? 0 : 1);
 
-		this.update(content, index, delay);
+		this.timeline.update({ content, index, delay });
 	}
 
 	private remove(char: number, delay = 1000) {
-		const currentTick = this.getTick();
+		const currentTick = this.timeline.getTick();
 		const start = char + currentTick.index;
 		const content = currentTick.content.substring(0, start - 1) + currentTick.content.substring(start);
 		const index = Math.max(currentTick.index - 1, 0);
 
-		this.update(content, index, delay);
-	}
-
-	private update(content: string, index: number, delay: number = 0) {
-		const tick = new Tick(content, index, delay);
-
-		this.ticks.push(tick);
-		this.cursor++;
-	}
-
-	private getTick() {
-		return { ...this.ticks[this.cursor] };
+		this.timeline.update({ content, index, delay });
 	}
 }

@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -52,8 +41,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-import Tick from './models/tick.model.js';
 import Renderer from './utils/renderer.util.js';
+import Timeline from './utils/timeline.util.js';
 import timeout from './utils/timeout.util.js';
 /**
  * @class
@@ -68,10 +57,8 @@ var Typewriter = /** @class */ (function () {
      * @param target DOM element instance that recieves updates
      */
     function Typewriter(target) {
-        this.cursor = 0;
-        this.ticks = [];
         this.renderer = new Renderer(target);
-        this.ticks.push(new Tick('', 0));
+        this.timeline = new Timeline();
     }
     Typewriter.prototype.type = function (input) {
         for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
@@ -94,7 +81,7 @@ var Typewriter = /** @class */ (function () {
                 switch (_d.label) {
                     case 0:
                         _d.trys.push([0, 6, 7, 12]);
-                        _b = __asyncValues(this.ticks);
+                        _b = __asyncValues(this.timeline.ticks);
                         _d.label = 1;
                     case 1: return [4 /*yield*/, _b.next()];
                     case 2:
@@ -130,27 +117,18 @@ var Typewriter = /** @class */ (function () {
     };
     Typewriter.prototype.write = function (character, delay) {
         if (delay === void 0) { delay = 0; }
-        var currentTick = this.getTick();
+        var currentTick = this.timeline.getTick();
         var content = currentTick.content + character;
         var index = currentTick.index + (content.length === 1 ? 0 : 1);
-        this.update(content, index, delay);
+        this.timeline.update({ content: content, index: index, delay: delay });
     };
     Typewriter.prototype.remove = function (char, delay) {
         if (delay === void 0) { delay = 1000; }
-        var currentTick = this.getTick();
+        var currentTick = this.timeline.getTick();
         var start = char + currentTick.index;
         var content = currentTick.content.substring(0, start - 1) + currentTick.content.substring(start);
         var index = Math.max(currentTick.index - 1, 0);
-        this.update(content, index, delay);
-    };
-    Typewriter.prototype.update = function (content, index, delay) {
-        if (delay === void 0) { delay = 0; }
-        var tick = new Tick(content, index, delay);
-        this.ticks.push(tick);
-        this.cursor++;
-    };
-    Typewriter.prototype.getTick = function () {
-        return __assign({}, this.ticks[this.cursor]);
+        this.timeline.update({ content: content, index: index, delay: delay });
     };
     return Typewriter;
 }());

@@ -1,4 +1,5 @@
 /**
+ * @util
  * @description
  * Rnder manager, manages DOM updates
  */
