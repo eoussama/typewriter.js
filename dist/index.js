@@ -58,9 +58,10 @@ import timeout from "./utils/timeout.util.js";
  * Typewriter
  */
 var Typewriter = /** @class */ (function () {
-    function Typewriter() {
+    function Typewriter(target) {
         this.cursor = 0;
         this.ticks = [];
+        this.target = target;
         this.ticks.push(new Tick('', 0));
     }
     Typewriter.prototype.type = function (input) {
@@ -93,7 +94,7 @@ var Typewriter = /** @class */ (function () {
                         return [4 /*yield*/, timeout(tick.delay)];
                     case 3:
                         _d.sent();
-                        console.log(tick.content);
+                        this.render(tick);
                         _d.label = 4;
                     case 4: return [3 /*break*/, 1];
                     case 5: return [3 /*break*/, 12];
@@ -128,7 +129,8 @@ var Typewriter = /** @class */ (function () {
     Typewriter.prototype.remove = function (char, delay) {
         if (delay === void 0) { delay = 1000; }
         var currentTick = this.getTick();
-        var content = currentTick.content.substring(0, char) + currentTick.content.substring(char + 1);
+        var start = char + currentTick.index - 1;
+        var content = currentTick.content.substring(0, start - 1) + currentTick.content.substring(start);
         var index = currentTick.index - 1;
         this.update(content, index, delay);
     };
@@ -140,6 +142,15 @@ var Typewriter = /** @class */ (function () {
     };
     Typewriter.prototype.getTick = function () {
         return __assign({}, this.ticks[this.cursor]);
+    };
+    Typewriter.prototype.render = function (tick) {
+        this.target.innerHTML = tick.content.split('').map(function (e, i) {
+            var output = "<span class=\"tw__char\">" + e + "</span>";
+            if (i === tick.index - 1) {
+                output += '<span class="tw__caret">|</span>';
+            }
+            return output;
+        }).join('');
     };
     return Typewriter;
 }());

@@ -10,9 +10,12 @@ export default class Typewriter {
 
 	private cursor: number;
 
-	constructor() {
+	private target: HTMLElement;
+
+	constructor(target: HTMLElement) {
 		this.cursor = 0;
 		this.ticks = [];
+		this.target = target;
 
 		this.ticks.push(new Tick('', 0));
 	}
@@ -34,7 +37,7 @@ export default class Typewriter {
 	async start() {
 		for await (let tick of this.ticks) {
 			await timeout(tick.delay);
-			console.log(tick.content);
+			this.render(tick);
 		}
 	}
 
@@ -48,7 +51,8 @@ export default class Typewriter {
 
 	private remove(char: number, delay = 1000) {
 		const currentTick = this.getTick();
-		const content = currentTick.content.substring(0, char) + currentTick.content.substring(char + 1);
+		const start = char + currentTick.index - 1;
+		const content = currentTick.content.substring(0, start - 1) + currentTick.content.substring(start);
 		const index = currentTick.index - 1;
 
 		this.update(content, index, delay);
@@ -63,6 +67,18 @@ export default class Typewriter {
 
 	private getTick() {
 		return { ...this.ticks[this.cursor] };
+	}
+
+	private render(tick: Tick) {
+		this.target.innerHTML = tick.content.split('').map((e, i) => {
+			let output = `<span class="tw__char">${e}</span>`;
+
+			if (i === tick.index - 1) {
+				output += '<span class="tw__caret">|</span>';
+			}
+
+			return output;
+		}).join('');
 	}
 }
 
